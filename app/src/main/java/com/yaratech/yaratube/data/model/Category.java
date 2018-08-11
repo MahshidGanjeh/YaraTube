@@ -2,27 +2,27 @@ package com.yaratech.yaratube.data.model;
 
 public class Category {
 
-    private String name;
-    private String avatarImageUrl;
+    private String title;
+    private String avatar;
 
-    public Category(String name, String avatarImageUrl) {
-        this.name = name;
-        this.avatarImageUrl = avatarImageUrl;
+    public Category(String name, String avatar) {
+        this.title = name;
+        this.avatar = avatar;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        title = name;
     }
 
-    public String getAvatarImageUrl() {
-        return avatarImageUrl;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvatarImageUrl(String avatarImageUrl) {
-        this.avatarImageUrl = avatarImageUrl;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
