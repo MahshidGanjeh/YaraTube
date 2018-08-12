@@ -4,12 +4,12 @@ public class Product {
 
     private String name;
     private String avatar;
-    private String description;
+    private String shortDescription;
 
     public Product(String name, String avatar, String description) {
         this.name = name;
         this.avatar = avatar;
-        this.description = description;
+        this.shortDescription = description;
     }
 
     public String getName() {
@@ -20,19 +20,19 @@ public class Product {
         this.name = name;
     }
 
-    public String getavatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setavatar(String avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
     public String getDescription() {
-        return description;
+        return shortDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.shortDescription = description;
     }
 }

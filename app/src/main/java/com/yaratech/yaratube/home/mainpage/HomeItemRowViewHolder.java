@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.HomeItem;
+import com.yaratech.yaratube.data.model.Product;
+
+import java.util.List;
 
 public class HomeItemRowViewHolder extends RecyclerView.ViewHolder {
 
@@ -21,10 +24,11 @@ public class HomeItemRowViewHolder extends RecyclerView.ViewHolder {
         recyclerView = itemView.findViewById(R.id.home_item_row_recycler);
     }
 
-    public void onBind(HomeItem homeItem, Context context) {
+    public void onBind(HomeItem homeItem, Context context, List<HomeItem> list) {
         title.setText(homeItem.getTitle());
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         HomeItemProductAdapter adapter = new HomeItemProductAdapter(context);
         recyclerView.setAdapter(adapter);
+        adapter.setProductList(list.get(0).getProducts());
     }
 }

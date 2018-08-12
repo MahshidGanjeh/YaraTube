@@ -15,26 +15,28 @@ import retrofit2.Response;
 
 public class HomeItemRepo {
 
-    private HomeItemApiResult mApiResultListener;
+    private HomeItemApiResult listener;
 
-    public HomeItemRepo(HomeItemApiResult mApiResultListener) {
-        this.mApiResultListener = mApiResultListener;
+    public HomeItemRepo(HomeItemApiResult listener) {
+        this.listener = listener;
     }
 
-    public void fetchCategory() {
+    public void fetchHomeItems() {
         RetrofitClient.getClient().create(ApiService.class).getHomeItems()
                 .enqueue(new Callback<List<HomeItem>>() {
                     @Override
                     public void onResponse(Call<List<HomeItem>> call, Response<List<HomeItem>> response) {
                         if (response.isSuccessful()) {
                             Log.i("homeitem", "onResponse: " + response.body().get(0).getTitle());
-                            mApiResultListener.onSuccess(response.body());
+                            listener.onSuccess(response.body());
+                            Log.d("hey" ,"we");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<HomeItem>> call, Throwable t) {
-                        mApiResultListener.onFail();
+                        listener.onFail();
+                        Log.i("fail",t.getMessage());
                     }
                 });
     }

@@ -1,5 +1,7 @@
 package com.yaratech.yaratube.home.mainpage;
 
+import android.util.Log;
+
 import com.yaratech.yaratube.data.util.HomeItemApiResult;
 import com.yaratech.yaratube.data.HomeItemRepo;
 import com.yaratech.yaratube.data.model.HomeItem;
@@ -28,6 +30,6 @@ public class MainPagePresenter implements MainPageContract.Presenter, HomeItemAp
 
     @Override
     public void loadHomeItems() {
-        homeItemRepo.fetchCategory();
+        homeItemRepo.fetchHomeItems();
     }
 }

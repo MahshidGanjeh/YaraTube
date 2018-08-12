@@ -27,5 +27,6 @@ public class HomeItemProductViewHolder extends RecyclerView.ViewHolder {
     public void onBind(Context context, Product product) {
         title.setText(product.getName());
         description.setText(product.getDescription());
+
     }
 }

@@ -3,6 +3,7 @@ package com.yaratech.yaratube.home.mainpage;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class HomeItemRowAdapter extends RecyclerView.Adapter<HomeItemRowViewHold
     public HomeItemRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.home_item_row, parent, false);
+        Log.d("heree" ,"we");
         HomeItemRowViewHolder viewHolder = new HomeItemRowViewHolder(rootView);
 
         return viewHolder;
@@ -34,7 +36,7 @@ public class HomeItemRowAdapter extends RecyclerView.Adapter<HomeItemRowViewHold
 
     @Override
     public void onBindViewHolder(@NonNull HomeItemRowViewHolder holder, int position) {
-        holder.onBind(itemList.get(position),context);
+        holder.onBind(itemList.get(position),context,itemList);
     }
 
     @Override
