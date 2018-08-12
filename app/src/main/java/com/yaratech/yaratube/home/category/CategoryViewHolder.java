@@ -1,5 +1,6 @@
 package com.yaratech.yaratube.home.category;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,9 +21,9 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
         avatar = itemView.findViewById(R.id.cat_avatar_imgView);
     }
 
-    public void onBind(Category item){
+    public void onBind(Category item , Context context){
         title.setText(item.getTitle());
-        Glide.with(itemView.getContext()).load(item.getAvatar())
+        Glide.with(context).load(item.getAvatar())
                 .into(avatar);
     }
 }

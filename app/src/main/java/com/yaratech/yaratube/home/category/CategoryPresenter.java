@@ -1,12 +1,12 @@
 package com.yaratech.yaratube.home.category;
 
-import com.yaratech.yaratube.data.ApiResult;
+import com.yaratech.yaratube.data.util.CategoryApiResult;
 import com.yaratech.yaratube.data.CategoryRepo;
 import com.yaratech.yaratube.data.model.Category;
 
 import java.util.List;
 
-public class CategoryPresenter implements CategoryContract.Presenter, ApiResult {
+public class CategoryPresenter implements CategoryContract.Presenter, CategoryApiResult {
 
     private CategoryContract.View mView;
     private CategoryRepo categoryRepo;

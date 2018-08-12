@@ -1,5 +1,6 @@
 package com.yaratech.yaratube.home.category;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,8 +16,10 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
     private List<Category> mCategoryList = new ArrayList<>();
+    private Context context;
 
-    public CategoryAdapter() {
+    public CategoryAdapter(Context context) {
+        this.context = context;
     }
 
     @NonNull
@@ -32,7 +35,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        holder.onBind(mCategoryList.get(position));
+        holder.onBind(mCategoryList.get(position),context);
     }
 
     @Override

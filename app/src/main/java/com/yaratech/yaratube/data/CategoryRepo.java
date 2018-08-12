@@ -3,7 +3,7 @@ package com.yaratech.yaratube.data;
 
 import android.util.Log;
 
-import com.yaratech.yaratube.data.ApiResult;
+import com.yaratech.yaratube.data.util.CategoryApiResult;
 import com.yaratech.yaratube.data.model.Category;
 import com.yaratech.yaratube.data.remote.ApiService;
 import com.yaratech.yaratube.data.remote.RetrofitClient;
@@ -15,9 +15,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CategoryRepo {
-    private ApiResult mApiResultListener;
+    private CategoryApiResult mApiResultListener;
 
-    public CategoryRepo(ApiResult mApiResultListener) {
+    public CategoryRepo(CategoryApiResult mApiResultListener) {
         this.mApiResultListener = mApiResultListener;
     }
 

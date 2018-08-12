@@ -19,7 +19,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.View 
 
     private CategoryContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
-    private CategoryAdapter adapter = new CategoryAdapter();
+    private CategoryAdapter adapter;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -40,6 +40,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.View 
 
         mRecyclerView = view.findViewById(R.id.category_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new CategoryAdapter(getContext());
         mRecyclerView.setAdapter(adapter);
 
         mPresenter.loadCategories();

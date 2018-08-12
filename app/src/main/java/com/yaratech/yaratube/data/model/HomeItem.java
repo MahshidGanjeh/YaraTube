@@ -1,18 +1,46 @@
 package com.yaratech.yaratube.data.model;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class HomeItem {
 
-    private String title;
+    @SerializedName("id")
+    @Expose
     private int id;
-    private ArrayList<Product> products;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("sub_title")
+    @Expose
+    private String subTitle;
+    @SerializedName("position")
+    @Expose
+    private int position;
+    @SerializedName("module")
+    @Expose
+    private int module;
+    @SerializedName("banner")
+    @Expose
+    private Object banner;
+    @SerializedName("row_type")
+    @Expose
+    private String rowType;
+    @SerializedName("products")
+    @Expose
+    private List<Product> products = null;
+    @SerializedName("row_mode")
+    @Expose
+    private int rowMode;
 
+    public int getId() {
+        return id;
+    }
 
-    public HomeItem(String title, int id, ArrayList<Product> products) {
-        this.title = title;
+    public void setId(int id) {
         this.id = id;
-        this.products = products;
     }
 
     public String getTitle() {
@@ -23,19 +51,60 @@ public class HomeItem {
         this.title = title;
     }
 
-    public int getId() {
-        return id;
+    public String getSubTitle() {
+        return subTitle;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
     }
 
-    public ArrayList<Product> getProducts() {
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getModule() {
+        return module;
+    }
+
+    public void setModule(int module) {
+        this.module = module;
+    }
+
+    public Object getBanner() {
+        return banner;
+    }
+
+    public void setBanner(Object banner) {
+        this.banner = banner;
+    }
+
+    public String getRowType() {
+        return rowType;
+    }
+
+    public void setRowType(String rowType) {
+        this.rowType = rowType;
+    }
+
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    public int getRowMode() {
+        return rowMode;
+    }
+
+    public void setRowMode(int rowMode) {
+        this.rowMode = rowMode;
+    }
+
 }
