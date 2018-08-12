@@ -1,9 +1,7 @@
 package com.yaratech.yaratube.data;
 
-
 import android.util.Log;
 
-import com.yaratech.yaratube.data.ApiResult;
 import com.yaratech.yaratube.data.model.Category;
 import com.yaratech.yaratube.data.remote.ApiService;
 import com.yaratech.yaratube.data.remote.RetrofitClient;
@@ -14,10 +12,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CategoryRepo {
+public class HomeItemRepo {
+
     private ApiResult mApiResultListener;
 
-    public CategoryRepo(ApiResult mApiResultListener) {
+    public HomeItemRepo(ApiResult mApiResultListener) {
         this.mApiResultListener = mApiResultListener;
     }
 
@@ -26,7 +25,6 @@ public class CategoryRepo {
                 .enqueue(new Callback<List<Category>>() {
                     @Override
                     public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-
                         if (response.isSuccessful()) {
                             Log.i("tt", "onResponse: " + response.body().get(0).getTitle());
                             mApiResultListener.onSuccess(response.body());

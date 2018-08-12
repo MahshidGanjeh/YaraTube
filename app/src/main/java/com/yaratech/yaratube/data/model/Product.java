@@ -3,12 +3,12 @@ package com.yaratech.yaratube.data.model;
 public class Product {
 
     private String name;
-    private String avatarImageUrl;
+    private String avatar;
     private String description;
 
-    public Product(String name, String avatarImageUrl, String description) {
+    public Product(String name, String avatar, String description) {
         this.name = name;
-        this.avatarImageUrl = avatarImageUrl;
+        this.avatar = avatar;
         this.description = description;
     }
 
@@ -20,12 +20,12 @@ public class Product {
         this.name = name;
     }
 
-    public String getAvatarImageUrl() {
-        return avatarImageUrl;
+    public String getavatar() {
+        return avatar;
     }
 
-    public void setAvatarImageUrl(String avatarImageUrl) {
-        this.avatarImageUrl = avatarImageUrl;
+    public void setavatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getDescription() {
