@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Headeritem;
-import com.yaratech.yaratube.data.model.Product;
 
 public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
@@ -19,9 +18,8 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         header = itemView.findViewById(R.id.header_imgView);
     }
-
-    public void onBind(Headeritem headeritem,Context context){
-        Glide.with(context).load(BASE_URL+headeritem.getAvatar())
+    public void onBind(Headeritem headeritem, Context context) {
+        Glide.with(context).load(BASE_URL + headeritem.getAvatar().getHdpi())
                 .into(header);
     }
 }

@@ -11,12 +11,12 @@ import com.yaratech.yaratube.data.model.HomeItem;
 
 import java.util.List;
 
-public class StoreViewHolder extends RecyclerView.ViewHolder {
+public class HomeItemViewHolder extends RecyclerView.ViewHolder {
 
     private TextView title;
     private RecyclerView recyclerView;
 
-    public StoreViewHolder(View itemView) {
+    public HomeItemViewHolder(View itemView) {
         super(itemView);
         title = itemView.findViewById(R.id.home_item_row_title);
         recyclerView = itemView.findViewById(R.id.home_item_row_recycler);

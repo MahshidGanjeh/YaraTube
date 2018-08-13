@@ -33,7 +33,7 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case HOMEITEM_VIEWTYPE:
                 View rootView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.home_item_row, parent, false);
-                StoreViewHolder viewHolder = new StoreViewHolder(rootView);
+                HomeItemViewHolder viewHolder = new HomeItemViewHolder(rootView);
                 return viewHolder;
         }
         return null;
@@ -42,10 +42,10 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if (holder instanceof StoreViewHolder) {
-            StoreViewHolder vh = (StoreViewHolder) holder;
+        if (holder instanceof HomeItemViewHolder) {
+            HomeItemViewHolder vh = (HomeItemViewHolder) holder;
             vh.onBind(mStore.getHomeitem().get(position), mContext, mStore.getHomeitem(), position);
-        } else if (holder instanceof HeaderViewHolder) {
+        } else if (holder instanceof HeaderContainerViewHolder) {
             HeaderContainerViewHolder vh2 = (HeaderContainerViewHolder) holder;
             vh2.onBind(mContext,mStore.getHeaderitem());
         }
