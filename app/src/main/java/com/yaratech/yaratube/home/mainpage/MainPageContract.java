@@ -9,6 +9,7 @@ public interface MainPageContract {
     interface View{
         void showHomeItems(List<HomeItem> list);
     }
+
     interface Presenter {
         void loadHomeItems();
     }

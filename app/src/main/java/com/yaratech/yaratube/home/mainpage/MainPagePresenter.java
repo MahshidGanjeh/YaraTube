@@ -1,14 +1,10 @@
 package com.yaratech.yaratube.home.mainpage;
 
-import android.util.Log;
-
-import com.yaratech.yaratube.data.util.HomeItemApiResult;
+import com.yaratech.yaratube.data.model.Store;
+import com.yaratech.yaratube.data.util.StoreApiResult;
 import com.yaratech.yaratube.data.HomeItemRepo;
-import com.yaratech.yaratube.data.model.HomeItem;
 
-import java.util.List;
-
-public class MainPagePresenter implements MainPageContract.Presenter, HomeItemApiResult {
+public class MainPagePresenter implements MainPageContract.Presenter, StoreApiResult {
 
     private MainPageContract.View mView;
     private HomeItemRepo homeItemRepo;
@@ -19,13 +15,14 @@ public class MainPagePresenter implements MainPageContract.Presenter, HomeItemAp
     }
 
     @Override
-    public void onSuccess(List<HomeItem> list) {
-        mView.showHomeItems(list);
+    public void onSuccess(Store list) {
+        mView.showHomeItems(list.getHomeitem());
     }
 
+
     @Override
-    public void onFail() {
-        // Toast.makeText(,"مشکل اتصال به اینترنت"   , Toast.LENGTH_SHORT).show();
+    public void onFail(String error) {
+       // Toast.makeText(error , Toast.LENGTH_SHORT).show();
     }
 
     @Override

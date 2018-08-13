@@ -28,7 +28,6 @@ public class HomeItemRowAdapter extends RecyclerView.Adapter<HomeItemRowViewHold
     public HomeItemRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.home_item_row, parent, false);
-        Log.d("heree" ,"we");
         HomeItemRowViewHolder viewHolder = new HomeItemRowViewHolder(rootView);
 
         return viewHolder;

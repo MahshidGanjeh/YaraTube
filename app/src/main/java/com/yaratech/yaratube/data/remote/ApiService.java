@@ -2,6 +2,7 @@ package com.yaratech.yaratube.data.remote;
 
 import com.yaratech.yaratube.data.model.Category;
 import com.yaratech.yaratube.data.model.HomeItem;
+import com.yaratech.yaratube.data.model.Store;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface ApiService {
 
     //mainpage content
     @GET("store/16")
-    Call<List<HomeItem>> getHomeItems();
+    Call<Store> getStore();
 
     //vertical list of categories
     @GET("category/16/463")

@@ -16,6 +16,7 @@ public class HomeItemProductViewHolder extends RecyclerView.ViewHolder {
     private TextView title;
     private ImageView imageView;
     private TextView description;
+    public static final String BASE_URL = "https://api.vasapi.click/";
 
     public HomeItemProductViewHolder(View itemView) {
         super(itemView);
@@ -26,7 +27,9 @@ public class HomeItemProductViewHolder extends RecyclerView.ViewHolder {
 
     public void onBind(Context context, Product product) {
         title.setText(product.getName());
-        description.setText(product.getDescription());
+        description.setText(product.getShortDescription());
+        Glide.with(context).load(BASE_URL+product.getAvatar().getHdpi())
+                .into(imageView);
 
     }
 }

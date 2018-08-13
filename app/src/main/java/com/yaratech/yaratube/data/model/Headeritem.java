@@ -2,11 +2,10 @@ package com.yaratech.yaratube.data.model;
 
 import java.util.List;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Product {
+public class Headeritem {
 
     @SerializedName("id")
     @Expose
@@ -23,20 +22,20 @@ public class Product {
     @SerializedName("producer_name")
     @Expose
     private String producerName;
-    @SerializedName("payment_type")
+    /*@SerializedName("payment_type")
     @Expose
-    private List<Object> paymentType = null;
+    private List<Object> paymentType = null;*/
     @SerializedName("price")
     @Expose
     private int price;
-    @SerializedName("avatar")
-    @Expose
-    private Avatar_ avatar;
-    @SerializedName("feature_avatar")
-    @Expose
-    private FeatureAvatar_ featureAvatar;
-    @SerializedName("rank")
-    @Expose
+    //    @SerializedName("avatar")
+//    @Expose
+//    private Avatar avatar;
+//    @SerializedName("feature_avatar")
+//    @Expose
+//    private FeatureAvatar featureAvatar;
+//    @SerializedName("rank")
+//    @Expose
     private double rank;
     @SerializedName("short_description")
     @Expose
@@ -68,6 +67,9 @@ public class Product {
     @SerializedName("product_staff")
     @Expose
     private List<Object> productStaff = null;
+    //    @SerializedName("support")
+//    @Expose
+//    private Support support;
     @SerializedName("is_special")
     @Expose
     private boolean isSpecial;
@@ -121,13 +123,13 @@ public class Product {
         this.producerName = producerName;
     }
 
-    public List<Object> getPaymentType() {
+    /*public List<Object> getPaymentType() {
         return paymentType;
     }
 
     public void setPaymentType(List<Object> paymentType) {
         this.paymentType = paymentType;
-    }
+    }*/
 
     public int getPrice() {
         return price;
@@ -137,21 +139,21 @@ public class Product {
         this.price = price;
     }
 
-    public Avatar_ getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Avatar_ avatar) {
-        this.avatar = avatar;
-    }
-
-    public FeatureAvatar_ getFeatureAvatar() {
-        return featureAvatar;
-    }
-
-    public void setFeatureAvatar(FeatureAvatar_ featureAvatar) {
-        this.featureAvatar = featureAvatar;
-    }
+//    public Avatar getAvatar() {
+//        return avatar;
+//    }
+//
+//    public void setAvatar(Avatar avatar) {
+//        this.avatar = avatar;
+//    }
+//
+//    public FeatureAvatar getFeatureAvatar() {
+//        return featureAvatar;
+//    }
+//
+//    public void setFeatureAvatar(FeatureAvatar featureAvatar) {
+//        this.featureAvatar = featureAvatar;
+//    }
 
     public double getRank() {
         return rank;
@@ -240,6 +242,14 @@ public class Product {
     public void setProductStaff(List<Object> productStaff) {
         this.productStaff = productStaff;
     }
+
+//    public Support getSupport() {
+//        return support;
+//    }
+//
+//    public void setSupport(Support support) {
+//        this.support = support;
+//    }
 
     public boolean isIsSpecial() {
         return isSpecial;

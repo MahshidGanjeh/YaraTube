@@ -14,6 +14,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
     private TextView title;
     private ImageView avatar;
+    public static final String BASE_URL = "https://api.vasapi.click/";
 
     public CategoryViewHolder(View itemView) {
         super(itemView);
@@ -23,7 +24,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
     public void onBind(Category item , Context context){
         title.setText(item.getTitle());
-        Glide.with(context).load(item.getAvatar())
+        Glide.with(context).load(BASE_URL+item.getAvatar())
                 .into(avatar);
     }
 }
