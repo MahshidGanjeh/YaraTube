@@ -15,10 +15,10 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int HOMEITEM_VIEWTYPE = 1;
     private static final int HEADERITEM_VIEWTYPE = 0;
     private Store mStore = new Store();
-    private Context context;
+    private Context mContext;
 
     public StoreAdapter(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     @NonNull
@@ -27,8 +27,8 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (viewType) {
             case HEADERITEM_VIEWTYPE:
                 View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.header_item, parent, false);
-                HeaderViewHolder hViewHolder = new HeaderViewHolder(view);
+                        .inflate(R.layout.header_container, parent, false);
+                HeaderContainerViewHolder hViewHolder = new HeaderContainerViewHolder(view);
                 return hViewHolder;
             case HOMEITEM_VIEWTYPE:
                 View rootView = LayoutInflater.from(parent.getContext())
@@ -41,8 +41,14 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ( (HomeItemProductViewHolder) holder).onBind
-                (mStore.getHomeitem().get(position), context, mStore.getHomeitem(), position);
+
+        if (holder instanceof StoreViewHolder) {
+            StoreViewHolder vh = (StoreViewHolder) holder;
+            vh.onBind(mStore.getHomeitem().get(position), mContext, mStore.getHomeitem(), position);
+        } else if (holder instanceof HeaderViewHolder) {
+            HeaderContainerViewHolder vh2 = (HeaderContainerViewHolder) holder;
+            vh2.onBind(mContext,mStore.getHeaderitem());
+        }
     }
 
     @Override
