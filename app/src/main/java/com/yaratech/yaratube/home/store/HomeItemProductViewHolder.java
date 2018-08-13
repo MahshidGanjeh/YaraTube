@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.home.mainpage;
+package com.yaratech.yaratube.home.store;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
-import com.yaratech.yaratube.data.model.HomeItem;
 import com.yaratech.yaratube.data.model.Product;
 
 public class HomeItemProductViewHolder extends RecyclerView.ViewHolder {

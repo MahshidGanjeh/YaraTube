@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.home.mainpage;
+package com.yaratech.yaratube.home.store;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.home.mainpage;
+package com.yaratech.yaratube.home.store;
 
 
 import android.os.Bundle;
@@ -12,24 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
-import com.yaratech.yaratube.data.model.HomeItem;
+import com.yaratech.yaratube.data.model.Store;
 
-import java.util.List;
+public class StoreFragment extends Fragment implements StoreContract.View {
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MainPageFragment extends Fragment implements MainPageContract.View {
-
-    private MainPageContract.Presenter mPresenter;
+    private StoreContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
-    HomeItemRowAdapter adapter;
+    StoreAdapter adapter;
 
-    public MainPageFragment() {
+    public StoreFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,11 +34,11 @@ public class MainPageFragment extends Fragment implements MainPageContract.View 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter = new MainPagePresenter(this);
+        mPresenter = new StorePresenter(this);
 
         mRecyclerView = view.findViewById(R.id.main_page_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new HomeItemRowAdapter(getContext());
+        adapter = new StoreAdapter(getContext());
 
         mRecyclerView.setAdapter(adapter);
 
@@ -53,7 +46,7 @@ public class MainPageFragment extends Fragment implements MainPageContract.View 
     }
 
     @Override
-    public void showHomeItems(List<HomeItem> list) {
-        adapter.setItemList(list);
+    public void showHomeItems(Store store) {
+        adapter.setItemList(store);
     }
 }

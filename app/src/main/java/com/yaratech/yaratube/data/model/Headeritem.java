@@ -28,14 +28,14 @@ public class Headeritem {
     @SerializedName("price")
     @Expose
     private int price;
-    //    @SerializedName("avatar")
-//    @Expose
-//    private Avatar avatar;
-//    @SerializedName("feature_avatar")
-//    @Expose
-//    private FeatureAvatar featureAvatar;
-//    @SerializedName("rank")
-//    @Expose
+    @SerializedName("avatar")
+    @Expose
+    private Avatar avatar;
+    @SerializedName("feature_avatar")
+    @Expose
+    private FeatureAvatar featureAvatar;
+    @SerializedName("rank")
+    @Expose
     private double rank;
     @SerializedName("short_description")
     @Expose
@@ -139,21 +139,21 @@ public class Headeritem {
         this.price = price;
     }
 
-//    public Avatar getAvatar() {
-//        return avatar;
-//    }
-//
-//    public void setAvatar(Avatar avatar) {
-//        this.avatar = avatar;
-//    }
-//
-//    public FeatureAvatar getFeatureAvatar() {
-//        return featureAvatar;
-//    }
-//
-//    public void setFeatureAvatar(FeatureAvatar featureAvatar) {
-//        this.featureAvatar = featureAvatar;
-//    }
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
+
+    public FeatureAvatar getFeatureAvatar() {
+        return featureAvatar;
+    }
+
+    public void setFeatureAvatar(FeatureAvatar featureAvatar) {
+        this.featureAvatar = featureAvatar;
+    }
 
     public double getRank() {
         return rank;

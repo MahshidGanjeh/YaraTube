@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.home.category.CategoryFragment;
-import com.yaratech.yaratube.home.mainpage.MainPageFragment;
+import com.yaratech.yaratube.home.store.StoreFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
                 switch (item.getItemId()) {
                     case (R.id.bottom_nav_home_item):
                         getFragmentManager().beginTransaction().
-                                replace(R.id.home_fragment_container, new MainPageFragment()).commit();
+                                replace(R.id.home_fragment_container, new StoreFragment()).commit();
                         return true;
                     case (R.id.bottom_nav_category_item):
                         getFragmentManager().beginTransaction()

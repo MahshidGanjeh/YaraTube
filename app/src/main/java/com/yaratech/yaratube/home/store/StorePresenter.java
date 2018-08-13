@@ -1,22 +1,22 @@
-package com.yaratech.yaratube.home.mainpage;
+package com.yaratech.yaratube.home.store;
 
 import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.util.StoreApiResult;
 import com.yaratech.yaratube.data.HomeItemRepo;
 
-public class MainPagePresenter implements MainPageContract.Presenter, StoreApiResult {
+public class StorePresenter implements StoreContract.Presenter, StoreApiResult {
 
-    private MainPageContract.View mView;
+    private StoreContract.View mView;
     private HomeItemRepo homeItemRepo;
 
-    public MainPagePresenter(MainPageContract.View mView) {
+    public StorePresenter(StoreContract.View mView) {
         this.mView = mView;
         homeItemRepo = new HomeItemRepo(this);
     }
 
     @Override
     public void onSuccess(Store list) {
-        mView.showHomeItems(list.getHomeitem());
+        mView.showHomeItems(list);
     }
 
 
