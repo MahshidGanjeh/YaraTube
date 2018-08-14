@@ -19,9 +19,6 @@ public class HomeItem {
     @SerializedName("position")
     @Expose
     private int position;
-    @SerializedName("module")
-    @Expose
-    private int module;
     @SerializedName("banner")
     @Expose
     private Object banner;
@@ -65,14 +62,6 @@ public class HomeItem {
 
     public void setPosition(int position) {
         this.position = position;
-    }
-
-    public int getModule() {
-        return module;
-    }
-
-    public void setModule(int module) {
-        this.module = module;
     }
 
     public Object getBanner() {

@@ -43,7 +43,7 @@ public class HomeItemProductAdapter extends RecyclerView.Adapter<HomeItemProduct
     }
 
     public void setProductList(List<Product> mProductList) {
-        notifyDataSetChanged();
         this.mProductList = mProductList;
+        notifyDataSetChanged();
     }
 }

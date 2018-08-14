@@ -9,17 +9,18 @@ import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Headeritem;
 
+import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
+
 public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
     private ImageView header;
-    public static final String BASE_URL = "https://api.vasapi.click/";
 
     public HeaderViewHolder(View itemView) {
         super(itemView);
         header = itemView.findViewById(R.id.header_imgView);
     }
     public void onBind(Headeritem headeritem, Context context) {
-        Glide.with(context).load(BASE_URL + headeritem.getAvatar().getHdpi())
+        Glide.with(context).load(BASE_URL + headeritem.getAvatar().getXxxdpi())
                 .into(header);
     }
 }

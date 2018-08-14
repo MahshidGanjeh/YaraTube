@@ -27,8 +27,7 @@ public class HomeItemProductViewHolder extends RecyclerView.ViewHolder {
     public void onBind(Context context, Product product) {
         title.setText(product.getName());
         description.setText(product.getShortDescription());
-        Glide.with(context).load(BASE_URL+product.getAvatar().getHdpi())
+        Glide.with(context).load(BASE_URL+product.getAvatar().getXxhdpi())
                 .into(imageView);
-
     }
 }

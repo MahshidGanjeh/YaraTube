@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.yaratech.yaratube.home.store.StoreFragment;
 public class HomeFragment extends Fragment {
 
     private BottomNavigationView mBottomNavigationView;
+    private FragmentManager mManager;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -34,17 +36,22 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        mManager = getFragmentManager();
+
+        //
+        mManager.beginTransaction().
+                replace(R.id.home_fragment_container, new StoreFragment()).commit();
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case (R.id.bottom_nav_home_item):
-                        getFragmentManager().beginTransaction().
+                        mManager.beginTransaction().
                                 replace(R.id.home_fragment_container, new StoreFragment()).commit();
                         return true;
                     case (R.id.bottom_nav_category_item):
-                        getFragmentManager().beginTransaction()
+                        mManager.beginTransaction()
                                 .replace(R.id.home_fragment_container, new CategoryFragment()).commit();
                         return true;
                 }

@@ -44,16 +44,17 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         if (holder instanceof HomeItemViewHolder) {
             HomeItemViewHolder vh = (HomeItemViewHolder) holder;
-            vh.onBind(mStore.getHomeitem().get(position), mContext, mStore.getHomeitem(), position);
+            vh.onBind(mStore.getHomeitem().get(position - 1), mContext, mStore.getHomeitem(), position-1);
         } else if (holder instanceof HeaderContainerViewHolder) {
             HeaderContainerViewHolder vh2 = (HeaderContainerViewHolder) holder;
-            vh2.onBind(mContext,mStore.getHeaderitem());
+            vh2.onBind(mContext, mStore.getHeaderitem());
         }
     }
 
     @Override
     public int getItemCount() {
-        if (mStore.getHomeitem() != null) return mStore.getHomeitem().size();
+        if (mStore.getHomeitem() != null && mStore.getHeaderitem() != null)
+            return mStore.getHomeitem().size() + 1;
         else return 0;
     }
 

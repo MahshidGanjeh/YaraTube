@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#1456"
     android:layout_width="match_parent"
-    android:layout_height="270dp">
+    android:layout_height="250dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/header_recycler"
