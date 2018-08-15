@@ -3,10 +3,18 @@ package com.yaratech.yaratube.data.model;
 import java.util.List;
 
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
+@Parcel
 public class Product {
+    @ParcelConstructor
+    public Product() {
+    }
 
     @SerializedName("id")
     @Expose
@@ -23,10 +31,10 @@ public class Product {
     @SerializedName("producer_name")
     @Expose
     private String producerName;
-    @SerializedName("payment_type")
+  /*  @SerializedName("payment_type")
     @Expose
     private List<Object> paymentType = null;
-    @SerializedName("price")
+    @SerializedName("price")*/
     @Expose
     private int price;
     @SerializedName("avatar")
@@ -62,24 +70,24 @@ public class Product {
     @SerializedName("date_added")
     @Expose
     private String dateAdded;
-    @SerializedName("invest_goal")
+   /* @SerializedName("invest_goal")
     @Expose
     private Object investGoal;
     @SerializedName("product_staff")
     @Expose
-    private List<Object> productStaff = null;
+    private List<Object> productStaff = null;*/
     @SerializedName("is_special")
     @Expose
     private boolean isSpecial;
-    @SerializedName("additional_attributes")
-    @Expose
-    private List<Object> additionalAttributes = null;
+    /*@SerializedName("additional_attributes")
+    @Expose*/
+   /* private List<Object> additionalAttributes = null;
     @SerializedName("date_published")
     @Expose
-    private String datePublished;
-    @SerializedName("customjson")
+    private String datePublished;*/
+   /* @SerializedName("customjson")
     @Expose
-    private Object customjson;
+    private Object customjson;*/
 
     public int getId() {
         return id;
@@ -121,13 +129,13 @@ public class Product {
         this.producerName = producerName;
     }
 
-    public List<Object> getPaymentType() {
+    /*public List<Object> getPaymentType() {
         return paymentType;
     }
 
     public void setPaymentType(List<Object> paymentType) {
         this.paymentType = paymentType;
-    }
+    }*/
 
     public int getPrice() {
         return price;
@@ -225,7 +233,7 @@ public class Product {
         this.dateAdded = dateAdded;
     }
 
-    public Object getInvestGoal() {
+    /*public Object getInvestGoal() {
         return investGoal;
     }
 
@@ -240,7 +248,7 @@ public class Product {
     public void setProductStaff(List<Object> productStaff) {
         this.productStaff = productStaff;
     }
-
+*/
     public boolean isIsSpecial() {
         return isSpecial;
     }
@@ -249,7 +257,7 @@ public class Product {
         this.isSpecial = isSpecial;
     }
 
-    public List<Object> getAdditionalAttributes() {
+    /*public List<Object> getAdditionalAttributes() {
         return additionalAttributes;
     }
 
@@ -267,10 +275,10 @@ public class Product {
 
     public Object getCustomjson() {
         return customjson;
-    }
+    }*/
 
-    public void setCustomjson(Object customjson) {
+  /*  public void setCustomjson(Object customjson) {
         this.customjson = customjson;
-    }
+    }*/
 
 }

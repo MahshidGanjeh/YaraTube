@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class StoreFragment extends Fragment implements StoreContract.View {
         mProgressBar = view.findViewById(R.id.store_progress_bar);
         mRecyclerView = view.findViewById(R.id.store_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new StoreAdapter(getContext());
+        adapter = new StoreAdapter(getContext(),getChildFragmentManager());
 
         mRecyclerView.setAdapter(adapter);
 
@@ -51,6 +52,7 @@ public class StoreFragment extends Fragment implements StoreContract.View {
 
     @Override
     public void showHomeItems(Store store) {
+        Log.d("name" ,store.getHomeitem().get(0).getTitle());
         adapter.setItemList(store);
     }
 

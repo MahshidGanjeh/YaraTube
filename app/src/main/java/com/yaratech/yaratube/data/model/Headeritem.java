@@ -5,7 +5,15 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
+@Parcel
 public class Headeritem {
+
+    @ParcelConstructor
+    public Headeritem() {
+    }
 
     @SerializedName("id")
     @Expose
@@ -61,27 +69,26 @@ public class Headeritem {
     @SerializedName("date_added")
     @Expose
     private String dateAdded;
-    @SerializedName("invest_goal")
-    @Expose
-    private Object investGoal;
-    @SerializedName("product_staff")
-    @Expose
-    private List<Object> productStaff = null;
-    //    @SerializedName("support")
+
+//    private Object investGoal;
+//    @SerializedName("product_staff")
 //    @Expose
-//    private Support support;
-    @SerializedName("is_special")
-    @Expose
-    private boolean isSpecial;
-    @SerializedName("additional_attributes")
-    @Expose
-    private List<Object> additionalAttributes = null;
-    @SerializedName("date_published")
-    @Expose
-    private String datePublished;
-    @SerializedName("customjson")
-    @Expose
-    private Object customjson;
+//    private List<Object> productStaff = null;
+//    //    @SerializedName("support")
+////    @Expose
+////    private Support support;
+//    @SerializedName("is_special")
+//    @Expose
+//    private boolean isSpecial;
+//    @SerializedName("additional_attributes")
+//    @Expose
+//    private List<Object> additionalAttributes = null;
+//    @SerializedName("date_published")
+//    @Expose
+//    private String datePublished;
+//    @SerializedName("customjson")
+//    @Expose
+//    private Object customjson;
 
     public int getId() {
         return id;
@@ -227,21 +234,21 @@ public class Headeritem {
         this.dateAdded = dateAdded;
     }
 
-    public Object getInvestGoal() {
-        return investGoal;
-    }
-
-    public void setInvestGoal(Object investGoal) {
-        this.investGoal = investGoal;
-    }
-
-    public List<Object> getProductStaff() {
-        return productStaff;
-    }
-
-    public void setProductStaff(List<Object> productStaff) {
-        this.productStaff = productStaff;
-    }
+//    public Object getInvestGoal() {
+//        return investGoal;
+//    }
+//
+//    public void setInvestGoal(Object investGoal) {
+//        this.investGoal = investGoal;
+//    }
+//
+//    public List<Object> getProductStaff() {
+//        return productStaff;
+//    }
+//
+//    public void setProductStaff(List<Object> productStaff) {
+//        this.productStaff = productStaff;
+//    }
 
 //    public Support getSupport() {
 //        return support;
@@ -251,7 +258,7 @@ public class Headeritem {
 //        this.support = support;
 //    }
 
-    public boolean isIsSpecial() {
+    /*public boolean isIsSpecial() {
         return isSpecial;
     }
 
@@ -265,22 +272,6 @@ public class Headeritem {
 
     public void setAdditionalAttributes(List<Object> additionalAttributes) {
         this.additionalAttributes = additionalAttributes;
-    }
-
-    public String getDatePublished() {
-        return datePublished;
-    }
-
-    public void setDatePublished(String datePublished) {
-        this.datePublished = datePublished;
-    }
-
-    public Object getCustomjson() {
-        return customjson;
-    }
-
-    public void setCustomjson(Object customjson) {
-        this.customjson = customjson;
-    }
+    }*/
 
 }

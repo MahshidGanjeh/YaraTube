@@ -1,5 +1,6 @@
 package com.yaratech.yaratube.home.store;
 
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +17,14 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int HEADERITEM_VIEWTYPE = 0;
     private Store mStore = new Store();
     private Context mContext;
+    private FragmentManager manager;
 
-    public StoreAdapter(Context context) {
+    public StoreAdapter(Context context, FragmentManager manager) {
         this.mContext = context;
+        this.manager = manager;
+    }
+
+    public StoreAdapter(FragmentManager childFragmentManager) {
     }
 
     @NonNull
@@ -41,13 +47,14 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        if (holder instanceof HomeItemViewHolder) {
-            HomeItemViewHolder vh = (HomeItemViewHolder) holder;
-            vh.onBind(mStore.getHomeitem().get(position - 1), mContext, mStore.getHomeitem(), position-1);
-        } else if (holder instanceof HeaderContainerViewHolder) {
+        if (holder instanceof HeaderContainerViewHolder) {
             HeaderContainerViewHolder vh2 = (HeaderContainerViewHolder) holder;
-            vh2.onBind(mContext, mStore.getHeaderitem());
+            vh2.onBind(manager, mStore.getHeaderitem());
+
+        } else if (holder instanceof HomeItemViewHolder) {
+            HomeItemViewHolder vh = (HomeItemViewHolder) holder;
+            vh.onBind(mStore.getHomeitem().get(position- 1), mContext,
+                    mStore.getHomeitem(), position - 1);
         }
     }
 
@@ -59,8 +66,8 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setItemList(Store store) {
-        notifyDataSetChanged();
         this.mStore = store;
+        notifyDataSetChanged();
     }
 
     @Override

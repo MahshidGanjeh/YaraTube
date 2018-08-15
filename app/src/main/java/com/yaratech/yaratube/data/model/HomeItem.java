@@ -5,7 +5,16 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
+@Parcel
 public class HomeItem {
+
+    @ParcelConstructor
+    public HomeItem() {
+
+    }
 
     @SerializedName("id")
     @Expose
@@ -19,9 +28,6 @@ public class HomeItem {
     @SerializedName("position")
     @Expose
     private int position;
-    @SerializedName("banner")
-    @Expose
-    private Object banner;
     @SerializedName("row_type")
     @Expose
     private String rowType;
@@ -64,13 +70,6 @@ public class HomeItem {
         this.position = position;
     }
 
-    public Object getBanner() {
-        return banner;
-    }
-
-    public void setBanner(Object banner) {
-        this.banner = banner;
-    }
 
     public String getRowType() {
         return rowType;

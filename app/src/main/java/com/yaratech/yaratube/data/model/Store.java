@@ -5,7 +5,15 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
+@Parcel
 public class Store {
+
+    @ParcelConstructor
+    public Store() {
+    }
 
     @SerializedName("id")
     @Expose

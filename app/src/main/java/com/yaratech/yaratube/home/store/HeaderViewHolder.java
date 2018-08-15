@@ -19,6 +19,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         header = itemView.findViewById(R.id.header_imgView);
     }
+
     public void onBind(Headeritem headeritem, Context context) {
         Glide.with(context).load(BASE_URL + headeritem.getFeatureAvatar().getHdpi())
                 .into(header);

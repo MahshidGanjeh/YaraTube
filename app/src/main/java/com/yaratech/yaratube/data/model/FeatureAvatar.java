@@ -3,8 +3,20 @@ package com.yaratech.yaratube.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
+@Parcel
 public class FeatureAvatar {
 
+    @ParcelConstructor
+    public FeatureAvatar(String mdpi, String xxxdpi, String xhdpi, String xxhdpi, String hdpi) {
+        this.mdpi = mdpi;
+        this.xxxdpi = xxxdpi;
+        this.xhdpi = xhdpi;
+        this.xxhdpi = xxhdpi;
+        this.hdpi = hdpi;
+    }
     @SerializedName("mdpi")
     @Expose
     private String mdpi;
