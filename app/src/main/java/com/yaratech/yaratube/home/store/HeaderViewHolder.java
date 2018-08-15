@@ -20,7 +20,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder {
         header = itemView.findViewById(R.id.header_imgView);
     }
     public void onBind(Headeritem headeritem, Context context) {
-        Glide.with(context).load(BASE_URL + headeritem.getAvatar().getXxxdpi())
+        Glide.with(context).load(BASE_URL + headeritem.getFeatureAvatar().getHdpi())
                 .into(header);
     }
 }

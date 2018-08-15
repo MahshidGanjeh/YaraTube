@@ -3,6 +3,7 @@ package com.yaratech.yaratube.home.store;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +41,14 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderViewHolder> {
     @Override
     public int getItemCount() {
         if (mHeaderList != null) {
+            //Log.d("number" ,String.valueOf(mHeaderList.size()));
             return mHeaderList.size();
         } else
             return 0;
     }
 
     public void setHeaderList(List<Headeritem> mHeaderList) {
-        notifyDataSetChanged();
         this.mHeaderList = mHeaderList;
+        notifyDataSetChanged();
     }
 }
