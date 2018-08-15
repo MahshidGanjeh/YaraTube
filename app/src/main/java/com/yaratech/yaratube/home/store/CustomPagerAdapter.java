@@ -1,6 +1,6 @@
 package com.yaratech.yaratube.home.store;
 
-import android.app.Fragment;
+
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -29,8 +29,8 @@ public class CustomPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void setHeaderitems(List<Headeritem> mHeaderitems) {
-        this.mHeaderitems = mHeaderitems;
         notifyDataSetChanged();
+        this.mHeaderitems = mHeaderitems;
     }
 }
 

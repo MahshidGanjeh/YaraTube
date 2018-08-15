@@ -13,8 +13,8 @@ import com.yaratech.yaratube.data.model.Store;
 
 public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int HOMEITEM_VIEWTYPE = 1;
     private static final int HEADERITEM_VIEWTYPE = 0;
+    private static final int HOMEITEM_VIEWTYPE = 1;
     private Store mStore = new Store();
     private Context mContext;
     private FragmentManager manager;
@@ -22,9 +22,6 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public StoreAdapter(Context context, FragmentManager manager) {
         this.mContext = context;
         this.manager = manager;
-    }
-
-    public StoreAdapter(FragmentManager childFragmentManager) {
     }
 
     @NonNull
@@ -38,7 +35,7 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 return hViewHolder;
             case HOMEITEM_VIEWTYPE:
                 View rootView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.home_item_row, parent, false);
+                        .inflate(R.layout.home_items_container, parent, false);
                 HomeItemViewHolder viewHolder = new HomeItemViewHolder(rootView);
                 return viewHolder;
         }
@@ -53,7 +50,7 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         } else if (holder instanceof HomeItemViewHolder) {
             HomeItemViewHolder vh = (HomeItemViewHolder) holder;
-            vh.onBind(mStore.getHomeitem().get(position- 1), mContext,
+            vh.onBind(mStore.getHomeitem().get(position -1 ), mContext,
                     mStore.getHomeitem(), position - 1);
         }
     }
@@ -66,8 +63,8 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setItemList(Store store) {
-        this.mStore = store;
         notifyDataSetChanged();
+        this.mStore = store;
     }
 
     @Override

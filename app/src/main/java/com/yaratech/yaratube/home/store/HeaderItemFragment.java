@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.yaratech.yaratube.data.model.Headeritem;
 
 import org.parceler.Parcels;
 
+import static com.yaratech.yaratube.home.store.HomeItemProductViewHolder.BASE_URL;
+
 public class HeaderItemFragment extends Fragment {
 
     private Headeritem mHeaderitem;
@@ -22,13 +25,6 @@ public class HeaderItemFragment extends Fragment {
 
     public HeaderItemFragment() {
     }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mHeaderitem = Parcels.unwrap(getArguments().getParcelable("headeritem"));
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,11 +33,17 @@ public class HeaderItemFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mHeaderitem = Parcels.unwrap(getArguments().getParcelable("headeritem"));
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mHeaderImageView = view.findViewById(R.id.header_imgView);
-        Glide.with(view.getContext()).load(mHeaderitem.getAvatar().getHdpi()).into(mHeaderImageView);
+        Glide.with(view.getContext()).load(BASE_URL+mHeaderitem.getFeatureAvatar().getHdpi()).into(mHeaderImageView);
     }
 
     public static HeaderItemFragment newInstance(Headeritem headeritem) {
