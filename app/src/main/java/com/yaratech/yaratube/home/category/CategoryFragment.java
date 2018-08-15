@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Category;
@@ -20,6 +21,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.View 
     private CategoryContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
     private CategoryAdapter adapter;
+    private ProgressBar mProgressBar;
 
     public CategoryFragment() {
         // Required empty public constructor
@@ -38,6 +40,7 @@ public class CategoryFragment extends Fragment implements CategoryContract.View 
 
         mPresenter = new CategoryPresenter(this);
 
+        mProgressBar = view.findViewById(R.id.category_progress_bar);
         mRecyclerView = view.findViewById(R.id.category_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new CategoryAdapter(getContext());
@@ -49,5 +52,15 @@ public class CategoryFragment extends Fragment implements CategoryContract.View 
     @Override
     public void showCategories(List<Category> list) {
         adapter.setCategoryList(list);
+    }
+
+    @Override
+    public void showProgress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgressBar.setVisibility(View.GONE);
     }
 }

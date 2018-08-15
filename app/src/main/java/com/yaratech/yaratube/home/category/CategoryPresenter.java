@@ -24,7 +24,9 @@ public class CategoryPresenter implements CategoryContract.Presenter, CategoryAp
 
     @Override
     public void onSuccess(List<Category> list) {
+        mView.showProgress();
         mView.showCategories(list);
+        mView.hideProgress();
     }
 
     @Override

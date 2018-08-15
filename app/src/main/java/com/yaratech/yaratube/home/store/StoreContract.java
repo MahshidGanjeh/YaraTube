@@ -6,6 +6,8 @@ public interface StoreContract {
 
     interface View{
         void showHomeItems(Store store);
+        void showProgressBar();
+        void hideProgressBar();
     }
 
     interface Presenter {

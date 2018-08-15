@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Store;
@@ -18,11 +19,13 @@ public class StoreFragment extends Fragment implements StoreContract.View {
 
     private StoreContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
-    StoreAdapter adapter;
+    private StoreAdapter adapter;
+    private ProgressBar mProgressBar;
 
     public StoreFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,7 +39,8 @@ public class StoreFragment extends Fragment implements StoreContract.View {
 
         mPresenter = new StorePresenter(this);
 
-        mRecyclerView = view.findViewById(R.id.main_page_recycler);
+        mProgressBar = view.findViewById(R.id.store_progress_bar);
+        mRecyclerView = view.findViewById(R.id.store_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new StoreAdapter(getContext());
 
@@ -48,5 +52,15 @@ public class StoreFragment extends Fragment implements StoreContract.View {
     @Override
     public void showHomeItems(Store store) {
         adapter.setItemList(store);
+    }
+
+    @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
     }
 }

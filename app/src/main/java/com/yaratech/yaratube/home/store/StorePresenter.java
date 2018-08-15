@@ -16,13 +16,15 @@ public class StorePresenter implements StoreContract.Presenter, StoreApiResult {
 
     @Override
     public void onSuccess(Store list) {
+        mView.showProgressBar();
         mView.showHomeItems(list);
+        mView.hideProgressBar();
     }
 
 
     @Override
     public void onFail(String error) {
-       // Toast.makeText(error , Toast.LENGTH_SHORT).show();
+        // Toast.makeText(error , Toast.LENGTH_SHORT).show();
     }
 
     @Override

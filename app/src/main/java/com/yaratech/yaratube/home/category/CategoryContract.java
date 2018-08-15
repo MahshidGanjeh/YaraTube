@@ -8,6 +8,8 @@ public interface CategoryContract {
 
     interface View{
         void showCategories(List<Category> list);
+        void showProgress();
+        void hideProgress();
     }
 
     interface Presenter{
