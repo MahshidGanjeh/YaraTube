@@ -20,6 +20,9 @@ public class HomeFragment extends Fragment {
 
     private BottomNavigationView mBottomNavigationView;
     private FragmentManager mManager;
+    private int counter = 0;
+    private StoreFragment mStoreFragment;
+    private CategoryFragment mCategoryFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -29,6 +32,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        counter++;
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -38,26 +42,44 @@ public class HomeFragment extends Fragment {
         mBottomNavigationView = view.findViewById(R.id.bottom_navigation);
         mManager = getFragmentManager();
 
-        //
-        mManager.beginTransaction().
-                replace(R.id.home_fragment_container, new StoreFragment()).commit();
+        //for the first time load the pages
+        if (counter == 1) {
+            mStoreFragment = new StoreFragment();
+            mCategoryFragment = new CategoryFragment();
+            mManager.beginTransaction().
+                    replace(R.id.home_fragment_container, mStoreFragment).commit();
+        }
 
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case (R.id.bottom_nav_home_item):
-                        mManager.beginTransaction().
-                                replace(R.id.home_fragment_container, new StoreFragment()).commit();
+        mBottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case (R.id.bottom_nav_home_item):
+                                if (mStoreFragment != null) {
+                                    if (mCategoryFragment.isVisible()) {
+                                        mManager.beginTransaction().hide(mCategoryFragment).commit();
+                                        mManager.beginTransaction().show(mStoreFragment).commit();
+                                    } else
+                                        mManager.beginTransaction().show(mStoreFragment).commit();
+                                }
+                                return true;
+                            case (R.id.bottom_nav_category_item):
+                                if (mManager.getFragments().contains(mCategoryFragment)) {
+                                } else {
+                                    mManager.beginTransaction().
+                                            add(R.id.home_fragment_container, mCategoryFragment).commit();
+                                }
+                                if (mStoreFragment.isVisible()) {
+                                    mManager.beginTransaction().hide(mStoreFragment).commit();
+                                    mManager.beginTransaction().show(mCategoryFragment).commit();
+                                } else
+                                    mManager.beginTransaction().show(mCategoryFragment).commit();
+                                return true;
+                        }
                         return true;
-                    case (R.id.bottom_nav_category_item):
-                        mManager.beginTransaction()
-                                .replace(R.id.home_fragment_container, new CategoryFragment()).commit();
-                        return true;
-                }
-                return true;
-            }
-        });
+                    }
+                });
 
     }
 }
