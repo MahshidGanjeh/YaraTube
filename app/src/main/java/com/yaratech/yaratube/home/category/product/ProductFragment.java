@@ -20,14 +20,16 @@ import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.home.store.HomeItemProductAdapter;
+
 import java.util.List;
 
 public class ProductFragment extends Fragment implements ProductContract.View {
 
     private ProductContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
-    private HomeItemProductAdapter adapter;
+    private ProductAdapter adapter;
     private ProgressBar mProgressBar;
+    private static int mCategoryId;
 
     public ProductFragment() {
         // Required empty public constructor
@@ -49,11 +51,28 @@ public class ProductFragment extends Fragment implements ProductContract.View {
         //mProgressBar = view.findViewById(R.id.store_progress_bar);
         mRecyclerView = view.findViewById(R.id.product_of_category_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        adapter = new HomeItemProductAdapter(getContext());
+        adapter = new ProductAdapter(getContext());
 
         mRecyclerView.setAdapter(adapter);
 
-        mPresenter.loadProducts(464);
+        mPresenter.loadProducts(mCategoryId);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCategoryId = getArguments().getInt("categoryId");
+
+    }
+
+    public static ProductFragment newInstance(int categoryId) {
+
+        Bundle args = new Bundle();
+        args.putInt("categoryId" , categoryId);
+
+        ProductFragment fragment = new ProductFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -64,11 +83,11 @@ public class ProductFragment extends Fragment implements ProductContract.View {
 
     @Override
     public void showProgressBar() {
-       // mProgressBar.setVisibility(View.VISIBLE);
+        // mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-       // mProgressBar.setVisibility(View.GONE);
+        // mProgressBar.setVisibility(View.GONE);
     }
 }

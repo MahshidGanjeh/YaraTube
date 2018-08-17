@@ -25,6 +25,4 @@ public interface  ApiService {
     @GET("listproducts/{category_id}")
     Call<List<Product>> getProductsByCategoryId(@Path("category_id") int categoryId);
 
-
-
 }

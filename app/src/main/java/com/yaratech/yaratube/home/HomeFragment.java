@@ -17,13 +17,14 @@ import com.yaratech.yaratube.home.category.CategoryFragment;
 import com.yaratech.yaratube.home.category.product.ProductFragment;
 import com.yaratech.yaratube.home.store.StoreFragment;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements onCategoryClickListener {
 
     private BottomNavigationView mBottomNavigationView;
     private FragmentManager mManager;
     private int counter = 0;
     private StoreFragment mStoreFragment;
     private CategoryFragment mCategoryFragment;
+    private ProductFragment mProductFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -48,7 +49,7 @@ public class HomeFragment extends Fragment {
             mStoreFragment = new StoreFragment();
             mCategoryFragment = new CategoryFragment();
             mManager.beginTransaction().
-                    replace(R.id.home_fragment_container, new ProductFragment()).commit();
+                    replace(R.id.home_fragment_container, mStoreFragment).commit();
         }
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(
@@ -57,13 +58,13 @@ public class HomeFragment extends Fragment {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case (R.id.bottom_nav_home_item):
-                                /*if (mStoreFragment != null) {
+                                if (mStoreFragment != null) {
                                     if (mCategoryFragment.isVisible()) {
                                         mManager.beginTransaction().hide(mCategoryFragment).commit();
                                         mManager.beginTransaction().show(mStoreFragment).commit();
                                     } else
                                         mManager.beginTransaction().show(mStoreFragment).commit();
-                                }*/
+                                }
                                 return true;
                             case (R.id.bottom_nav_category_item):
                                 if (mManager.getFragments().contains(mCategoryFragment)) {
@@ -82,5 +83,10 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+    }
+
+    @Override
+    public void onCategoryClicked(int categoryId) {
+        mProductFragment = ProductFragment.newInstance(categoryId);
     }
 }
