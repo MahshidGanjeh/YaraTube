@@ -3,6 +3,7 @@ package com.yaratech.yaratube.data.source;
 import android.util.Log;
 
 import com.yaratech.yaratube.data.model.Category;
+import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.source.remote.ApiService;
 import com.yaratech.yaratube.data.source.remote.ApiClient;
@@ -51,6 +52,24 @@ public class Repository {
 
                     @Override
                     public void onFailure(Call<List<Category>> call, Throwable t) {
+                        apiResultCallBack.onFail(t.getMessage());
+                    }
+                });
+    }
+
+    public void fetchProductsByCategoryId(final WebService.ApiResultCallBack apiResultCallBack, int id) {
+        ApiClient.getClient().create(ApiService.class).getProductsByCategoryId(id)
+                .enqueue(new Callback<List<Product>>() {
+                    @Override
+                    public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                        if (response.isSuccessful()) {
+                            apiResultCallBack.onSuccess(response.body());
+                            Log.d("shy" , response.body().get(0).getName());
+                        } else apiResultCallBack.onFail(response.message());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Product>> call, Throwable t) {
                         apiResultCallBack.onFail(t.getMessage());
                     }
                 });

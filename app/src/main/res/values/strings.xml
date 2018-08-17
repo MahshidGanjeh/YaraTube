@@ -3,4 +3,7 @@
 
     <string name="title_bottom_nav_category">دسته بندی ها</string>
     <string name="title_bottom_nav_home">صفحه اصلی</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

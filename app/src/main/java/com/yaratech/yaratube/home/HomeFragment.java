@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.home.category.CategoryFragment;
+import com.yaratech.yaratube.home.category.product.ProductFragment;
 import com.yaratech.yaratube.home.store.StoreFragment;
 
 public class HomeFragment extends Fragment {
@@ -47,7 +48,7 @@ public class HomeFragment extends Fragment {
             mStoreFragment = new StoreFragment();
             mCategoryFragment = new CategoryFragment();
             mManager.beginTransaction().
-                    replace(R.id.home_fragment_container, mStoreFragment).commit();
+                    replace(R.id.home_fragment_container, new ProductFragment()).commit();
         }
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(
@@ -56,13 +57,13 @@ public class HomeFragment extends Fragment {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case (R.id.bottom_nav_home_item):
-                                if (mStoreFragment != null) {
+                                /*if (mStoreFragment != null) {
                                     if (mCategoryFragment.isVisible()) {
                                         mManager.beginTransaction().hide(mCategoryFragment).commit();
                                         mManager.beginTransaction().show(mStoreFragment).commit();
                                     } else
                                         mManager.beginTransaction().show(mStoreFragment).commit();
-                                }
+                                }*/
                                 return true;
                             case (R.id.bottom_nav_category_item):
                                 if (mManager.getFragments().contains(mCategoryFragment)) {
