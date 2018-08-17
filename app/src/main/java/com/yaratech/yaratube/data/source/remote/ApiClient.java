@@ -1,11 +1,11 @@
-package com.yaratech.yaratube.data.remote;
+package com.yaratech.yaratube.data.source.remote;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
 
-public class RetrofitClient {
+public class ApiClient {
 
     private static Retrofit retrofit = null;
 

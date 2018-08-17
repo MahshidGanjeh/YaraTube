@@ -1,34 +1,33 @@
 package com.yaratech.yaratube.home.store;
 
 import com.yaratech.yaratube.data.model.Store;
-import com.yaratech.yaratube.data.util.StoreApiResult;
-import com.yaratech.yaratube.data.HomeItemRepo;
+import com.yaratech.yaratube.data.source.Repository;
+import com.yaratech.yaratube.data.source.WebService;
 
-public class StorePresenter implements StoreContract.Presenter, StoreApiResult {
+public class StorePresenter implements StoreContract.Presenter {
 
     private StoreContract.View mView;
-    private HomeItemRepo homeItemRepo;
+    private Repository homeItemRepo;
 
-    public StorePresenter(StoreContract.View mView) {
+    public StorePresenter(final StoreContract.View mView) {
         this.mView = mView;
-        homeItemRepo = new HomeItemRepo(this);
-    }
-
-    @Override
-    public void onSuccess(Store list) {
-        mView.showProgressBar();
-        mView.showHomeItems(list);
-        mView.hideProgressBar();
-    }
-
-
-    @Override
-    public void onFail(String error) {
-        // Toast.makeText(error , Toast.LENGTH_SHORT).show();
+        homeItemRepo = new Repository();
     }
 
     @Override
     public void loadHomeItems() {
-        homeItemRepo.fetchHomeItems();
+        homeItemRepo.fetchHomeItems(new WebService.ApiResultCallBack() {
+            @Override
+            public void onSuccess(Object response) {
+                mView.showProgressBar();
+                mView.showHomeItems((Store) response);
+                mView.hideProgressBar();
+            }
+
+            @Override
+            public void onFail(Object message) {
+
+            }
+        });
     }
 }

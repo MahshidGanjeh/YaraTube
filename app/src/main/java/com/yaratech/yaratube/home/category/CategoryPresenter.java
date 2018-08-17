@@ -1,36 +1,34 @@
 package com.yaratech.yaratube.home.category;
 
-import com.yaratech.yaratube.data.util.CategoryApiResult;
-import com.yaratech.yaratube.data.CategoryRepo;
+import com.yaratech.yaratube.data.source.Repository;
+import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.model.Category;
 
 import java.util.List;
 
-public class CategoryPresenter implements CategoryContract.Presenter, CategoryApiResult {
+public class CategoryPresenter implements CategoryContract.Presenter {
 
     private CategoryContract.View mView;
-    private CategoryRepo categoryRepo;
+    private Repository categoryRepo;
 
     public CategoryPresenter(CategoryContract.View mView) {
         this.mView = mView;
-        categoryRepo = new CategoryRepo(this);
+        categoryRepo = new Repository();
     }
 
     @Override
-
     public void loadCategories() {
-        categoryRepo.fetchCategory();
-    }
+        categoryRepo.fetchCategory(new WebService.ApiResultCallBack() {
+            @Override
+            public void onSuccess(Object response) {
+                mView.showProgress();
+                mView.showCategories((List<Category>) response);
+                mView.hideProgress();
+            }
+            @Override
+            public void onFail(Object message) {
 
-    @Override
-    public void onSuccess(List<Category> list) {
-        mView.showProgress();
-        mView.showCategories(list);
-        mView.hideProgress();
-    }
-
-    @Override
-    public void onFail() {
-        // Toast.makeText(,"مشکل اتصال به اینترنت"   , Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

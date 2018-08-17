@@ -1,7 +1,6 @@
-package com.yaratech.yaratube.data.remote;
+package com.yaratech.yaratube.data.source.remote;
 
 import com.yaratech.yaratube.data.model.Category;
-import com.yaratech.yaratube.data.model.HomeItem;
 import com.yaratech.yaratube.data.model.Store;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
-public interface ApiService {
+public interface  ApiService {
 
     //mainpage content
     @GET("store/16")
