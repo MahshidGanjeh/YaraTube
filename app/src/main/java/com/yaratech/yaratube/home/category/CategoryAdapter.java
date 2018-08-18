@@ -1,6 +1,6 @@
 package com.yaratech.yaratube.home.category;
 
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Category;
-import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.home.category.product.ProductFragment;
-import com.yaratech.yaratube.home.onCategoryClickListener;
+import com.yaratech.yaratube.onCategoryClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +22,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
     FragmentManager manager;
     private Context context;
 
-    public CategoryAdapter(Context context, onCategoryClickListener listener) {
+    public CategoryAdapter(Context context, onCategoryClickListener listener, FragmentManager fm) {
         mCategoryClickListener = listener;
+        manager = fm;
         this.context = context;
     }
 
@@ -48,8 +47,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
             @Override
             public void onClick(View v) {
                 mCategoryClickListener.onCategoryClicked(mCategoryList.get(position).getId());
-                manager.beginTransaction().addToBackStack("").replace(R.id.home_fragment_container,
-                        ProductFragment.newInstance(mCategoryList.get(position).getId())).commit();
             }
         });
     }

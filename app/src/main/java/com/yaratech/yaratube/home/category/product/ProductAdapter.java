@@ -26,7 +26,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.home_item, parent, false);
+                .inflate(R.layout.product_item, parent, false);
         ProductViewHolder viewHolder = new ProductViewHolder(rootView);
 
         return viewHolder;

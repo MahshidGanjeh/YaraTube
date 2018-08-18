@@ -1,5 +1,6 @@
 package com.yaratech.yaratube.home.category;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,11 +14,12 @@ import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Category;
-import com.yaratech.yaratube.home.onCategoryClickListener;
+import com.yaratech.yaratube.onCategoryClickListener;
 
 import java.util.List;
 
-public class CategoryFragment extends Fragment implements CategoryContract.View,onCategoryClickListener {
+public class CategoryFragment extends Fragment implements
+        CategoryContract.View, onCategoryClickListener {
 
     private CategoryContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
@@ -37,6 +39,12 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCategoryClickListener = (onCategoryClickListener) context;
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -45,11 +53,12 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
         mProgressBar = view.findViewById(R.id.category_progress_bar);
         mRecyclerView = view.findViewById(R.id.category_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CategoryAdapter(getContext() ,this);
+        adapter = new CategoryAdapter(getContext(), this, getFragmentManager());
         mRecyclerView.setAdapter(adapter);
 
         mPresenter.loadCategories();
     }
+
 
     @Override
     public void showCategories(List<Category> list) {
@@ -68,6 +77,6 @@ public class CategoryFragment extends Fragment implements CategoryContract.View,
 
     @Override
     public void onCategoryClicked(int id) {
-       mCategoryClickListener.onCategoryClicked(id);
+        mCategoryClickListener.onCategoryClicked(id);
     }
 }
