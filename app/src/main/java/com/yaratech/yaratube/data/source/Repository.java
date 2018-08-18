@@ -3,12 +3,14 @@ package com.yaratech.yaratube.data.source;
 import android.util.Log;
 
 import com.yaratech.yaratube.data.model.Category;
+import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.source.remote.ApiService;
 import com.yaratech.yaratube.data.source.remote.ApiClient;
 
 import java.util.List;
+import java.util.zip.CheckedOutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,12 +66,29 @@ public class Repository {
                     public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                         if (response.isSuccessful()) {
                             apiResultCallBack.onSuccess(response.body());
-                            Log.d("shy" , response.body().get(0).getName());
                         } else apiResultCallBack.onFail(response.message());
                     }
 
                     @Override
                     public void onFailure(Call<List<Product>> call, Throwable t) {
+                        apiResultCallBack.onFail(t.getMessage());
+                    }
+                });
+    }
+
+    public void fetchCommentByProductId(final WebService.ApiResultCallBack apiResultCallBack, int pid) {
+
+        ApiClient.getClient().create(ApiService.class).getProductCommentByProductId(pid)
+                .enqueue(new Callback<List<Comment>>() {
+                    @Override
+                    public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                        if (response.isSuccessful()) {
+                            apiResultCallBack.onSuccess(response);
+                        } else apiResultCallBack.onFail(response.message());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Comment>> call, Throwable t) {
                         apiResultCallBack.onFail(t.getMessage());
                     }
                 });

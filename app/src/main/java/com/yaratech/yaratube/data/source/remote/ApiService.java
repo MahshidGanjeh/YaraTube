@@ -1,6 +1,7 @@
 package com.yaratech.yaratube.data.source.remote;
 
 import com.yaratech.yaratube.data.model.Category;
+import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
 
@@ -11,7 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface  ApiService {
+public interface ApiService {
 
     //mainpage content
     @GET("store/16")
@@ -24,5 +25,9 @@ public interface  ApiService {
     //product list of a category by category id
     @GET("listproducts/{category_id}")
     Call<List<Product>> getProductsByCategoryId(@Path("category_id") int categoryId);
+
+    //product comment by product id
+    @GET("comment/{product_id}")
+    Call<List<Comment>> getProductCommentByProductId(@Path("product_id") int productId);
 
 }

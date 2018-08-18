@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.home.category.product;
+package com.yaratech.yaratube.gridproduct;
 
 import android.util.Log;
 
@@ -12,7 +12,7 @@ public class ProductPresenter implements ProductContract.Presenter {
     private Repository productsRepo;
     private ProductContract.View mView;
 
-    public ProductPresenter( ProductContract.View mView) {
+    public ProductPresenter(ProductContract.View mView) {
         this.productsRepo = new Repository();
         this.mView = mView;
     }
@@ -29,7 +29,7 @@ public class ProductPresenter implements ProductContract.Presenter {
 
             @Override
             public void onFail(Object message) {
-                Log.d("hey" , String.valueOf(message));
+                Log.d("hey", String.valueOf(message));
             }
         }, id);
     }

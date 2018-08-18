@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.home.category.CategoryFragment;
-import com.yaratech.yaratube.home.category.product.ProductFragment;
 import com.yaratech.yaratube.home.store.StoreFragment;
+import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 
 public class HomeFragment extends Fragment {
 

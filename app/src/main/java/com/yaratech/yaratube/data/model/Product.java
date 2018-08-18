@@ -31,15 +31,15 @@ public class Product {
     @SerializedName("producer_name")
     @Expose
     private String producerName;
-  /*  @SerializedName("payment_type")
-    @Expose
-    private List<Object> paymentType = null;
-    @SerializedName("price")*/
+    /*  @SerializedName("payment_type")
+      @Expose
+      private List<Object> paymentType = null;
+      @SerializedName("price")*/
     @Expose
     private int price;
     @SerializedName("avatar")
     @Expose
-    private Avatar_ avatar;
+    private Avatar avatar;
     @SerializedName("feature_avatar")
     @Expose
     private FeatureAvatar_ featureAvatar;
@@ -70,12 +70,12 @@ public class Product {
     @SerializedName("date_added")
     @Expose
     private String dateAdded;
-   /* @SerializedName("invest_goal")
-    @Expose
-    private Object investGoal;
-    @SerializedName("product_staff")
-    @Expose
-    private List<Object> productStaff = null;*/
+    /* @SerializedName("invest_goal")
+     @Expose
+     private Object investGoal;
+     @SerializedName("product_staff")
+     @Expose
+     private List<Object> productStaff = null;*/
     @SerializedName("is_special")
     @Expose
     private boolean isSpecial;
@@ -145,13 +145,6 @@ public class Product {
         this.price = price;
     }
 
-    public Avatar_ getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Avatar_ avatar) {
-        this.avatar = avatar;
-    }
 
     public FeatureAvatar_ getFeatureAvatar() {
         return featureAvatar;
@@ -255,6 +248,14 @@ public class Product {
 
     public void setIsSpecial(boolean isSpecial) {
         this.isSpecial = isSpecial;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     /*public List<Object> getAdditionalAttributes() {

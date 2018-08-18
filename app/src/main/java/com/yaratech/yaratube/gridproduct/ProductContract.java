@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.home.category.product;
+package com.yaratech.yaratube.gridproduct;
 
 import com.yaratech.yaratube.data.model.Product;
 

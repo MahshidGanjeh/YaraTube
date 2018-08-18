@@ -1,6 +1,7 @@
-package com.yaratech.yaratube.home.category.product;
+package com.yaratech.yaratube.gridproduct;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,15 +19,18 @@ import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.data.model.Product;
+import com.yaratech.yaratube.onProductClickListener;
 
 import java.util.List;
 
-public class ProductFragment extends Fragment implements ProductContract.View {
+public class ProductFragment extends Fragment implements ProductContract.View,
+        onProductClickListener {
 
     private ProductContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
     private ProductAdapter adapter;
     private ProgressBar mProgressBar;
+    private onProductClickListener mOnProductClickListener;
     private static int mCategoryId;
 
     public ProductFragment() {
@@ -49,11 +53,17 @@ public class ProductFragment extends Fragment implements ProductContract.View {
         //mProgressBar = view.findViewById(R.id.store_progress_bar);
         mRecyclerView = view.findViewById(R.id.product_of_category_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        adapter = new ProductAdapter(getContext());
+        adapter = new ProductAdapter(getContext(), mOnProductClickListener);
 
         mRecyclerView.setAdapter(adapter);
 
         mPresenter.loadProducts(mCategoryId);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mOnProductClickListener = (onProductClickListener) context;
     }
 
     @Override
@@ -66,7 +76,7 @@ public class ProductFragment extends Fragment implements ProductContract.View {
     public static ProductFragment newInstance(int categoryId) {
 
         Bundle args = new Bundle();
-        args.putInt("categoryId" , categoryId);
+        args.putInt("categoryId", categoryId);
 
         ProductFragment fragment = new ProductFragment();
         fragment.setArguments(args);
@@ -87,5 +97,10 @@ public class ProductFragment extends Fragment implements ProductContract.View {
     @Override
     public void hideProgressBar() {
         // mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onProductClicked(Product p) {
+        mOnProductClickListener.onProductClicked(p);
     }
 }

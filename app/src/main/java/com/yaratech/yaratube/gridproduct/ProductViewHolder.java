@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.home.category.product;
+package com.yaratech.yaratube.gridproduct;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
