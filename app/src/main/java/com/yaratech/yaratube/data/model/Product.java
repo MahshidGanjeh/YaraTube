@@ -39,7 +39,7 @@ public class Product {
     private int price;
     @SerializedName("avatar")
     @Expose
-    private Avatar avatar;
+    private Avatar_ avatar;
     @SerializedName("feature_avatar")
     @Expose
     private FeatureAvatar_ featureAvatar;
@@ -250,11 +250,11 @@ public class Product {
         this.isSpecial = isSpecial;
     }
 
-    public Avatar getAvatar() {
+    public Avatar_ getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Avatar avatar) {
+    public void setAvatar(Avatar_ avatar) {
         this.avatar = avatar;
     }
 

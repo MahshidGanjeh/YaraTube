@@ -83,7 +83,7 @@ public class Repository {
                     @Override
                     public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                         if (response.isSuccessful()) {
-                            apiResultCallBack.onSuccess(response);
+                            apiResultCallBack.onSuccess(response.body());
                         } else apiResultCallBack.onFail(response.message());
                     }
 

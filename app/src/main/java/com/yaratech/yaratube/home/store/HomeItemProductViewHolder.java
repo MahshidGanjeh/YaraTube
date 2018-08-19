@@ -10,12 +10,13 @@ import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Product;
 
+import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
+
 public class HomeItemProductViewHolder extends RecyclerView.ViewHolder {
 
     private TextView title;
     private ImageView imageView;
     private TextView description;
-    public static final String BASE_URL = "https://api.vasapi.click/";
 
     public HomeItemProductViewHolder(View itemView) {
         super(itemView);
@@ -27,7 +28,7 @@ public class HomeItemProductViewHolder extends RecyclerView.ViewHolder {
     public void onBind(Context context, Product product) {
         title.setText(product.getName());
         description.setText(product.getShortDescription());
-        Glide.with(context).load(BASE_URL+product.getAvatar().getXxhdpi())
+        Glide.with(context).load(BASE_URL + product.getAvatar().getHdpi())
                 .into(imageView);
     }
 }

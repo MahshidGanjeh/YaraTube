@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity implements
     public void onCategoryClicked(int categoryId) {
         mProductFragment = ProductFragment.newInstance(categoryId);
         Toast.makeText(getApplicationContext(), String.valueOf(categoryId), Toast.LENGTH_SHORT).show();
-        manager.beginTransaction().addToBackStack("P").add(R.id.main_container, mProductFragment).commit();
+        manager.beginTransaction().addToBackStack("products").add(R.id.main_container, mProductFragment).commit();
     }
 
     @Override
     public void onProductClicked(Product p) {
         productDetailFragment = ProductDetailFragment.newInstance(p);
         Toast.makeText(getApplicationContext(), String.valueOf(p.getName()), Toast.LENGTH_SHORT).show();
-        manager.beginTransaction().addToBackStack("P").add(R.id.main_container, productDetailFragment).commit();
+        manager.beginTransaction().addToBackStack("detail").add(R.id.main_container, productDetailFragment).commit();
     }
 }

@@ -16,7 +16,7 @@ import com.yaratech.yaratube.data.model.Headeritem;
 
 import org.parceler.Parcels;
 
-import static com.yaratech.yaratube.home.store.HomeItemProductViewHolder.BASE_URL;
+import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
 
 public class HeaderItemFragment extends Fragment {
 
@@ -25,6 +25,7 @@ public class HeaderItemFragment extends Fragment {
 
     public HeaderItemFragment() {
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class HeaderItemFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mHeaderImageView = view.findViewById(R.id.header_imgView);
-        Glide.with(view.getContext()).load(BASE_URL+mHeaderitem.getFeatureAvatar().getHdpi()).into(mHeaderImageView);
+        Glide.with(view.getContext()).load(BASE_URL + mHeaderitem.getFeatureAvatar().getHdpi()).into(mHeaderImageView);
     }
 
     public static HeaderItemFragment newInstance(Headeritem headeritem) {
