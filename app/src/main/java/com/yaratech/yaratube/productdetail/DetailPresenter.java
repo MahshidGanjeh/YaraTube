@@ -22,7 +22,9 @@ public class DetailPresenter implements DetailContract.Presenter {
         repository.fetchDetailedProduct(new WebService.ApiResultCallBack() {
             @Override
             public void onSuccess(Object response) {
+                mView.showProgressbar();
                 mView.showDetail((DetailedProduct) response);
+                mView.hideProgressbar();
             }
 
             @Override

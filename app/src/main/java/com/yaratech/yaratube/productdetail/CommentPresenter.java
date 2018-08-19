@@ -23,6 +23,7 @@ public class CommentPresenter implements CommentContract.Presenter {
         commentRepo.fetchCommentByProductId(new WebService.ApiResultCallBack() {
             @Override
             public void onSuccess(Object response) {
+
                 mView.showComments((List) response);
             }
 

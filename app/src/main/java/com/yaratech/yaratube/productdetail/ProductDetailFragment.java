@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +38,9 @@ public class ProductDetailFragment extends Fragment implements
     private TextView title;
     private TextView description;
     private RecyclerView mCommentRecycler;
+    private ProgressBar mProgressBar;
+
+
     private CommentAdapter adapter;
     private CommentContract.Presenter mPresenter;
     private DetailContract.Presenter mDetailPresenter;
@@ -59,12 +63,13 @@ public class ProductDetailFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter = new CommentPresenter(this , getActivity().getApplicationContext());
-        mDetailPresenter = new DetailPresenter(this,getActivity().getApplicationContext());
+        mPresenter = new CommentPresenter(this, getActivity().getApplicationContext());
+        mDetailPresenter = new DetailPresenter(this, getActivity().getApplicationContext());
 
         mImageView = view.findViewById(R.id.imageView);
         title = view.findViewById(R.id.product_detail_title_tv);
         description = view.findViewById(R.id.product_detail_description_tv);
+        mProgressBar = view.findViewById(R.id.product_detail_progress_bar);
 
         mCommentRecycler = view.findViewById(R.id.product_detail_comment_recycler);
         adapter = new CommentAdapter();
@@ -100,6 +105,11 @@ public class ProductDetailFragment extends Fragment implements
     }
 
     @Override
+    public void showProgressbar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void showDetail(DetailedProduct product) {
         mDetailedProduct = product;
 
@@ -107,5 +117,10 @@ public class ProductDetailFragment extends Fragment implements
                 .into(mImageView);
         title.setText(mDetailedProduct.getName());
         description.setText(mDetailedProduct.getDescription());
+    }
+
+    @Override
+    public void hideProgressbar() {
+        mProgressBar.setVisibility(View.GONE);
     }
 }

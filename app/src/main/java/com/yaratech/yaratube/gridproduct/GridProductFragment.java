@@ -50,7 +50,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
 
         mPresenter = new GridProductPresenter(this, getActivity().getApplicationContext());
 
-        //mProgressBar = view.findViewById(R.id.store_progress_bar);
+        mProgressBar = view.findViewById(R.id.grid_product_progress_bar);
         mRecyclerView = view.findViewById(R.id.product_of_category_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         adapter = new GridProductAdapter(getContext(), mOnProductClickListener);
@@ -85,18 +85,17 @@ public class GridProductFragment extends Fragment implements GridProductContract
 
     @Override
     public void showProducts(List<Product> list) {
-        Log.d("name", list.get(0).getName());
         adapter.setProductList(list);
     }
 
     @Override
     public void showProgressBar() {
-        // mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        // mProgressBar.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
