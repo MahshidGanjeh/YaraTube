@@ -1,24 +1,20 @@
 package com.yaratech.yaratube;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
-import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.gridproduct.ProductFragment;
+
+import com.yaratech.yaratube.gridproduct.GridProductFragment;
 import com.yaratech.yaratube.home.HomeFragment;
-import com.yaratech.yaratube.home.category.CategoryFragment;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 
 public class MainActivity extends AppCompatActivity implements
         onCategoryClickListener, onProductClickListener {
 
     FragmentManager manager = getSupportFragmentManager();
-    private ProductFragment mProductFragment;
+    private GridProductFragment mGridProductFragment;
     private ProductDetailFragment productDetailFragment;
 
     //@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -36,15 +32,17 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onCategoryClicked(int categoryId) {
-        mProductFragment = ProductFragment.newInstance(categoryId);
+        mGridProductFragment = GridProductFragment.newInstance(categoryId);
         Toast.makeText(getApplicationContext(), String.valueOf(categoryId), Toast.LENGTH_SHORT).show();
-        manager.beginTransaction().addToBackStack("products").add(R.id.main_container, mProductFragment).commit();
+        manager.beginTransaction().addToBackStack("products")
+                .add(R.id.main_container, mGridProductFragment).commit();
     }
 
     @Override
     public void goToProductDetail(int pid) {
         productDetailFragment = ProductDetailFragment.newInstance(pid);
         //Toast.makeText(getApplicationContext(), String.valueOf(p.getName()), Toast.LENGTH_SHORT).show();
-        manager.beginTransaction().addToBackStack("detail").add(R.id.main_container, productDetailFragment).commit();
+        manager.beginTransaction().addToBackStack("detail")
+                .add(R.id.main_container, productDetailFragment).commit();
     }
 }

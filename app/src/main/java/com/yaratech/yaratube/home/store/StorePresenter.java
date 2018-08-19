@@ -1,17 +1,20 @@
 package com.yaratech.yaratube.home.store;
 
+import android.content.Context;
+
 import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.source.Repository;
 import com.yaratech.yaratube.data.source.WebService;
+import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 
 public class StorePresenter implements StoreContract.Presenter {
 
     private StoreContract.View mView;
     private Repository homeItemRepo;
 
-    public StorePresenter(final StoreContract.View mView) {
+    public StorePresenter(final StoreContract.View mView , Context context) {
         this.mView = mView;
-        homeItemRepo = new Repository();
+        homeItemRepo = new Repository(new RemoteDataSource(context));
     }
 
     @Override

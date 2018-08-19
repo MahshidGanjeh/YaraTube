@@ -49,7 +49,7 @@ public class StoreFragment extends Fragment implements StoreContract.View,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter = new StorePresenter(this);
+        mPresenter = new StorePresenter(this, getActivity().getApplicationContext());
 
         mProgressBar = view.findViewById(R.id.store_progress_bar);
         mRecyclerView = view.findViewById(R.id.store_recycler);

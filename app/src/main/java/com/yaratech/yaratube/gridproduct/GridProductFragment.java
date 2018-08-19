@@ -23,17 +23,17 @@ import com.yaratech.yaratube.onProductClickListener;
 
 import java.util.List;
 
-public class ProductFragment extends Fragment implements ProductContract.View,
+public class GridProductFragment extends Fragment implements GridProductContract.View,
         onProductClickListener {
 
-    private ProductContract.Presenter mPresenter;
+    private GridProductContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
-    private ProductAdapter adapter;
+    private GridProductAdapter adapter;
     private ProgressBar mProgressBar;
     private onProductClickListener mOnProductClickListener;
     private static int mCategoryId;
 
-    public ProductFragment() {
+    public GridProductFragment() {
         // Required empty public constructor
     }
 
@@ -41,19 +41,19 @@ public class ProductFragment extends Fragment implements ProductContract.View,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product, container, false);
+        return inflater.inflate(R.layout.fragment_grid_product, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter = new ProductPresenter(this);
+        mPresenter = new GridProductPresenter(this, getActivity().getApplicationContext());
 
         //mProgressBar = view.findViewById(R.id.store_progress_bar);
         mRecyclerView = view.findViewById(R.id.product_of_category_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        adapter = new ProductAdapter(getContext(), mOnProductClickListener);
+        adapter = new GridProductAdapter(getContext(), mOnProductClickListener);
 
         mRecyclerView.setAdapter(adapter);
 
@@ -73,12 +73,12 @@ public class ProductFragment extends Fragment implements ProductContract.View,
 
     }
 
-    public static ProductFragment newInstance(int categoryId) {
+    public static GridProductFragment newInstance(int categoryId) {
 
         Bundle args = new Bundle();
         args.putInt("categoryId", categoryId);
 
-        ProductFragment fragment = new ProductFragment();
+        GridProductFragment fragment = new GridProductFragment();
         fragment.setArguments(args);
         return fragment;
     }

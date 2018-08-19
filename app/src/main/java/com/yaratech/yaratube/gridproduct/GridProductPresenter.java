@@ -1,19 +1,21 @@
 package com.yaratech.yaratube.gridproduct;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.yaratech.yaratube.data.source.Repository;
 import com.yaratech.yaratube.data.source.WebService;
+import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 
 import java.util.List;
 
-public class ProductPresenter implements ProductContract.Presenter {
+public class GridProductPresenter implements GridProductContract.Presenter {
 
     private Repository productsRepo;
-    private ProductContract.View mView;
+    private GridProductContract.View mView;
 
-    public ProductPresenter(ProductContract.View mView) {
-        this.productsRepo = new Repository();
+    public GridProductPresenter(GridProductContract.View mView , Context context) {
+        this.productsRepo = new Repository(new RemoteDataSource(context));
         this.mView = mView;
     }
 

@@ -59,8 +59,8 @@ public class ProductDetailFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter = new CommentPresenter(this);
-        mDetailPresenter = new DetailPresenter(this);
+        mPresenter = new CommentPresenter(this , getActivity().getApplicationContext());
+        mDetailPresenter = new DetailPresenter(this,getActivity().getApplicationContext());
 
         mImageView = view.findViewById(R.id.imageView);
         title = view.findViewById(R.id.product_detail_title_tv);
@@ -96,7 +96,6 @@ public class ProductDetailFragment extends Fragment implements
 
     @Override
     public void showComments(List<Comment> list) {
-        Log.d("cm", list.get(2).getTitle());
         adapter.setCommentList(list);
     }
 
@@ -104,7 +103,6 @@ public class ProductDetailFragment extends Fragment implements
     public void showDetail(DetailedProduct product) {
         mDetailedProduct = product;
 
-        Log.e("pidd", mDetailedProduct.getName());
         Glide.with(getContext()).load(BASE_URL + mDetailedProduct.getAvatar().getHdpi())
                 .into(mImageView);
         title.setText(mDetailedProduct.getName());

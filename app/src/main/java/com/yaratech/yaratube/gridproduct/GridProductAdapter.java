@@ -14,29 +14,29 @@ import com.yaratech.yaratube.onProductClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
+public class GridProductAdapter extends RecyclerView.Adapter<GridProductViewHolder> {
 
     private List<Product> mProductList = new ArrayList<>();
     private onProductClickListener mProductClickListener;
     private Context context;
 
-    public ProductAdapter(Context context,onProductClickListener listener) {
+    public GridProductAdapter(Context context, onProductClickListener listener) {
         this.context = context;
         mProductClickListener = listener;
     }
 
     @NonNull
     @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GridProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.product_item, parent, false);
-        ProductViewHolder viewHolder = new ProductViewHolder(rootView);
+        GridProductViewHolder viewHolder = new GridProductViewHolder(rootView);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull GridProductViewHolder holder, final int position) {
         holder.onBind(context, mProductList.get(position));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

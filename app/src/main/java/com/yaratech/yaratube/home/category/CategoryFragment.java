@@ -48,7 +48,7 @@ public class CategoryFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter = new CategoryPresenter(this);
+        mPresenter = new CategoryPresenter(this, getActivity().getApplicationContext());
 
         mProgressBar = view.findViewById(R.id.category_progress_bar);
         mRecyclerView = view.findViewById(R.id.category_recycler);

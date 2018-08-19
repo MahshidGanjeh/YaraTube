@@ -4,7 +4,7 @@ import com.yaratech.yaratube.data.model.Product;
 
 import java.util.List;
 
-public interface ProductContract {
+public interface GridProductContract {
 
     interface View {
 

@@ -13,17 +13,19 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+import static com.yaratech.yaratube.util.AppConstants.STORE_ID;
+
 public interface ApiService {
 
     //mainpage content
-    @GET("store/16")
+    @GET("store/" + STORE_ID)
     Call<Store> getStore();
 
     //vertical list of categories
-    @GET("category/16/463")
+    @GET("category/" + STORE_ID + "/463")
     Call<List<Category>> getCategories();
 
-    //products of a category by category id
+    //products of a category by category id (Grid product page)
     @GET("listproducts/{category_id}")
     Call<List<Product>> getProductsByCategoryId(@Path("category_id") int categoryId);
 

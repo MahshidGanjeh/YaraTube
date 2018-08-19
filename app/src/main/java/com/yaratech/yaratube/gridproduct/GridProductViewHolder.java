@@ -12,13 +12,13 @@ import com.yaratech.yaratube.data.model.Product;
 
 import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
 
-public class ProductViewHolder extends RecyclerView.ViewHolder {
+public class GridProductViewHolder extends RecyclerView.ViewHolder {
 
     private TextView title;
     private ImageView imageView;
     private TextView description;
 
-    public ProductViewHolder(View itemView) {
+    public GridProductViewHolder(View itemView) {
         super(itemView);
         title = itemView.findViewById(R.id.home_item_name_tv);
         description = itemView.findViewById(R.id.home_item_des_tv);
