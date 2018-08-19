@@ -100,7 +100,7 @@ public class ProductFragment extends Fragment implements ProductContract.View,
     }
 
     @Override
-    public void onProductClicked(Product p) {
-        mOnProductClickListener.onProductClicked(p);
+    public void goToProductDetail(int pid) {
+        mOnProductClickListener.goToProductDetail(pid);
     }
 }

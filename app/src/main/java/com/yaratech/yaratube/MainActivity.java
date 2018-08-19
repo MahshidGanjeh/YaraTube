@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onProductClicked(Product p) {
-        productDetailFragment = ProductDetailFragment.newInstance(p);
-        Toast.makeText(getApplicationContext(), String.valueOf(p.getName()), Toast.LENGTH_SHORT).show();
+    public void goToProductDetail(int pid) {
+        productDetailFragment = ProductDetailFragment.newInstance(pid);
+        //Toast.makeText(getApplicationContext(), String.valueOf(p.getName()), Toast.LENGTH_SHORT).show();
         manager.beginTransaction().addToBackStack("detail").add(R.id.main_container, productDetailFragment).commit();
     }
 }

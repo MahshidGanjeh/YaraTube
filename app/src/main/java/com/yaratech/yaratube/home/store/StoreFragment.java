@@ -1,6 +1,7 @@
 package com.yaratech.yaratube.home.store;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,14 +15,18 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.R;
+import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
+import com.yaratech.yaratube.onProductClickListener;
 
-public class StoreFragment extends Fragment implements StoreContract.View {
+public class StoreFragment extends Fragment implements StoreContract.View,
+        onProductClickListener {
 
     private StoreContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
     private StoreAdapter adapter;
     private ProgressBar mProgressBar;
+    onProductClickListener listener;
 
     public StoreFragment() {
         // Required empty public constructor
@@ -35,6 +40,12 @@ public class StoreFragment extends Fragment implements StoreContract.View {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (onProductClickListener) context;
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -43,7 +54,7 @@ public class StoreFragment extends Fragment implements StoreContract.View {
         mProgressBar = view.findViewById(R.id.store_progress_bar);
         mRecyclerView = view.findViewById(R.id.store_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new StoreAdapter(getContext(),getChildFragmentManager());
+        adapter = new StoreAdapter(getContext(), getChildFragmentManager(), this);
 
         mRecyclerView.setAdapter(adapter);
 
@@ -52,7 +63,7 @@ public class StoreFragment extends Fragment implements StoreContract.View {
 
     @Override
     public void showHomeItems(Store store) {
-        Log.d("name" ,store.getHomeitem().get(0).getTitle());
+        Log.d("name", store.getHomeitem().get(0).getTitle());
         adapter.setItemList(store);
     }
 
@@ -64,5 +75,10 @@ public class StoreFragment extends Fragment implements StoreContract.View {
     @Override
     public void hideProgressBar() {
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void goToProductDetail(int p) {
+        listener.goToProductDetail(p);
     }
 }

@@ -42,10 +42,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProductClickListener.onProductClicked(mProductList.get(position));
+                mProductClickListener.goToProductDetail(mProductList.get(position).getId());
             }
         });
-
     }
 
     @Override

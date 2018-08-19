@@ -19,7 +19,7 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(Comment comment) {
-        title.setText(comment.getTitle());
+        title.setText(comment.getUser());
         text.setText(comment.getCommentText());
     }
 }

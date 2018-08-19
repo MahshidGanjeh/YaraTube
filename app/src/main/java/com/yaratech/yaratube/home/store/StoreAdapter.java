@@ -9,19 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
+import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
+import com.yaratech.yaratube.onProductClickListener;
 
-public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements onProductClickListener {
 
     private static final int HEADERITEM_VIEWTYPE = 0;
     private static final int HOMEITEM_VIEWTYPE = 1;
     private Store mStore = new Store();
     private Context mContext;
     private FragmentManager manager;
+    private onProductClickListener listener;
 
-    public StoreAdapter(Context context, FragmentManager manager) {
+    public StoreAdapter(Context context, FragmentManager manager, onProductClickListener listener) {
         this.mContext = context;
         this.manager = manager;
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,8 +55,8 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         } else if (holder instanceof HomeItemViewHolder) {
             HomeItemViewHolder vh = (HomeItemViewHolder) holder;
-            vh.onBind(mStore.getHomeitem().get(position -1 ), mContext,
-                    mStore.getHomeitem(), position - 1);
+            vh.onBind(mStore.getHomeitem().get(position - 1), mContext,
+                    mStore.getHomeitem(), position - 1, this);
         }
     }
 
@@ -73,5 +78,10 @@ public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return HEADERITEM_VIEWTYPE;
         } else
             return HOMEITEM_VIEWTYPE;
+    }
+
+    @Override
+    public void goToProductDetail(int p) {
+        listener.goToProductDetail(p);
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,15 +18,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Comment;
+import com.yaratech.yaratube.data.model.DetailedProduct;
 import com.yaratech.yaratube.data.model.Product;
+import com.yaratech.yaratube.data.source.Repository;
+import com.yaratech.yaratube.data.source.WebService;
 
 import org.parceler.Parcels;
 
 import java.util.List;
 
+import static android.widget.LinearLayout.VERTICAL;
 import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
 
-public class ProductDetailFragment extends Fragment implements CommentContract.View {
+public class ProductDetailFragment extends Fragment implements
+        CommentContract.View, DetailContract.View {
 
     private ImageView mImageView;
     private TextView title;
@@ -33,9 +39,10 @@ public class ProductDetailFragment extends Fragment implements CommentContract.V
     private RecyclerView mCommentRecycler;
     private CommentAdapter adapter;
     private CommentContract.Presenter mPresenter;
+    private DetailContract.Presenter mDetailPresenter;
 
-
-    private Product product;
+    private int mProductId;
+    private DetailedProduct mDetailedProduct;
 
     public ProductDetailFragment() {
         // Required empty public constructor
@@ -53,6 +60,7 @@ public class ProductDetailFragment extends Fragment implements CommentContract.V
         super.onViewCreated(view, savedInstanceState);
 
         mPresenter = new CommentPresenter(this);
+        mDetailPresenter = new DetailPresenter(this);
 
         mImageView = view.findViewById(R.id.imageView);
         title = view.findViewById(R.id.product_detail_title_tv);
@@ -61,20 +69,20 @@ public class ProductDetailFragment extends Fragment implements CommentContract.V
         mCommentRecycler = view.findViewById(R.id.product_detail_comment_recycler);
         adapter = new CommentAdapter();
 
-        Glide.with(getContext()).load(BASE_URL + product.getAvatar().getHdpi())
-                .into(mImageView);
-        title.setText(product.getName());
-        description.setText(product.getShortDescription());
 
         mCommentRecycler.setAdapter(adapter);
+        DividerItemDecoration itemDecor = new
+                DividerItemDecoration(mCommentRecycler.getContext(), VERTICAL);
+        mCommentRecycler.addItemDecoration(itemDecor);
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mPresenter.loadComments(33229);
+        mDetailPresenter.loadDetail(mProductId);
+        mPresenter.loadComments(mProductId);
     }
 
-    public static ProductDetailFragment newInstance(Product p) {
+    public static ProductDetailFragment newInstance(int p) {
         Bundle args = new Bundle();
-        args.putParcelable("product", Parcels.wrap(p));
+        args.putInt("pid", p);
         ProductDetailFragment fragment = new ProductDetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -83,12 +91,23 @@ public class ProductDetailFragment extends Fragment implements CommentContract.V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        product = Parcels.unwrap(getArguments().getParcelable("product"));
+        mProductId = getArguments().getInt("pid");
     }
 
     @Override
     public void showComments(List<Comment> list) {
-        Log.d("cm", list.get(2).getCommentText());
+        Log.d("cm", list.get(2).getTitle());
         adapter.setCommentList(list);
+    }
+
+    @Override
+    public void showDetail(DetailedProduct product) {
+        mDetailedProduct = product;
+
+        Log.e("pidd", mDetailedProduct.getName());
+        Glide.with(getContext()).load(BASE_URL + mDetailedProduct.getAvatar().getHdpi())
+                .into(mImageView);
+        title.setText(mDetailedProduct.getName());
+        description.setText(mDetailedProduct.getDescription());
     }
 }

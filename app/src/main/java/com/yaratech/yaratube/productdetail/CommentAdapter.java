@@ -30,9 +30,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         holder.onBind(mCommentList.get(position));
-        if (mCommentList != null) {
-            Log.d("hey", mCommentList.get(0).getCommentText());
-        }
     }
 
     @Override
