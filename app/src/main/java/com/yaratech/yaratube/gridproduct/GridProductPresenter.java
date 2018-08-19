@@ -28,7 +28,6 @@ public class GridProductPresenter implements GridProductContract.Presenter {
                 mView.showProducts((List) response);
                 mView.hideProgressBar();
             }
-
             @Override
             public void onFail(Object message) {
                 Log.d("hey", String.valueOf(message));

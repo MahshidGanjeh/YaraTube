@@ -4,9 +4,8 @@
     <string name="title_bottom_nav_category">دسته بندی ها</string>
     <string name="title_bottom_nav_home">صفحه اصلی</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="description">توضیحات</string>
     <string name="user_comment">نظرات کاربران</string>
     <string name="leave_comment">نظر دهید</string>
+    <string name="checking_internet">مشکل اتصال به اینترنت </string>
 </resources>
