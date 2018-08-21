@@ -114,7 +114,7 @@ public class ProductDetailFragment extends Fragment implements
     public void showDetail(DetailedProduct product) {
         mDetailedProduct = product;
 
-        Glide.with(getContext()).load(BASE_URL + mDetailedProduct.getAvatar().getHdpi())
+        Glide.with(getContext()).load(BASE_URL + mDetailedProduct.getFeatureAvatar().getHdpi())
                 .into(mImageView);
         title.setText(mDetailedProduct.getName());
         description.setText(mDetailedProduct.getDescription());

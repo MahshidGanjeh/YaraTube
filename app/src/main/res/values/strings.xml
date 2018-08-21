@@ -1,12 +1,26 @@
 <resources>
     <string name="app_name">یارا تیوب</string>
 
+    <!--bottom navigation items-->
     <string name="title_bottom_nav_category">دسته بندی ها</string>
     <string name="title_bottom_nav_home">صفحه اصلی</string>
+
+    <!--nav drawer items-->
+    <string name="title_username">نام کاربر</string>
+    <string name="title_profile">پروفایل</string>
+    <string name="title_aboutus">درباره ما</string>
+    <string name="title_calltous">تماس با ما</string>
+
+    <!--profile page titles-->
+    <string name="title_profile_username">نام نمایشی</string>
+    <string name="title_profile_sex">جنسیت</string>
+    <string name="title_profile_birthday">تاریخ تولد</string>
 
     <string name="description">توضیحات</string>
     <string name="user_comment">نظرات کاربران</string>
     <string name="leave_comment">نظر دهید</string>
     <string name="checking_internet">مشکل اتصال به اینترنت </string>
     <string name="descrption_not_found">توضیحات موجود نیست</string>
+
+
 </resources>
