@@ -1,5 +1,6 @@
 package com.yaratech.yaratube.home.store;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Headeritem;
+import com.yaratech.yaratube.onProductClickListener;
 
 import org.parceler.Parcels;
 
@@ -22,13 +25,15 @@ public class HeaderItemFragment extends Fragment {
 
     private Headeritem mHeaderitem;
     private ImageView mHeaderImageView;
+    private static onProductClickListener mListener;
 
     public HeaderItemFragment() {
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.header_item, container, false);
         return rootView;
     }
@@ -43,8 +48,23 @@ public class HeaderItemFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "tttt", Toast.LENGTH_SHORT).show();
+                mListener.goToProductDetail(mHeaderitem.getId());
+            }
+        });
+
         mHeaderImageView = view.findViewById(R.id.header_imgView);
-        Glide.with(view.getContext()).load(BASE_URL + mHeaderitem.getFeatureAvatar().getHdpi()).into(mHeaderImageView);
+        Glide.with(view.getContext()).load(BASE_URL +
+                mHeaderitem.getFeatureAvatar().getHdpi()).into(mHeaderImageView);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (onProductClickListener) context;
     }
 
     public static HeaderItemFragment newInstance(Headeritem headeritem) {
@@ -56,4 +76,5 @@ public class HeaderItemFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 }

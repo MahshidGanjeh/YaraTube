@@ -63,7 +63,6 @@ public class StoreFragment extends Fragment implements StoreContract.View,
 
     @Override
     public void showHomeItems(Store store) {
-        Log.d("name", store.getHomeitem().get(0).getTitle());
         adapter.setItemList(store);
     }
 

@@ -4,13 +4,17 @@ package com.yaratech.yaratube.home.store;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
 import com.yaratech.yaratube.data.model.Headeritem;
+import com.yaratech.yaratube.onProductClickListener;
+
 import java.util.List;
 
 
-public class CustomPagerAdapter extends FragmentStatePagerAdapter {
+public class CustomPagerAdapter extends FragmentStatePagerAdapter implements onProductClickListener {
 
     private List<Headeritem> mHeaderitems;
+
 
     public CustomPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -31,6 +35,11 @@ public class CustomPagerAdapter extends FragmentStatePagerAdapter {
     public void setHeaderitems(List<Headeritem> mHeaderitems) {
         notifyDataSetChanged();
         this.mHeaderitems = mHeaderitems;
+    }
+
+    @Override
+    public void goToProductDetail(int pid) {
+
     }
 }
 

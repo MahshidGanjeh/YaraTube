@@ -80,6 +80,7 @@ public class ProductDetailFragment extends Fragment implements
                 DividerItemDecoration(mCommentRecycler.getContext(), VERTICAL);
         mCommentRecycler.addItemDecoration(itemDecor);
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        mCommentRecycler.setNestedScrollingEnabled(false);
 
         mDetailPresenter.loadDetail(mProductId);
         mPresenter.loadComments(mProductId);
