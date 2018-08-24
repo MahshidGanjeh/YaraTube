@@ -71,9 +71,9 @@ public class PhoneNumberDialogFragment extends DialogFragment {
                 remoteDataSource.postPhoneNumber(new WebService.ApiResultCallBack() {
                                                      @Override
                                                      public void onSuccess(Object response) {
-                                                         Toast.makeText(getContext(),
+                                                         /*Toast.makeText(getContext(),
                                                                  ((Login) response).getMessage(),
-                                                                 Toast.LENGTH_SHORT).show();
+                                                                 Toast.LENGTH_SHORT).show();*/
                                                      }
 
                                                      @Override
