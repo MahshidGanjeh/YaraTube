@@ -27,6 +27,13 @@
     <string name="title_via_phonenumber">از طریق شماره موبایل</string>
     <string name="title_via_google">از طریق حساب گوگل</string>
     <string name="title_enter">ورود</string>
+    <string name="enter_via_phonenumber">ورود از طریق شماره موبایل</string>
+    <string name="enter_phone_number">شماره موبایل خود را وارد کنید</string>
+    <string name="confirm_btn">ثبت</string>
+    <string name="enter_verificationcode">کد فعالسازی را وارد کنید</string>
+    <string name="verification_code">کد فعالسازی</string>
+    <string name="not_receive_thecode">کد را دریافت نکردید؟</string>
+    <string name="edit_phonenumber">تصحیح شماره</string>
 
 
 </resources>
