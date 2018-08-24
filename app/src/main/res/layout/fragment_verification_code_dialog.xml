@@ -19,6 +19,7 @@
         android:textColor="#000" />
 
     <EditText
+        android:id="@+id/enter_verification_code_et"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:hint="@string/verification_code"
@@ -46,6 +47,7 @@
             android:textColorHint="@color/colorPrimary" />
 
         <Button
+            android:id="@+id/confirm_verificationcode_btn"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_gravity="right"

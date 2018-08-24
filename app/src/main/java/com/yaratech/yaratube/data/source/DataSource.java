@@ -15,4 +15,8 @@ public interface DataSource {
     void postPhoneNumber(WebService.ApiResultCallBack callBack,
                          String phoneNumber, String device_id, String device_model,
                          String device_os);
+
+    void postVerificationCode(WebService.ApiResultCallBack callBack,
+                              String phoneNumber, String device_id, String verificationCode,
+                              String nickName);
 }

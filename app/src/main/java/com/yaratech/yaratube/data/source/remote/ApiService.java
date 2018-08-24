@@ -6,6 +6,7 @@ import com.yaratech.yaratube.data.model.DetailedProduct;
 import com.yaratech.yaratube.data.model.Login;
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
+import com.yaratech.yaratube.data.model.User;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ public interface ApiService {
     Call<DetailedProduct> getDetailedProductByProductId(@Path("product_id") int productId);
 
     //mobile login step one
+    //sen phoneNumber and get verification code
     @POST("mobile_login_step1/" + STORE_ID)
     @FormUrlEncoded
     Call<Login> postPhoneNumber(@Field("mobile") String mobileNumber,
@@ -50,6 +52,16 @@ public interface ApiService {
                                 @Field("device_model") String deviceModel,
                                 @Field("device_os") String deviceOs
     );
+    //mobile login step two
+    //send verification code and get token id
+    @POST("mobile_login_step2/" + STORE_ID)
+    @FormUrlEncoded
+    Call<User> postVerificationCode(@Field("mobile") String mobileNumber,
+                                    @Field("device_id") String deviceId,
+                                    @Field("verification_code") String verificationCode,
+                                    @Field("nickname") String nickName
+    );
+
 
 
 }

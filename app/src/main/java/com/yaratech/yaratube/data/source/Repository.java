@@ -54,4 +54,13 @@ public class Repository implements DataSource {
             , String id, String model, String os) {
         mRemoteDataSource.postPhoneNumber(callBack, p, id, model, os);
     }
+
+    @Override
+    public void postVerificationCode(WebService.ApiResultCallBack callBack,
+                                     String phoneNumber, String device_id,
+                                     String verificationCode, String nickName) {
+        mRemoteDataSource.postVerificationCode(callBack, phoneNumber,
+                device_id, verificationCode, nickName);
+
+    }
 }
