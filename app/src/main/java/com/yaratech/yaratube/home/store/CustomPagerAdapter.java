@@ -2,11 +2,10 @@ package com.yaratech.yaratube.home.store;
 
 
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.yaratech.yaratube.data.model.Headeritem;
-import com.yaratech.yaratube.onProductClickListener;
+import com.yaratech.yaratube.util.onProductClickListener;
 
 import java.util.List;
 

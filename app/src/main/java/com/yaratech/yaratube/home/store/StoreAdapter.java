@@ -9,9 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
-import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
-import com.yaratech.yaratube.onProductClickListener;
+import com.yaratech.yaratube.util.onProductClickListener;
 
 public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements onProductClickListener {

@@ -24,6 +24,7 @@
         android:background="@color/colorPrimary"
         android:drawableRight="@drawable/smartphone__1_"
         android:text="@string/title_via_phonenumber"
+        android:id="@+id/via_phone_number_btn"
         android:textColor="#FFF" />
 
     <Button

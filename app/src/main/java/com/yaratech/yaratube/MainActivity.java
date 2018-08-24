@@ -13,14 +13,26 @@ import android.widget.Toast;
 import com.yaratech.yaratube.gridproduct.GridProductFragment;
 import com.yaratech.yaratube.home.HomeFragment;
 import com.yaratech.yaratube.login.LoginDialogFragment;
+import com.yaratech.yaratube.login.PhoneNumberDialogFragment;
+import com.yaratech.yaratube.login.VerificationCodeDialogFragment;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
+import com.yaratech.yaratube.util.onCategoryClickListener;
+import com.yaratech.yaratube.util.onConfirmBtnClickListener;
+import com.yaratech.yaratube.util.onPhoneNumberBtnListener;
+import com.yaratech.yaratube.util.onProductClickListener;
 
 public class MainActivity extends AppCompatActivity implements
-        onCategoryClickListener, onProductClickListener {
+        onCategoryClickListener, onProductClickListener, onPhoneNumberBtnListener,
+        onConfirmBtnClickListener {
 
 
     private GridProductFragment mGridProductFragment;
     private ProductDetailFragment productDetailFragment;
+    private LoginDialogFragment mLoginDialogFragment;
+    private PhoneNumberDialogFragment mPhoneNumberDialogFragment;
+    private VerificationCodeDialogFragment mVerificationCodeDialogFragment;
+
+
     private NavigationView mDrawerNavigationView;
     private DrawerLayout drawer;
 
@@ -46,8 +58,14 @@ public class MainActivity extends AppCompatActivity implements
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.drawer_profile:
-                        LoginDialogFragment dialogFragment = new LoginDialogFragment();
-                        dialogFragment.show(manager.beginTransaction(),"dialog");
+                        if (mLoginDialogFragment != null) {
+                            manager.beginTransaction().remove(mLoginDialogFragment);
+                        }
+                        manager.beginTransaction().addToBackStack(null);
+
+                        mLoginDialogFragment = new LoginDialogFragment();
+                        mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
+
                         drawer.closeDrawers();
                         return true;
                     case R.id.drawer_aboutous:
@@ -72,5 +90,32 @@ public class MainActivity extends AppCompatActivity implements
         //Toast.makeText(getApplicationContext(), String.valueOf(p.getName()), Toast.LENGTH_SHORT).show();
         manager.beginTransaction().addToBackStack("detail")
                 .add(R.id.main_container, productDetailFragment).commit();
+    }
+
+    @Override
+    public void goToPhoneNumberDialog() {
+
+        mLoginDialogFragment.dismiss();
+
+        if (mPhoneNumberDialogFragment != null) {
+            manager.beginTransaction().remove(mPhoneNumberDialogFragment);
+        }
+        manager.beginTransaction().addToBackStack(null).commit();
+        mPhoneNumberDialogFragment = new PhoneNumberDialogFragment();
+
+        mPhoneNumberDialogFragment.show(manager.beginTransaction(), "phonenumber");
+    }
+
+    @Override
+    public void goToVerificationDialog() {
+        mPhoneNumberDialogFragment.dismiss();
+
+        if (mVerificationCodeDialogFragment != null) {
+            manager.beginTransaction().remove(mVerificationCodeDialogFragment);
+        }
+        manager.beginTransaction().addToBackStack(null);
+        
+        mVerificationCodeDialogFragment = new VerificationCodeDialogFragment();
+        mVerificationCodeDialogFragment.show(manager.beginTransaction(), "verificationcode");
     }
 }

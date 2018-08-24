@@ -15,11 +15,10 @@ import com.yaratech.yaratube.R;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.onProductClickListener;
+import com.yaratech.yaratube.util.onProductClickListener;
 
 import java.util.List;
 

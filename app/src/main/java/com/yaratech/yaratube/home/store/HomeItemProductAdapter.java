@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.onProductClickListener;
+import com.yaratech.yaratube.util.onProductClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

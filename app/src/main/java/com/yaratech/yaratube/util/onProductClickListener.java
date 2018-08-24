@@ -1,8 +1,8 @@
-package com.yaratech.yaratube;
+package com.yaratech.yaratube.util;
 
-import com.yaratech.yaratube.data.model.Product;
 
 public interface onProductClickListener {
 
     void goToProductDetail(int pid);
+
 }

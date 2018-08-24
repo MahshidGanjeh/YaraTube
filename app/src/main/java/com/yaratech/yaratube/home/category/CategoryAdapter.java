@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Category;
-import com.yaratech.yaratube.onCategoryClickListener;
+import com.yaratech.yaratube.util.onCategoryClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

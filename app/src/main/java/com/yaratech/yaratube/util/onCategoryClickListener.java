@@ -1,4 +1,4 @@
-package com.yaratech.yaratube;
+package com.yaratech.yaratube.util;
 
 public interface onCategoryClickListener {
 
