@@ -1,23 +1,20 @@
 package com.yaratech.yaratube;
 
-import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 
 import com.yaratech.yaratube.gridproduct.GridProductFragment;
 import com.yaratech.yaratube.home.HomeFragment;
-import com.yaratech.yaratube.login.LoginDialogFragment;
-import com.yaratech.yaratube.login.PhoneNumberDialogFragment;
-import com.yaratech.yaratube.login.VerificationCodeDialogFragment;
+import com.yaratech.yaratube.login.MobileLoginDialogFragment;
+import com.yaratech.yaratube.login.EnterPhoneNumberDialogFragment;
+import com.yaratech.yaratube.login.EnterVerificationCodeDialogFragment;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 import com.yaratech.yaratube.util.onCategoryClickListener;
 import com.yaratech.yaratube.util.onConfirmBtnClickListener;
@@ -31,9 +28,9 @@ public class MainActivity extends AppCompatActivity implements
 
     private GridProductFragment mGridProductFragment;
     private ProductDetailFragment mProductDetailFragment;
-    private LoginDialogFragment mLoginDialogFragment;
-    private PhoneNumberDialogFragment mPhoneNumberDialogFragment;
-    private VerificationCodeDialogFragment mVerificationCodeDialogFragment;
+    private MobileLoginDialogFragment mLoginDialogFragment;
+    private EnterPhoneNumberDialogFragment mPhoneNumberDialogFragment;
+    private EnterVerificationCodeDialogFragment mVerificationCodeDialogFragment;
 
 
     private NavigationView mDrawerNavigationView;
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements
                         }
                         manager.beginTransaction().addToBackStack(null);
 
-                        mLoginDialogFragment = new LoginDialogFragment();
+                        mLoginDialogFragment = new MobileLoginDialogFragment();
                         mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
 
                         drawer.closeDrawers();
@@ -103,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements
             manager.beginTransaction().remove(mPhoneNumberDialogFragment);
         }
         manager.beginTransaction().addToBackStack(null).commit();
-        mPhoneNumberDialogFragment = new PhoneNumberDialogFragment();
+        mPhoneNumberDialogFragment = new EnterPhoneNumberDialogFragment();
 
         mPhoneNumberDialogFragment.show(manager.beginTransaction(), "phonenumber");
     }
@@ -117,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements
         }
         manager.beginTransaction().addToBackStack(null);
 
-        mVerificationCodeDialogFragment = new VerificationCodeDialogFragment();
+        mVerificationCodeDialogFragment = new EnterVerificationCodeDialogFragment();
         mVerificationCodeDialogFragment.show(manager.beginTransaction(), "verificationcode");
     }
 }

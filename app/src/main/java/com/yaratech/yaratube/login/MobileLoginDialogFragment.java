@@ -15,13 +15,13 @@ import android.widget.Button;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.util.onPhoneNumberBtnListener;
 
-public class LoginDialogFragment extends DialogFragment {
+public class MobileLoginDialogFragment extends DialogFragment {
 
     private Button phoneNumber;
     private onPhoneNumberBtnListener numberBtnListener;
 
 
-    public LoginDialogFragment() {
+    public MobileLoginDialogFragment() {
         // Required empty public constructor
     }
 

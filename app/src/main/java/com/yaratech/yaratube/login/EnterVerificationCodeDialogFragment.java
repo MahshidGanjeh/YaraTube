@@ -19,14 +19,14 @@ import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 
-public class VerificationCodeDialogFragment extends DialogFragment {
+public class EnterVerificationCodeDialogFragment extends DialogFragment {
 
     private Button mConfirmVerificationCodeBtn;
     private EditText mConfirmVerificationCodeEditText;
     private RemoteDataSource mRemoteDataSource;
 
 
-    public VerificationCodeDialogFragment() {
+    public EnterVerificationCodeDialogFragment() {
         // Required empty public constructor
     }
 

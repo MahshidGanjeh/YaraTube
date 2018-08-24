@@ -7,7 +7,7 @@
     android:paddingBottom="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".login.VerificationCodeDialogFragment">
+    tools:context=".login.EnterVerificationCodeDialogFragment">
 
     <TextView
         android:layout_width="wrap_content"

@@ -174,9 +174,10 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void postVerificationCode(final WebService.ApiResultCallBack callBack,
-                                     String phoneNumber, String device_id,
-                                     String verificationCode, String nickName) {
+    public void
+    postVerificationCode(final WebService.ApiResultCallBack callBack,
+                         String phoneNumber, String device_id,
+                         String verificationCode, String nickName) {
 
         if (Network.isOnline(mContext)) {
             mApiService.postVerificationCode(phoneNumber, device_id, verificationCode, nickName)
@@ -185,6 +186,7 @@ public class RemoteDataSource implements DataSource {
                                  public void onResponse(Call<User> call, Response<User> response) {
                                      if (response.isSuccessful()) {
                                          callBack.onSuccess(response.body());
+                                         Toast.makeText(mContext, response.code(), Toast.LENGTH_SHORT).show();
                                          Log.d("code posted", "code posted");
                                      } else if (response.code() == 401) {
                                          Log.d("401", "mobile number is not valid");

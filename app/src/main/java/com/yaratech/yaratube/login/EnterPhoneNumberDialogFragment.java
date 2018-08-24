@@ -22,21 +22,21 @@ import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 import com.yaratech.yaratube.util.onConfirmBtnClickListener;
 
-public class PhoneNumberDialogFragment extends DialogFragment {
+public class EnterPhoneNumberDialogFragment extends DialogFragment
+        implements LoginContract.View {
 
-    private Button confirm;
+    private Button confirmPhoneNumberBtn;
+    private EditText enterPhoneNumberEditText;
     private onConfirmBtnClickListener mConfirmBtnClickListener;
-    private EditText getNumberEditText;
-
-    private RemoteDataSource remoteDataSource;
+    private LoginContract.Presenter mPresenter;
 
     //information of device to be sent to server
     private String deviceId;
-    private final String deviceModel = Build.MODEL;
-    private final String deviceOs = Build.VERSION.RELEASE;
+    private String deviceModel = Build.MODEL;
+    private String deviceOs = Build.VERSION.RELEASE;
 
 
-    public PhoneNumberDialogFragment() {
+    public EnterPhoneNumberDialogFragment() {
         // Required empty public constructor
     }
 
@@ -57,32 +57,27 @@ public class PhoneNumberDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        confirm = view.findViewById(R.id.confirm_phonenumber_btn);
-        getNumberEditText = view.findViewById(R.id.phone_number_et);
+        confirmPhoneNumberBtn = view.findViewById(R.id.confirm_phonenumber_btn);
+        enterPhoneNumberEditText = view.findViewById(R.id.phone_number_et);
 
         deviceId = Settings.Secure.getString(getContext()
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
-        remoteDataSource = new RemoteDataSource(view.getContext());
 
-        confirm.setOnClickListener(new View.OnClickListener() {
+
+        mPresenter = new LoginPresenter(this, view.getContext());
+
+        confirmPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mConfirmBtnClickListener.goToVerificationDialog();
-                remoteDataSource.postPhoneNumber(new WebService.ApiResultCallBack() {
-                                                     @Override
-                                                     public void onSuccess(Object response) {
-                                                         /*Toast.makeText(getContext(),
-                                                                 ((Login) response).getMessage(),
-                                                                 Toast.LENGTH_SHORT).show();*/
-                                                     }
-
-                                                     @Override
-                                                     public void onFail(Object message) {
-
-                                                     }
-                                                 }, getNumberEditText.getText().toString().trim()
-                        , deviceId, deviceModel, deviceOs);
+                mPresenter.present(enterPhoneNumberEditText.getText().toString(),
+                        deviceId, deviceModel, deviceOs);
             }
         });
+    }
+
+    @Override
+    public void show() {
+
     }
 }
