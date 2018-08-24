@@ -48,4 +48,10 @@ public class Repository implements DataSource {
     public void fetchDetailedProduct(WebService.ApiResultCallBack callBack, int pid) {
         mRemoteDataSource.fetchDetailedProduct(callBack, pid);
     }
+
+    @Override
+    public void postPhoneNumber(WebService.ApiResultCallBack callBack, String p
+            , String id, String model, String os) {
+        mRemoteDataSource.postPhoneNumber(callBack, p, id, model, os);
+    }
 }

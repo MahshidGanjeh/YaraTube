@@ -1,11 +1,14 @@
 package com.yaratech.yaratube;
 
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     private GridProductFragment mGridProductFragment;
-    private ProductDetailFragment productDetailFragment;
+    private ProductDetailFragment mProductDetailFragment;
     private LoginDialogFragment mLoginDialogFragment;
     private PhoneNumberDialogFragment mPhoneNumberDialogFragment;
     private VerificationCodeDialogFragment mVerificationCodeDialogFragment;
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements
         // getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         manager.beginTransaction().replace(R.id.main_container, new HomeFragment()).commit();
-
 
         mDrawerNavigationView = findViewById(R.id.drawer_navigation_view);
         drawer = findViewById(R.id.drawer);
@@ -86,10 +88,10 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void goToProductDetail(int pid) {
-        productDetailFragment = ProductDetailFragment.newInstance(pid);
+        mProductDetailFragment = ProductDetailFragment.newInstance(pid);
         //Toast.makeText(getApplicationContext(), String.valueOf(p.getName()), Toast.LENGTH_SHORT).show();
         manager.beginTransaction().addToBackStack("detail")
-                .add(R.id.main_container, productDetailFragment).commit();
+                .add(R.id.main_container, mProductDetailFragment).commit();
     }
 
     @Override
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements
             manager.beginTransaction().remove(mVerificationCodeDialogFragment);
         }
         manager.beginTransaction().addToBackStack(null);
-        
+
         mVerificationCodeDialogFragment = new VerificationCodeDialogFragment();
         mVerificationCodeDialogFragment.show(manager.beginTransaction(), "verificationcode");
     }

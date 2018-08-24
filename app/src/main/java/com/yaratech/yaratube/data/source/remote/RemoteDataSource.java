@@ -8,6 +8,7 @@ import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Category;
 import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.DetailedProduct;
+import com.yaratech.yaratube.data.model.Login;
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.source.DataSource;
@@ -139,6 +140,36 @@ public class RemoteDataSource implements DataSource {
                             apiResultCallBack.onFail(t.getMessage());
                         }
                     });
+        } else toastInternetConnection(mContext);
+    }
+
+    @Override
+    public void postPhoneNumber(final WebService.ApiResultCallBack callBack,
+                                String phoneNumber, String device_id, String device_model,
+                                String device_os) {
+        if (Network.isOnline(mContext)) {
+            mApiService.postPhoneNumber(phoneNumber, device_id, device_model, device_os).enqueue(
+                    new Callback<Login>() {
+                        @Override
+                        public void onResponse(Call<Login> call, Response<Login> response) {
+                            if (response.isSuccessful()) {
+                                callBack.onSuccess(response.body());
+                                Log.d("you receive sms", "sms sent" + response.body().getNickname());
+                            } else if (response.code() == 400) {
+                                Log.d("404", "Store id is not valid");
+                            } else if (response.code() == 406) {
+                                Log.d("406", "incomplete parameters");
+                            } else if (response.code() == 504) {
+                                Log.d("504", "sms send failed");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Login> call, Throwable t) {
+                            callBack.onFail(t.getMessage());
+                        }
+                    }
+            );
         } else toastInternetConnection(mContext);
     }
 }
