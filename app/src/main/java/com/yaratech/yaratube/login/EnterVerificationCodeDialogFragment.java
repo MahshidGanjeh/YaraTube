@@ -18,6 +18,7 @@ import android.widget.EditText;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.WebService;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 import com.yaratech.yaratube.util.Listener;
 

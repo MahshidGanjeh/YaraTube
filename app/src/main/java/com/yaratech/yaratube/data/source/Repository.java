@@ -7,6 +7,8 @@ import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.DetailedProduct;
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
+import com.yaratech.yaratube.data.source.local.LocalDataSource;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.data.source.remote.ApiService;
 import com.yaratech.yaratube.data.source.remote.ApiClient;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
@@ -21,6 +23,7 @@ import retrofit2.Response;
 public class Repository implements DataSource {
 
     private RemoteDataSource mRemoteDataSource;
+    private LocalDataSource mLocalDataSource;
 
     public Repository(DataSource dataSource) {
         mRemoteDataSource = (RemoteDataSource) dataSource;
@@ -62,5 +65,10 @@ public class Repository implements DataSource {
         mRemoteDataSource.postVerificationCode(callBack, phoneNumber,
                 device_id, verificationCode, nickName);
 
+    }
+
+    @Override
+    public Boolean isLogin(UserDatabase db) {
+        return mLocalDataSource.isLogin(db);
     }
 }

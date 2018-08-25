@@ -8,11 +8,9 @@ import com.yaratech.yaratube.data.model.User;
 
 @Dao
 public interface UserDao {
-
     @Insert
     void insertUserToDb(User user);
 
-   // @Query("SELECT token from user WHERE ")
-
-
+    @Query("SELECT token from user")
+    String getUserTokenFromDatabase();
 }

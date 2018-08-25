@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.yaratech.yaratube.data.model.User;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.gridproduct.GridProductFragment;
 import com.yaratech.yaratube.home.HomeFragment;
 import com.yaratech.yaratube.login.MobileLoginDialogFragment;
@@ -119,7 +121,15 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void saveTokenToDatabase(String token) {
-       // new Runnable(new R)
+    public void saveTokenToDatabase(final String token) {
+        final UserDatabase db = UserDatabase.getUserDatabase(getApplicationContext());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                db.userDao().insertUserToDb(new User(token));
+            }
+        }).start();
+
     }
 }

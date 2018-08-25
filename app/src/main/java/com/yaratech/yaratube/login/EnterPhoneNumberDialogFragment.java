@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.yaratech.yaratube.R;
+import com.yaratech.yaratube.data.model.User;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.util.Listener;
 
 public class EnterPhoneNumberDialogFragment extends DialogFragment
@@ -77,7 +79,7 @@ public class EnterPhoneNumberDialogFragment extends DialogFragment
     }
 
     @Override
-    public void show(String s) {
-        Log.d("finotoken", s);
+    public void show(String token) {
+
     }
 }

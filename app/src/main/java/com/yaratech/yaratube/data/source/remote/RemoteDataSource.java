@@ -14,6 +14,7 @@ import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.DataSource;
 import com.yaratech.yaratube.data.source.WebService;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.util.Network;
 
 import java.util.List;
@@ -150,8 +151,7 @@ public class RemoteDataSource implements DataSource {
                                 String device_os) {
         if (Network.isOnline(mContext)) {
             mApiService.postPhoneNumber(phoneNumber, device_id, device_model, device_os).enqueue(new Callback<Login>() {
-                                                                                                     @Override
-                                                                                                     public void onResponse(Call<Login> call, Response<Login> response) {
+                                                                                                     @Override public void onResponse(Call<Login> call, Response<Login> response) {
                                                                                                          if (response.isSuccessful()) {
                                                                                                              callBack.onSuccess(response.body());
                                                                                                              Log.d("you receive sms", "sms sent" + response.body().getNickname());
@@ -186,7 +186,7 @@ public class RemoteDataSource implements DataSource {
                                  public void onResponse(Call<User> call, Response<User> response) {
                                      if (response.isSuccessful()) {
                                          callBack.onSuccess(response.body());
-                                         //Toast.makeText(mContext, response.code(), Toast.LENGTH_SHORT).show();
+                                         Toast.makeText(mContext, response.code(), Toast.LENGTH_SHORT).show();
                                          Log.d("code posted", "code posted");
                                      } else if (response.code() == 401) {
                                          Log.d("401", "mobile number is not valid");
@@ -198,12 +198,17 @@ public class RemoteDataSource implements DataSource {
                                  @Override
                                  public void onFailure(Call<User> call, Throwable t) {
                                      callBack.onFail(t.getMessage());
-                                     Log.d("errrr", t.getMessage());
+                                     Log.d("errrr" , t.getMessage());
                                  }
                              }
                     );
         } else toastInternetConnection(mContext);
 
+    }
+
+    @Override
+    public Boolean isLogin(UserDatabase db) {
+        return null;
     }
 }
 

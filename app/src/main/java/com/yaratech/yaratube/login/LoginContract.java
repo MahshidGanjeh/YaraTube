@@ -1,9 +1,11 @@
 package com.yaratech.yaratube.login;
 
+import com.yaratech.yaratube.data.source.local.UserDatabase;
+
 public interface LoginContract {
 
     interface View {
-        void show(String s);
+        void show(String token);
     }
 
     interface PhoneNumberPresenter {

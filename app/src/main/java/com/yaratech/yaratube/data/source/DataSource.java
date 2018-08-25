@@ -1,5 +1,8 @@
 package com.yaratech.yaratube.data.source;
 
+import com.yaratech.yaratube.data.model.User;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
+
 public interface DataSource {
 
     void fetchHomeItems(WebService.ApiResultCallBack callBack);
@@ -19,4 +22,6 @@ public interface DataSource {
     void postVerificationCode(WebService.ApiResultCallBack callBack,
                               String phoneNumber, String device_id, String verificationCode,
                               String nickName);
+
+    Boolean isLogin(UserDatabase db);
 }

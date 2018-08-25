@@ -12,6 +12,10 @@ import java.util.List;
 @Entity(tableName = "user")
 public class User {
 
+    public User(String token) {
+        this.token = token;
+    }
+
     @PrimaryKey(autoGenerate = true)
     private int uid;
 
