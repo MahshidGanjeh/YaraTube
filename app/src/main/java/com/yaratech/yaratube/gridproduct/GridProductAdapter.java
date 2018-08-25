@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +17,10 @@ import java.util.List;
 public class GridProductAdapter extends RecyclerView.Adapter<GridProductViewHolder> {
 
     private List<Product> mProductList = new ArrayList<>();
-    private onProductClickListener mProductClickListener;
+    private Listener.onProductClickListener mProductClickListener;
     private Context context;
 
-    public GridProductAdapter(Context context, onProductClickListener listener) {
+    public GridProductAdapter(Context context, Listener.onProductClickListener listener) {
         this.context = context;
         mProductClickListener = listener;
     }

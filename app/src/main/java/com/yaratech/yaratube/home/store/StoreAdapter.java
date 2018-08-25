@@ -10,19 +10,19 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Store;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 public class StoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements onProductClickListener {
+        implements Listener.onProductClickListener {
 
     private static final int HEADERITEM_VIEWTYPE = 0;
     private static final int HOMEITEM_VIEWTYPE = 1;
     private Store mStore = new Store();
     private Context mContext;
     private FragmentManager manager;
-    private onProductClickListener listener;
+    private Listener.onProductClickListener listener;
 
-    public StoreAdapter(Context context, FragmentManager manager, onProductClickListener listener) {
+    public StoreAdapter(Context context, FragmentManager manager, Listener.onProductClickListener listener) {
         this.mContext = context;
         this.manager = manager;
         this.listener = listener;

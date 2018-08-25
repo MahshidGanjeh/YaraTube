@@ -7,6 +7,8 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 @Entity(tableName = "user")
 public class User {
 
@@ -15,7 +17,6 @@ public class User {
 
     @ColumnInfo(name = "first_name")
     private String firstName;
-
 
     @SerializedName("error")
     @Expose
@@ -29,11 +30,11 @@ public class User {
     @SerializedName("token")
     @Expose
     private String token;
-    @SerializedName("files_added")
+   /* @SerializedName("files_added")
     @Expose
-    /*private Object filesAdded;
+    private List<String> filesAdded;*/
     @SerializedName("nickname")
-    @Expose*/
+    @Expose
     private String nickname;
     @SerializedName("Fino_token")
     @Expose

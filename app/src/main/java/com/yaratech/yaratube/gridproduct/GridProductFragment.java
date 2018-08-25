@@ -18,18 +18,18 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 import java.util.List;
 
 public class GridProductFragment extends Fragment implements GridProductContract.View,
-        onProductClickListener {
+        Listener.onProductClickListener {
 
     private GridProductContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
     private GridProductAdapter adapter;
     private ProgressBar mProgressBar;
-    private onProductClickListener mOnProductClickListener;
+    private Listener.onProductClickListener mOnProductClickListener;
     private static int mCategoryId;
 
     public GridProductFragment() {
@@ -62,7 +62,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mOnProductClickListener = (onProductClickListener) context;
+        mOnProductClickListener = (Listener.onProductClickListener) context;
     }
 
     @Override

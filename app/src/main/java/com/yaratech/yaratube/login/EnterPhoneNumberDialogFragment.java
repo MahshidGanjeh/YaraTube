@@ -8,32 +8,30 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.yaratech.yaratube.R;
-import com.yaratech.yaratube.data.model.Login;
-import com.yaratech.yaratube.data.source.WebService;
-import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
-import com.yaratech.yaratube.util.onConfirmBtnClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 public class EnterPhoneNumberDialogFragment extends DialogFragment
         implements LoginContract.View {
 
     private Button confirmPhoneNumberBtn;
     private EditText enterPhoneNumberEditText;
-    private onConfirmBtnClickListener mConfirmBtnClickListener;
-    private LoginContract.Presenter mPresenter;
+    private Listener.onConfirmBtnClickListener mConfirmBtnClickListener;
+    private LoginContract.PhoneNumberPresenter mPresenter;
+
 
     //information of device to be sent to server
     private String deviceId;
     private String deviceModel = Build.MODEL;
     private String deviceOs = Build.VERSION.RELEASE;
+    private String mPhoneNumber;
 
 
     public EnterPhoneNumberDialogFragment() {
@@ -43,7 +41,7 @@ public class EnterPhoneNumberDialogFragment extends DialogFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mConfirmBtnClickListener = (onConfirmBtnClickListener) context;
+        mConfirmBtnClickListener = (Listener.onConfirmBtnClickListener) context;
     }
 
     @Override
@@ -69,15 +67,17 @@ public class EnterPhoneNumberDialogFragment extends DialogFragment
         confirmPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mConfirmBtnClickListener.goToVerificationDialog();
-                mPresenter.present(enterPhoneNumberEditText.getText().toString(),
+                mPhoneNumber = enterPhoneNumberEditText.getText().toString();
+                //go to mainactivity
+                mConfirmBtnClickListener.goToVerificationDialog(mPhoneNumber);
+                mPresenter.present(mPhoneNumber,
                         deviceId, deviceModel, deviceOs);
             }
         });
     }
 
     @Override
-    public void show() {
-
+    public void show(String s) {
+        Log.d("finotoken", s);
     }
 }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Headeritem;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 import org.parceler.Parcels;
 
@@ -24,7 +24,7 @@ public class HeaderItemFragment extends Fragment {
 
     private Headeritem mHeaderitem;
     private ImageView mHeaderImageView;
-    private static onProductClickListener mListener;
+    private static Listener.onProductClickListener mListener;
 
     public HeaderItemFragment() {
     }
@@ -63,7 +63,7 @@ public class HeaderItemFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mListener = (onProductClickListener) context;
+        mListener = (Listener.onProductClickListener) context;
     }
 
     public static HeaderItemFragment newInstance(Headeritem headeritem) {

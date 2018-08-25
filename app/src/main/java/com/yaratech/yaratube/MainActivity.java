@@ -16,14 +16,13 @@ import com.yaratech.yaratube.login.MobileLoginDialogFragment;
 import com.yaratech.yaratube.login.EnterPhoneNumberDialogFragment;
 import com.yaratech.yaratube.login.EnterVerificationCodeDialogFragment;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
-import com.yaratech.yaratube.util.onCategoryClickListener;
-import com.yaratech.yaratube.util.onConfirmBtnClickListener;
-import com.yaratech.yaratube.util.onPhoneNumberBtnListener;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 public class MainActivity extends AppCompatActivity implements
-        onCategoryClickListener, onProductClickListener, onPhoneNumberBtnListener,
-        onConfirmBtnClickListener {
+        Listener.onCategoryClickListener, Listener.onProductClickListener,
+        Listener.onPhoneNumberBtnListener,
+        Listener.onConfirmBtnClickListener,
+        Listener.onConfirmVerificationCodeListener {
 
 
     private GridProductFragment mGridProductFragment;
@@ -52,26 +51,27 @@ public class MainActivity extends AppCompatActivity implements
         mDrawerNavigationView = findViewById(R.id.drawer_navigation_view);
         drawer = findViewById(R.id.drawer);
 
-        mDrawerNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.drawer_profile:
-                        if (mLoginDialogFragment != null) {
-                            manager.beginTransaction().remove(mLoginDialogFragment);
+        mDrawerNavigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.drawer_profile:
+                                if (mLoginDialogFragment != null) {
+                                    manager.beginTransaction().remove(mLoginDialogFragment);
+                                }
+                                manager.beginTransaction().addToBackStack(null);
+
+                                mLoginDialogFragment = new MobileLoginDialogFragment();
+                                mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
+
+                                drawer.closeDrawers();
+                                return true;
+                            case R.id.drawer_aboutous:
                         }
-                        manager.beginTransaction().addToBackStack(null);
-
-                        mLoginDialogFragment = new MobileLoginDialogFragment();
-                        mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
-
-                        drawer.closeDrawers();
-                        return true;
-                    case R.id.drawer_aboutous:
-                }
-                return false;
-            }
-        });
+                        return false;
+                    }
+                });
 
     }
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void goToVerificationDialog() {
+    public void goToVerificationDialog(String phoneNumber) {
         mPhoneNumberDialogFragment.dismiss();
 
         if (mVerificationCodeDialogFragment != null) {
@@ -114,7 +114,12 @@ public class MainActivity extends AppCompatActivity implements
         }
         manager.beginTransaction().addToBackStack(null);
 
-        mVerificationCodeDialogFragment = new EnterVerificationCodeDialogFragment();
+        mVerificationCodeDialogFragment = EnterVerificationCodeDialogFragment.newInstance(phoneNumber);
         mVerificationCodeDialogFragment.show(manager.beginTransaction(), "verificationcode");
+    }
+
+    @Override
+    public void saveTokenToDatabase(String token) {
+       // new Runnable(new R)
     }
 }

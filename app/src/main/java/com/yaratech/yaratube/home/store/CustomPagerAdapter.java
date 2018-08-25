@@ -5,12 +5,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.yaratech.yaratube.data.model.Headeritem;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 import java.util.List;
 
 
-public class CustomPagerAdapter extends FragmentStatePagerAdapter implements onProductClickListener {
+public class CustomPagerAdapter extends FragmentStatePagerAdapter implements Listener.onProductClickListener {
 
     private List<Headeritem> mHeaderitems;
 

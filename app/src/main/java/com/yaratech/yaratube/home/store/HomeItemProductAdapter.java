@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +18,9 @@ public class HomeItemProductAdapter extends RecyclerView.Adapter<HomeItemProduct
 
     private List<Product> mProductList = new ArrayList<>();
     private Context context;
-    private onProductClickListener mOnProductClcikedListener;
+    private Listener.onProductClickListener mOnProductClcikedListener;
 
-    public HomeItemProductAdapter(Context context, onProductClickListener listener) {
+    public HomeItemProductAdapter(Context context, Listener.onProductClickListener listener) {
         this.context = context;
         mOnProductClcikedListener = listener;
     }

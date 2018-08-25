@@ -186,7 +186,7 @@ public class RemoteDataSource implements DataSource {
                                  public void onResponse(Call<User> call, Response<User> response) {
                                      if (response.isSuccessful()) {
                                          callBack.onSuccess(response.body());
-                                         Toast.makeText(mContext, response.code(), Toast.LENGTH_SHORT).show();
+                                         //Toast.makeText(mContext, response.code(), Toast.LENGTH_SHORT).show();
                                          Log.d("code posted", "code posted");
                                      } else if (response.code() == 401) {
                                          Log.d("401", "mobile number is not valid");
@@ -198,6 +198,7 @@ public class RemoteDataSource implements DataSource {
                                  @Override
                                  public void onFailure(Call<User> call, Throwable t) {
                                      callBack.onFail(t.getMessage());
+                                     Log.d("errrr", t.getMessage());
                                  }
                              }
                     );

@@ -14,17 +14,17 @@ import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Category;
-import com.yaratech.yaratube.util.onCategoryClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 import java.util.List;
 
 public class CategoryFragment extends Fragment implements
-        CategoryContract.View, onCategoryClickListener {
+        CategoryContract.View, Listener.onCategoryClickListener {
 
     private CategoryContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
     private CategoryAdapter adapter;
-    private onCategoryClickListener mCategoryClickListener;
+    private Listener.onCategoryClickListener mCategoryClickListener;
     private ProgressBar mProgressBar;
 
     public CategoryFragment() {
@@ -41,7 +41,7 @@ public class CategoryFragment extends Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCategoryClickListener = (onCategoryClickListener) context;
+        mCategoryClickListener = (Listener.onCategoryClickListener) context;
     }
 
     @Override

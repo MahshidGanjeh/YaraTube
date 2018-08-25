@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Category;
-import com.yaratech.yaratube.util.onCategoryClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +18,11 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
     private List<Category> mCategoryList = new ArrayList<>();
-    private onCategoryClickListener mCategoryClickListener;
+    private Listener.onCategoryClickListener mCategoryClickListener;
     FragmentManager manager;
     private Context context;
 
-    public CategoryAdapter(Context context, onCategoryClickListener listener, FragmentManager fm) {
+    public CategoryAdapter(Context context, Listener.onCategoryClickListener listener, FragmentManager fm) {
         mCategoryClickListener = listener;
         manager = fm;
         this.context = context;

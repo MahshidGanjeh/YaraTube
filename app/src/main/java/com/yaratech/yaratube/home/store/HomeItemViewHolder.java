@@ -8,16 +8,16 @@ import android.widget.TextView;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.HomeItem;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 import java.util.List;
 
 public class HomeItemViewHolder extends RecyclerView.ViewHolder
-        implements onProductClickListener {
+        implements Listener.onProductClickListener {
 
     private TextView title;
     private RecyclerView recyclerView;
-    private onProductClickListener listener;
+    private Listener.onProductClickListener listener;
 
     public HomeItemViewHolder(View itemView) {
         super(itemView);
@@ -26,7 +26,7 @@ public class HomeItemViewHolder extends RecyclerView.ViewHolder
     }
 
     public void onBind(HomeItem homeItem, Context context, List<HomeItem> list,
-                       int pos, onProductClickListener listener) {
+                       int pos, Listener.onProductClickListener listener) {
         this.listener = listener;
         title.setText(homeItem.getTitle());
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));

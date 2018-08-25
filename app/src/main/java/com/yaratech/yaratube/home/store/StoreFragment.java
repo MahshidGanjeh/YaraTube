@@ -15,16 +15,16 @@ import android.widget.ProgressBar;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Store;
-import com.yaratech.yaratube.util.onProductClickListener;
+import com.yaratech.yaratube.util.Listener;
 
 public class StoreFragment extends Fragment implements StoreContract.View,
-        onProductClickListener {
+        Listener.onProductClickListener {
 
     private StoreContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
     private StoreAdapter adapter;
     private ProgressBar mProgressBar;
-    onProductClickListener listener;
+    Listener.onProductClickListener listener;
 
     public StoreFragment() {
         // Required empty public constructor
@@ -40,7 +40,7 @@ public class StoreFragment extends Fragment implements StoreContract.View,
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        listener = (onProductClickListener) context;
+        listener = (Listener.onProductClickListener) context;
     }
 
     @Override
