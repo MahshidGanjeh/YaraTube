@@ -6,17 +6,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 
 import com.yaratech.yaratube.data.model.User;
+import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.gridproduct.GridProductFragment;
 import com.yaratech.yaratube.home.HomeFragment;
 import com.yaratech.yaratube.login.MobileLoginDialogFragment;
 import com.yaratech.yaratube.login.EnterPhoneNumberDialogFragment;
 import com.yaratech.yaratube.login.EnterVerificationCodeDialogFragment;
+import com.yaratech.yaratube.login.ProfileFragment;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 import com.yaratech.yaratube.util.Listener;
 
@@ -30,9 +33,13 @@ public class MainActivity extends AppCompatActivity implements
     private GridProductFragment mGridProductFragment;
     private ProductDetailFragment mProductDetailFragment;
     private MobileLoginDialogFragment mLoginDialogFragment;
+    private ProfileFragment mProfileFragment;
     private EnterPhoneNumberDialogFragment mPhoneNumberDialogFragment;
     private EnterVerificationCodeDialogFragment mVerificationCodeDialogFragment;
 
+    private LocalDataSource mLocalDataSource;
+    private UserDatabase db;
+    boolean isLogin;
 
     private NavigationView mDrawerNavigationView;
     private DrawerLayout drawer;
@@ -53,22 +60,33 @@ public class MainActivity extends AppCompatActivity implements
         mDrawerNavigationView = findViewById(R.id.drawer_navigation_view);
         drawer = findViewById(R.id.drawer);
 
+        db = UserDatabase.getUserDatabase(getApplicationContext());
+        mLocalDataSource = new LocalDataSource(getApplicationContext());
+
         mDrawerNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.drawer_profile:
-                                if (mLoginDialogFragment != null) {
-                                    manager.beginTransaction().remove(mLoginDialogFragment);
+                                Log.d("flage", String.valueOf(isLogin));
+                                if (isLogin) {
+                                    mProfileFragment = new ProfileFragment();
+                                    manager.beginTransaction().
+                                            add(R.id.main_container, mProfileFragment).commit();
+                                } else {
+                                    if (mLoginDialogFragment != null) {
+                                        manager.beginTransaction().remove(mLoginDialogFragment);
+                                    }
+                                    manager.beginTransaction().addToBackStack(null);
+
+                                    mLoginDialogFragment = new MobileLoginDialogFragment();
+                                    mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
+
+                                    drawer.closeDrawers();
+                                    return true;
                                 }
-                                manager.beginTransaction().addToBackStack(null);
 
-                                mLoginDialogFragment = new MobileLoginDialogFragment();
-                                mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
-
-                                drawer.closeDrawers();
-                                return true;
                             case R.id.drawer_aboutous:
                         }
                         return false;
@@ -122,14 +140,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void saveTokenToDatabase(final String token) {
-        final UserDatabase db = UserDatabase.getUserDatabase(getApplicationContext());
-
         new Thread(new Runnable() {
             @Override
             public void run() {
                 db.userDao().insertUserToDb(new User(token));
+                isLogin = mLocalDataSource.isLogin(db);
             }
         }).start();
-
     }
 }
