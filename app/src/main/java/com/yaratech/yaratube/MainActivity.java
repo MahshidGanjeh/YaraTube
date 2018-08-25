@@ -16,30 +16,28 @@ import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.gridproduct.GridProductFragment;
 import com.yaratech.yaratube.home.HomeFragment;
-import com.yaratech.yaratube.login.MobileLoginDialogFragment;
-import com.yaratech.yaratube.login.EnterPhoneNumberDialogFragment;
-import com.yaratech.yaratube.login.EnterVerificationCodeDialogFragment;
+import com.yaratech.yaratube.login.mobilelogin.MobileLoginDialogFragment;
+import com.yaratech.yaratube.login.mobilelogin.MobileLoginFragment;
+import com.yaratech.yaratube.login.mobilelogin.EnterPhoneNumberFragment;
+import com.yaratech.yaratube.login.mobilelogin.EnterVerificationCodeFragment;
 import com.yaratech.yaratube.login.ProfileFragment;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 import com.yaratech.yaratube.util.Listener;
 
 public class MainActivity extends AppCompatActivity implements
-        Listener.onCategoryClickListener, Listener.onProductClickListener,
-        Listener.onPhoneNumberBtnListener,
-        Listener.onConfirmBtnClickListener,
-        Listener.onConfirmVerificationCodeListener {
+        Listener.onCategoryClickListener, Listener.onProductClickListener {
 
 
     private GridProductFragment mGridProductFragment;
     private ProductDetailFragment mProductDetailFragment;
+
     private MobileLoginDialogFragment mLoginDialogFragment;
     private ProfileFragment mProfileFragment;
-    private EnterPhoneNumberDialogFragment mPhoneNumberDialogFragment;
-    private EnterVerificationCodeDialogFragment mVerificationCodeDialogFragment;
+
 
     private LocalDataSource mLocalDataSource;
     private UserDatabase db;
-    boolean isLogin;
+    boolean isLogin = false;
 
     private NavigationView mDrawerNavigationView;
     private DrawerLayout drawer;
@@ -60,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements
         mDrawerNavigationView = findViewById(R.id.drawer_navigation_view);
         drawer = findViewById(R.id.drawer);
 
-        db = UserDatabase.getUserDatabase(getApplicationContext());
-        mLocalDataSource = new LocalDataSource(getApplicationContext());
+       // db = UserDatabase.getUserDatabase(getApplicationContext());
+       // mLocalDataSource = new LocalDataSource(getApplicationContext());
 
         mDrawerNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -75,13 +73,10 @@ public class MainActivity extends AppCompatActivity implements
                                     manager.beginTransaction().
                                             add(R.id.main_container, mProfileFragment).commit();
                                 } else {
-                                    if (mLoginDialogFragment != null) {
-                                        manager.beginTransaction().remove(mLoginDialogFragment);
-                                    }
-                                    manager.beginTransaction().addToBackStack(null);
-
                                     mLoginDialogFragment = new MobileLoginDialogFragment();
-                                    mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
+                                    //manager.beginTransaction().add(
+                                         //   R.id.main_container,mLoginDialogFragment).commit();
+                                  mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
 
                                     drawer.closeDrawers();
                                     return true;
@@ -111,41 +106,4 @@ public class MainActivity extends AppCompatActivity implements
                 .add(R.id.main_container, mProductDetailFragment).commit();
     }
 
-    @Override
-    public void goToPhoneNumberDialog() {
-
-        mLoginDialogFragment.dismiss();
-
-        if (mPhoneNumberDialogFragment != null) {
-            manager.beginTransaction().remove(mPhoneNumberDialogFragment);
-        }
-        manager.beginTransaction().addToBackStack(null).commit();
-        mPhoneNumberDialogFragment = new EnterPhoneNumberDialogFragment();
-
-        mPhoneNumberDialogFragment.show(manager.beginTransaction(), "phonenumber");
-    }
-
-    @Override
-    public void goToVerificationDialog(String phoneNumber) {
-        mPhoneNumberDialogFragment.dismiss();
-
-        if (mVerificationCodeDialogFragment != null) {
-            manager.beginTransaction().remove(mVerificationCodeDialogFragment);
-        }
-        manager.beginTransaction().addToBackStack(null);
-
-        mVerificationCodeDialogFragment = EnterVerificationCodeDialogFragment.newInstance(phoneNumber);
-        mVerificationCodeDialogFragment.show(manager.beginTransaction(), "verificationcode");
-    }
-
-    @Override
-    public void saveTokenToDatabase(final String token) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                db.userDao().insertUserToDb(new User(token));
-                isLogin = mLocalDataSource.isLogin(db);
-            }
-        }).start();
-    }
 }

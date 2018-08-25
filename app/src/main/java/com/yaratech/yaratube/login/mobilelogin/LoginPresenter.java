@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.login;
+package com.yaratech.yaratube.login.mobilelogin;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,6 +7,7 @@ import com.yaratech.yaratube.data.model.Login;
 import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
+import com.yaratech.yaratube.login.mobilelogin.LoginContract;
 
 public class LoginPresenter implements LoginContract.CodePresenter,
         LoginContract.PhoneNumberPresenter {

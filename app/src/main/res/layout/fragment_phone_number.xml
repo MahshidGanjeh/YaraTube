@@ -7,33 +7,31 @@
     android:paddingBottom="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".login.MobileLoginDialogFragment">
+    tools:context=".login.mobilelogin.EnterPhoneNumberFragment">
 
     <TextView
-        android:fontFamily="@font/iran_san"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginBottom="20dp"
-        android:text="@string/title_enter"
+        android:fontFamily="@font/iran_san"
+        android:text="@string/enter_via_phonenumber"
         android:textColor="#000" />
 
-    <Button
+    <EditText
+        android:id="@+id/phone_number_et"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:drawableRight="@drawable/smartphone__1_"
-        android:text="@string/title_via_phonenumber"
-        android:id="@+id/via_phone_number_btn"
+        android:layout_height="80dp"
+        android:hint="@string/enter_phone_number"
         android:textColor="#FFF" />
 
     <Button
+        android:id="@+id/confirm_phonenumber_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:background="@android:color/holo_red_dark"
-        android:drawableRight="@drawable/smartphone__1_"
-        android:text="@string/title_via_google"
+        android:background="@color/colorPrimary"
+        android:text="@string/confirm_btn"
         android:textColor="#FFF" />
 
 </LinearLayout>

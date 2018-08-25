@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.login;
+package com.yaratech.yaratube.login.mobilelogin;
 
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 

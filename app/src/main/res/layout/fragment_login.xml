@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="370dp"
-    android:layout_height="280dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".login.EnterPhoneNumberDialogFragment">
+    tools:context=".login.mobilelogin.MobileLoginFragment">
 
     <TextView
+        android:fontFamily="@font/iran_san"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginBottom="20dp"
-        android:fontFamily="@font/iran_san"
-        android:text="@string/enter_via_phonenumber"
+        android:text="@string/title_enter"
         android:textColor="#000" />
 
-    <EditText
-        android:id="@+id/phone_number_et"
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:hint="@string/enter_phone_number"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:drawableRight="@drawable/smartphone__1_"
+        android:text="@string/title_via_phonenumber"
+        android:id="@+id/via_phone_number_btn"
         android:textColor="#FFF" />
 
     <Button
-        android:id="@+id/confirm_phonenumber_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/confirm_btn"
+        android:background="@android:color/holo_red_dark"
+        android:drawableRight="@drawable/smartphone__1_"
+        android:text="@string/title_via_google"
         android:textColor="#FFF" />
 
 </LinearLayout>
