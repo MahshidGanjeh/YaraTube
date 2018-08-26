@@ -8,10 +8,7 @@ public interface LoginContract {
         void show(String token);
     }
 
-    interface PhoneNumberPresenter {
-        void present(String phoneNumber, String id,
-                     String deviceModel, String os);
-    }
+
 
     interface CodePresenter {
         void presentVerificationCode(String phoneNumber, String id,

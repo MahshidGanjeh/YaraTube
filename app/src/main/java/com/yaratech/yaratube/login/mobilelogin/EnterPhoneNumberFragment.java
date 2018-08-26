@@ -1,7 +1,6 @@
 package com.yaratech.yaratube.login.mobilelogin;
 
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -23,7 +22,7 @@ public class EnterPhoneNumberFragment extends Fragment
     private Button confirmPhoneNumberBtn;
     private EditText enterPhoneNumberEditText;
     private Listener.onConfirmBtnClickListener mConfirmBtnClickListener;
-    private LoginContract.PhoneNumberPresenter mPresenter;
+    private PhoneNumberPresenter mPresenter;
 
 
     //information of device to be sent to server
@@ -35,12 +34,6 @@ public class EnterPhoneNumberFragment extends Fragment
 
     public EnterPhoneNumberFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mConfirmBtnClickListener = (Listener.onConfirmBtnClickListener) context;
     }
 
     @Override
@@ -61,7 +54,8 @@ public class EnterPhoneNumberFragment extends Fragment
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
 
 
-        mPresenter = new LoginPresenter(this, view.getContext());
+        mPresenter = new PhoneNumberPresenter(view.getContext());
+        mConfirmBtnClickListener = (Listener.onConfirmBtnClickListener) getParentFragment();
 
         confirmPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +63,7 @@ public class EnterPhoneNumberFragment extends Fragment
                 mPhoneNumber = enterPhoneNumberEditText.getText().toString();
                 //go to mainactivity
                 mConfirmBtnClickListener.goToVerificationDialog(mPhoneNumber);
-                mPresenter.present(mPhoneNumber,
+                mPresenter.postPhoneNumber(mPhoneNumber,
                         deviceId, deviceModel, deviceOs);
             }
         });

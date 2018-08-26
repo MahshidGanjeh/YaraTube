@@ -32,12 +32,6 @@ public class EnterVerificationCodeFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        verificationCodeListener = (Listener.onConfirmVerificationCodeListener) context;
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPhoneNumber = getArguments().getString("mobile");
@@ -65,6 +59,9 @@ public class EnterVerificationCodeFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         mPresenter = new LoginPresenter(this, view.getContext());
+        verificationCodeListener = (Listener.onConfirmVerificationCodeListener) getParentFragment();
+
+
         final String deviceId = Settings.Secure.getString(getContext()
                 .getContentResolver(), Settings.Secure.ANDROID_ID);
 

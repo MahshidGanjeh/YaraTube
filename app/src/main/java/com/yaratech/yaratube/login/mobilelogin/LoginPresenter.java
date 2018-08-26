@@ -9,8 +9,7 @@ import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 import com.yaratech.yaratube.login.mobilelogin.LoginContract;
 
-public class LoginPresenter implements LoginContract.CodePresenter,
-        LoginContract.PhoneNumberPresenter {
+public class LoginPresenter implements LoginContract.CodePresenter {
 
     private RemoteDataSource mRemoteDataSource;
     private LoginContract.View mView;
@@ -20,21 +19,6 @@ public class LoginPresenter implements LoginContract.CodePresenter,
         this.mView = mView;
     }
 
-
-    @Override
-    public void present(String phoneNumber, String id, String deviceModel, String os) {
-        mRemoteDataSource.postPhoneNumber(new WebService.ApiResultCallBack() {
-            @Override
-            public void onSuccess(Object response) {
-                Log.d("succes", ((Login) response).getMessage());
-            }
-
-            @Override
-            public void onFail(Object message) {
-
-            }
-        }, phoneNumber, id, deviceModel, os);
-    }
 
     @Override
     public void presentVerificationCode(String phoneNumber, String id,

@@ -17,8 +17,8 @@ import com.yaratech.yaratube.util.Listener;
 
 public class MobileLoginFragment extends Fragment {
 
-    private Button phoneNumber;
-    private Listener.onPhoneNumberBtnListener numberBtnListener;
+    private Button mPhoneNumberBtn;
+    private Listener.onPhoneNumberBtnListener mNumberBtnListener;
 
 
     public MobileLoginFragment() {
@@ -41,11 +41,12 @@ public class MobileLoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        phoneNumber = view.findViewById(R.id.via_phone_number_btn);
-        phoneNumber.setOnClickListener(new View.OnClickListener() {
+        mNumberBtnListener = (Listener.onPhoneNumberBtnListener) getParentFragment();
+        mPhoneNumberBtn = view.findViewById(R.id.via_phone_number_btn);
+        mPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // numberBtnListener.goToPhoneNumberDialog();
+               mNumberBtnListener.goToPhoneNumberDialog();
             }
         });
     }

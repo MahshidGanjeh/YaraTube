@@ -43,9 +43,9 @@ public class MobileLoginDialogFragment extends DialogFragment implements
         View root = inflater.inflate(R.layout.fragment_mobile_login_dialog, container, false);
 
         int id = root.findViewById(R.id.child).getId();
-        manager.beginTransaction().add(id,new MobileLoginFragment())
+        manager.beginTransaction().add(id, new MobileLoginFragment())
                 .commit();
-        
+
         return root;
     }
 
@@ -69,6 +69,7 @@ public class MobileLoginDialogFragment extends DialogFragment implements
 
     @Override
     public void goToVerificationDialog(String phoneNumber) {
+        manager.beginTransaction().add(R.id.child, new EnterVerificationCodeFragment()).commit();
        /* if (mVerificationCodeDialogFragment != null) {
             manager.beginTransaction().remove(mVerificationCodeDialogFragment);
         }
@@ -79,6 +80,8 @@ public class MobileLoginDialogFragment extends DialogFragment implements
 
     @Override
     public void goToPhoneNumberDialog() {
+        manager.beginTransaction().add(R.id.child, new EnterPhoneNumberFragment()).commit();
+
        /* new Thread(new Runnable() {
             @Override
             public void run() {
@@ -87,4 +90,6 @@ public class MobileLoginDialogFragment extends DialogFragment implements
             }
         }).start();*/
     }
+
+
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="370dp"
-    android:layout_height="280dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
+    android:background="#fff"
     tools:context=".login.mobilelogin.EnterPhoneNumberFragment">
 
     <TextView
@@ -19,6 +20,7 @@
         android:textColor="#000" />
 
     <EditText
+        android:textColorHighlight="#000"
         android:id="@+id/phone_number_et"
         android:layout_width="match_parent"
         android:layout_height="80dp"
