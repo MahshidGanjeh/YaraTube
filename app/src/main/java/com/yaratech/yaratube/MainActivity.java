@@ -8,18 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 
-import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.gridproduct.GridProductFragment;
 import com.yaratech.yaratube.home.HomeFragment;
-import com.yaratech.yaratube.login.mobilelogin.MobileLoginDialogFragment;
-import com.yaratech.yaratube.login.mobilelogin.MobileLoginFragment;
-import com.yaratech.yaratube.login.mobilelogin.EnterPhoneNumberFragment;
-import com.yaratech.yaratube.login.mobilelogin.EnterVerificationCodeFragment;
+import com.yaratech.yaratube.login.mobilelogin.MainLoginDialogFragment;
 import com.yaratech.yaratube.login.ProfileFragment;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 import com.yaratech.yaratube.util.Listener;
@@ -31,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements
     private GridProductFragment mGridProductFragment;
     private ProductDetailFragment mProductDetailFragment;
 
-    private MobileLoginDialogFragment mLoginDialogFragment;
+    private MainLoginDialogFragment mLoginDialogFragment;
     private ProfileFragment mProfileFragment;
 
 
@@ -58,8 +53,10 @@ public class MainActivity extends AppCompatActivity implements
         mDrawerNavigationView = findViewById(R.id.drawer_navigation_view);
         drawer = findViewById(R.id.drawer);
 
-       // db = UserDatabase.getUserDatabase(getApplicationContext());
-       // mLocalDataSource = new LocalDataSource(getApplicationContext());
+        db = UserDatabase.getUserDatabase(getApplicationContext());
+        mLocalDataSource = new LocalDataSource(getApplicationContext());
+
+        isLogin = mLocalDataSource.isLogin(db);
 
         mDrawerNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -73,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements
                                     manager.beginTransaction().
                                             add(R.id.main_container, mProfileFragment).commit();
                                 } else {
-                                    mLoginDialogFragment = new MobileLoginDialogFragment();
+                                    mLoginDialogFragment = new MainLoginDialogFragment();
                                     //manager.beginTransaction().add(
-                                         //   R.id.main_container,mLoginDialogFragment).commit();
-                                  mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
+                                    //   R.id.main_container,mLoginDialogFragment).commit();
+                                    mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
 
                                     drawer.closeDrawers();
                                     return true;

@@ -21,7 +21,7 @@ public class EnterPhoneNumberFragment extends Fragment
 
     private Button confirmPhoneNumberBtn;
     private EditText enterPhoneNumberEditText;
-    private Listener.onConfirmBtnClickListener mConfirmBtnClickListener;
+    private Listener.onConfirmPhoneNumberListener mConfirmBtnClickListener;
     private PhoneNumberPresenter mPresenter;
 
 
@@ -55,13 +55,14 @@ public class EnterPhoneNumberFragment extends Fragment
 
 
         mPresenter = new PhoneNumberPresenter(view.getContext());
-        mConfirmBtnClickListener = (Listener.onConfirmBtnClickListener) getParentFragment();
+
+        mConfirmBtnClickListener = (Listener.onConfirmPhoneNumberListener) getParentFragment();
 
         confirmPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPhoneNumber = enterPhoneNumberEditText.getText().toString();
-                //go to mainactivity
+
                 mConfirmBtnClickListener.goToVerificationDialog(mPhoneNumber);
                 mPresenter.postPhoneNumber(mPhoneNumber,
                         deviceId, deviceModel, deviceOs);

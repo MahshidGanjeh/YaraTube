@@ -4,7 +4,7 @@
     android:layout_width="370dp"
     android:layout_height="280dp"
     android:background="#FFF"
-    tools:context=".login.mobilelogin.MobileLoginDialogFragment">
+    tools:context=".login.mobilelogin.MainLoginDialogFragment">
 
 
     <FrameLayout

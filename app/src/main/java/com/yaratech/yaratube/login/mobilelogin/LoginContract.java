@@ -8,8 +8,6 @@ public interface LoginContract {
         void show(String token);
     }
 
-
-
     interface CodePresenter {
         void presentVerificationCode(String phoneNumber, String id,
                                      String verificationCode, String nickName);

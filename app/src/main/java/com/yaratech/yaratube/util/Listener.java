@@ -10,11 +10,11 @@ public interface Listener {
         void onCategoryClicked(int categoryId);
     }
 
-    interface onConfirmBtnClickListener {
+    interface onConfirmPhoneNumberListener {
         void goToVerificationDialog(String phoneNumber);
     }
 
-    interface onPhoneNumberBtnListener {
+    interface onMobileBtnClickListener {
         void goToPhoneNumberDialog();
     }
 

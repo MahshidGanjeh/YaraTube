@@ -5,20 +5,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.User;
+import com.yaratech.yaratube.data.source.local.LocalDataSource;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.util.Listener;
 
-public class MobileLoginDialogFragment extends DialogFragment implements
-        Listener.onPhoneNumberBtnListener,
-        Listener.onConfirmBtnClickListener,
+public class MainLoginDialogFragment extends DialogFragment implements
+        Listener.onMobileBtnClickListener,
+        Listener.onConfirmPhoneNumberListener,
         Listener.onConfirmVerificationCodeListener {
 
     private MobileLoginFragment mobileLoginFragment;
@@ -26,14 +26,22 @@ public class MobileLoginDialogFragment extends DialogFragment implements
     private EnterVerificationCodeFragment mVerificationCodeDialogFragment;
     private FragmentManager manager;
 
-    public MobileLoginDialogFragment() {
+    private LocalDataSource mLocalDataSource;
+    private UserDatabase db;
+    boolean isLogin = false;
+
+    public MainLoginDialogFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //because all other fragments will be children of this dialog
+        //and will be replaced with the container in this view
+        // we get the childFragmentManager instead of FragmentManager
         manager = getChildFragmentManager();
+        db = UserDatabase.getUserDatabase(getContext());
     }
 
     @Override
@@ -42,8 +50,11 @@ public class MobileLoginDialogFragment extends DialogFragment implements
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_mobile_login_dialog, container, false);
 
-        int id = root.findViewById(R.id.child).getId();
-        manager.beginTransaction().add(id, new MobileLoginFragment())
+        mobileLoginFragment = new MobileLoginFragment();
+        mPhoneNumberDialogFragment = new EnterPhoneNumberFragment();
+        mVerificationCodeDialogFragment = new EnterVerificationCodeFragment();
+
+        manager.beginTransaction().add(R.id.child, mobileLoginFragment)
                 .commit();
 
         return root;
@@ -52,43 +63,29 @@ public class MobileLoginDialogFragment extends DialogFragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-    }
-
-    @Override
-    public void saveTokenToDatabase(String token) {
-     /*   mLoginDialogFragment.dismiss();
-
-        if (mPhoneNumberDialogFragment != null) {
-            manager.beginTransaction().remove(mPhoneNumberDialogFragment);
-        }
-        manager.beginTransaction().addToBackStack(null).commit();
-        mPhoneNumberDialogFragment = new EnterPhoneNumberFragment();*/
-    }
-
-    @Override
-    public void goToVerificationDialog(String phoneNumber) {
-        manager.beginTransaction().add(R.id.child, new EnterVerificationCodeFragment()).commit();
-       /* if (mVerificationCodeDialogFragment != null) {
-            manager.beginTransaction().remove(mVerificationCodeDialogFragment);
-        }
-        manager.beginTransaction().addToBackStack(null);
-
-        mVerificationCodeDialogFragment = EnterVerificationCodeFragment.newInstance(phoneNumber);*/
     }
 
     @Override
     public void goToPhoneNumberDialog() {
-        manager.beginTransaction().add(R.id.child, new EnterPhoneNumberFragment()).commit();
+        manager.beginTransaction().add(R.id.child, mPhoneNumberDialogFragment).commit();
+    }
 
-       /* new Thread(new Runnable() {
+    @Override
+    public void goToVerificationDialog(String phoneNumber) {
+        mVerificationCodeDialogFragment = EnterVerificationCodeFragment.newInstance(phoneNumber);
+        manager.beginTransaction().add(R.id.child,
+                mVerificationCodeDialogFragment).commit();
+    }
+
+    @Override
+    public void saveTokenToDatabase(final String token) {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 db.userDao().insertUserToDb(new User(token));
                 isLogin = mLocalDataSource.isLogin(db);
             }
-        }).start();*/
+        }).start();
     }
 
 

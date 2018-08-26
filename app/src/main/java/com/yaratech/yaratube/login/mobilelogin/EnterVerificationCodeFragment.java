@@ -59,6 +59,7 @@ public class EnterVerificationCodeFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         mPresenter = new LoginPresenter(this, view.getContext());
+        //because parent Fragment implement the listener the act of casting is possible
         verificationCodeListener = (Listener.onConfirmVerificationCodeListener) getParentFragment();
 
 
@@ -77,10 +78,8 @@ public class EnterVerificationCodeFragment extends Fragment
                 mPresenter.presentVerificationCode(mPhoneNumber, deviceId, mVerificationCode,
                         "nickname");
 
-
             }
         });
-
     }
 
     @Override

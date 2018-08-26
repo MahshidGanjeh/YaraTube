@@ -1,11 +1,9 @@
 package com.yaratech.yaratube.login.mobilelogin;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,8 @@ import com.yaratech.yaratube.util.Listener;
 public class MobileLoginFragment extends Fragment {
 
     private Button mPhoneNumberBtn;
-    private Listener.onPhoneNumberBtnListener mNumberBtnListener;
+    private Button mGoogleBtn;
+    private Listener.onMobileBtnClickListener mNumberBtnListener;
 
 
     public MobileLoginFragment() {
@@ -34,14 +33,15 @@ public class MobileLoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_mobile_login, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mNumberBtnListener = (Listener.onPhoneNumberBtnListener) getParentFragment();
+        mNumberBtnListener = (Listener.onMobileBtnClickListener) getParentFragment();
+
         mPhoneNumberBtn = view.findViewById(R.id.via_phone_number_btn);
         mPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
