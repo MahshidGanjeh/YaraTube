@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onCategoryClicked(int categoryId) {
         mGridProductFragment = GridProductFragment.newInstance(categoryId);
-        Toast.makeText(getApplicationContext(), String.valueOf(categoryId), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), String.valueOf(categoryId), Toast.LENGTH_SHORT).show();
         manager.beginTransaction().addToBackStack("products")
                 .add(R.id.main_container, mGridProductFragment).commit();
     }

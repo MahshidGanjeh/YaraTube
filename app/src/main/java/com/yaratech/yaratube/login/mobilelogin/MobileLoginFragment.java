@@ -45,7 +45,7 @@ public class MobileLoginFragment extends Fragment {
         phoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numberBtnListener.goToPhoneNumberDialog();
+               // numberBtnListener.goToPhoneNumberDialog();
             }
         });
     }

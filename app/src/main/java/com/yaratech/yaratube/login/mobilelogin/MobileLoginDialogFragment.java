@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.User;
@@ -30,23 +31,29 @@ public class MobileLoginDialogFragment extends DialogFragment implements
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        manager = getChildFragmentManager();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View root = inflater.inflate(R.layout.fragment_mobile_login_dialog, container, false);
 
-
-        return inflater.inflate(R.layout.fragment_mobile_login_dialog, container, false);
+        int id = root.findViewById(R.id.child).getId();
+        manager.beginTransaction().add(id,new MobileLoginFragment())
+                .commit();
+        
+        return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mobileLoginFragment = new MobileLoginFragment();
-        manager = getFragmentManager();
-       // int id = view.findViewById(R.id.child_dialog_container).getId();
-        manager.beginTransaction().add(R.id.child_dialog_container,mobileLoginFragment)
-                .commit();
+
     }
 
     @Override
