@@ -107,9 +107,9 @@ public class MainLoginDialogFragment extends DialogFragment implements
     public void saveTokenToDatabase(final String token) {
         LOGIN_STEP = 3;
         editor.putInt("loginStep", LOGIN_STEP).commit();
+        //get the existing user from database and set this token for it
         User user = db.userDao().getUser();
         user.setToken(token);
-        Log.d("thissss", String.valueOf(user.getUid()));
         db.userDao().updateUser(user);
         this.dismiss();
     }

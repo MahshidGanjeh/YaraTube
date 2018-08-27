@@ -23,6 +23,7 @@ public class EnterVerificationCodeFragment extends Fragment
 
     private Button mConfirmVerificationCodeBtn;
     private EditText mEnterVerificationCodeEditText;
+    private Button mCorrectPhoneNumberBtn;
     private String mVerificationCode;
     private String mPhoneNumber;
     private LoginContract.CodePresenter mPresenter;
@@ -39,16 +40,14 @@ public class EnterVerificationCodeFragment extends Fragment
 //        mPhoneNumber = getArguments().getString("mobile");
     }
 
-    public static EnterVerificationCodeFragment newInstance(String phone) {
+    /*   public static EnterVerificationCodeFragment newInstance(String phone) {
 
-        Bundle args = new Bundle();
-        args.putString("mobile", phone);
-        EnterVerificationCodeFragment fragment = new EnterVerificationCodeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
+           Bundle args = new Bundle();
+           args.putString("mobile", phone);
+           EnterVerificationCodeFragment fragment = new EnterVerificationCodeFragment();
+           fragment.setArguments(args);
+           return fragment;
+       }*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +69,7 @@ public class EnterVerificationCodeFragment extends Fragment
 
         mConfirmVerificationCodeBtn = view.findViewById(R.id.confirm_verificationcode_btn);
         mEnterVerificationCodeEditText = view.findViewById(R.id.enter_verification_code_et);
+        mCorrectPhoneNumberBtn = view.findViewById(R.id.correct_phonenumber_btn);
 
         mPhoneNumber = UserDatabase.getUserDatabase(getContext()).userDao().getUserPhoneNumberFromDb();
 
@@ -77,11 +77,16 @@ public class EnterVerificationCodeFragment extends Fragment
             @Override
             public void onClick(View v) {
                 mVerificationCode = mEnterVerificationCodeEditText.getText().toString().trim();
-                String nickname;
-
                 mPresenter.presentVerificationCode(mPhoneNumber, deviceId, mVerificationCode,
                         "nickname");
+            }
+        });
 
+        mCorrectPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragment().getChildFragmentManager().beginTransaction()
+                        .add(R.id.child,new EnterPhoneNumberFragment());
             }
         });
     }

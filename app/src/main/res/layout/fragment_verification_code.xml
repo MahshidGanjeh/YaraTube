@@ -38,6 +38,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/correct_phonenumber_btn"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_gravity="left"

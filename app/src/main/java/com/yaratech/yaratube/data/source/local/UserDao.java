@@ -25,5 +25,4 @@ public interface UserDao {
     @Query("SELECT phoneNumber from user")
     String getUserPhoneNumberFromDb();
 
-
 }
