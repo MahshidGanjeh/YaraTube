@@ -85,7 +85,6 @@ public class EnterVerificationCodeFragment extends Fragment
 
     @Override
     public void show(String token) {
-        Log.d("fuck" , token);
         verificationCodeListener.saveTokenToDatabase(token);
     }
 }

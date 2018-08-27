@@ -1,5 +1,7 @@
 package com.yaratech.yaratube;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -58,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements
 
 
         isLogin = mLocalDataSource.isLogin(db);
-        //Log.d("ttt", db.userDao().getUserTokenFromDatabase());
-
 
         mDrawerNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -67,33 +67,33 @@ public class MainActivity extends AppCompatActivity implements
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.drawer_profile:
-                                Log.d("flage", String.valueOf(isLogin));
                                 if (isLogin) {
+                                    if (db.userDao().getUserPhoneNumberFromDb() != null) {
+                                        Log.d("numbbb", db.userDao().getUserPhoneNumberFromDb());
+                                    }
                                     mProfileFragment = new ProfileFragment();
                                     manager.beginTransaction().addToBackStack("profile").
                                             add(R.id.main_container, mProfileFragment).commit();
+
+                                    drawer.closeDrawers();
                                 } else {
                                     mLoginDialogFragment = new MainLoginDialogFragment();
-                                    //manager.beginTransaction().add(
-                                    //   R.id.main_container,mLoginDialogFragment).commit();
+
                                     mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
 
                                     drawer.closeDrawers();
                                     return true;
                                 }
-
                             case R.id.drawer_aboutous:
                         }
                         return false;
                     }
                 });
-
     }
 
     @Override
     public void onCategoryClicked(int categoryId) {
         mGridProductFragment = GridProductFragment.newInstance(categoryId);
-        //Toast.makeText(getApplicationContext(), String.valueOf(categoryId), Toast.LENGTH_SHORT).show();
         manager.beginTransaction().addToBackStack("products")
                 .add(R.id.main_container, mGridProductFragment).commit();
     }
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void goToProductDetail(int pid) {
         mProductDetailFragment = ProductDetailFragment.newInstance(pid);
-        //Toast.makeText(getApplicationContext(), String.valueOf(p.getName()), Toast.LENGTH_SHORT).show();
+
         manager.beginTransaction().addToBackStack("detail")
                 .add(R.id.main_container, mProductDetailFragment).commit();
     }

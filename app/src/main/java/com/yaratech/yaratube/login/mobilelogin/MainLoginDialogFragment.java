@@ -1,7 +1,9 @@
 package com.yaratech.yaratube.login.mobilelogin;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -23,13 +25,17 @@ public class MainLoginDialogFragment extends DialogFragment implements
         Listener.onConfirmVerificationCodeListener {
 
     private MobileLoginFragment mobileLoginFragment;
-    private EnterPhoneNumberFragment mPhoneNumberDialogFragment;
-    private EnterVerificationCodeFragment mVerificationCodeDialogFragment;
+    private EnterPhoneNumberFragment mPhoneNumberFragment;
+    private EnterVerificationCodeFragment mVerificationCodeFragment;
     private FragmentManager manager;
 
     private LocalDataSource mLocalDataSource;
     private UserDatabase db;
     boolean isLogin = false;
+
+    private static int LOGIN_STEP;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     public MainLoginDialogFragment() {
         // Required empty public constructor
@@ -43,6 +49,14 @@ public class MainLoginDialogFragment extends DialogFragment implements
         // we get the childFragmentManager instead of FragmentManager
         manager = getChildFragmentManager();
         db = UserDatabase.getUserDatabase(getContext());
+
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        editor = pref.edit();
+
+
+        //SharedPreferences pref =PreferenceManager.getSharedPreferences(this);
+        String username = pref.getString("username", "");
+
     }
 
     @Override
@@ -52,8 +66,8 @@ public class MainLoginDialogFragment extends DialogFragment implements
         View root = inflater.inflate(R.layout.fragment_mobile_login_dialog, container, false);
 
         mobileLoginFragment = new MobileLoginFragment();
-        mPhoneNumberDialogFragment = new EnterPhoneNumberFragment();
-        mVerificationCodeDialogFragment = new EnterVerificationCodeFragment();
+        mPhoneNumberFragment = new EnterPhoneNumberFragment();
+        mVerificationCodeFragment = new EnterVerificationCodeFragment();
 
         mLocalDataSource = new LocalDataSource(getContext());
 
@@ -70,19 +84,28 @@ public class MainLoginDialogFragment extends DialogFragment implements
 
     @Override
     public void goToPhoneNumberDialog() {
-        manager.beginTransaction().add(R.id.child, mPhoneNumberDialogFragment).commit();
+        LOGIN_STEP = 1;
+        editor.putInt("loginStep", LOGIN_STEP).commit();
+        manager.beginTransaction().add(R.id.child, mPhoneNumberFragment).commit();
     }
 
     @Override
     public void goToVerificationDialog(String phoneNumber) {
-        mVerificationCodeDialogFragment = EnterVerificationCodeFragment.newInstance(phoneNumber);
+        LOGIN_STEP = 2;
+        editor.putInt("loginStep", LOGIN_STEP).commit();
+        mVerificationCodeFragment = EnterVerificationCodeFragment.newInstance(phoneNumber);
         manager.beginTransaction().add(R.id.child,
-                mVerificationCodeDialogFragment).commit();
+                mVerificationCodeFragment).commit();
     }
 
     @Override
     public void saveTokenToDatabase(final String token) {
-        db.userDao().insertUserToDb(new User(token));
-        isLogin = mLocalDataSource.isLogin(db);
+        LOGIN_STEP = 3;
+        editor.putInt("loginStep", LOGIN_STEP).commit();
+        User user = db.userDao().getUser();
+        user.setToken(token);
+        Log.d("thissss", String.valueOf(user.getUid()));
+        db.userDao().updateUser(user);
+        this.dismiss();
     }
 }

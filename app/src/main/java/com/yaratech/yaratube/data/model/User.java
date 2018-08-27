@@ -22,6 +22,9 @@ public class User {
     @ColumnInfo(name = "first_name")
     private String firstName;
 
+    @ColumnInfo(name = "phoneNumber")
+    private String phoneNumber;
+
     @SerializedName("error")
     @Expose
     private Integer error;
@@ -34,9 +37,9 @@ public class User {
     @SerializedName("token")
     @Expose
     private String token;
-   /* @SerializedName("files_added")
-    @Expose
-    private List<String> filesAdded;*/
+    /* @SerializedName("files_added")
+     @Expose
+     private List<String> filesAdded;*/
     @SerializedName("nickname")
     @Expose
     private String nickname;
@@ -116,5 +119,13 @@ public class User {
 
     public String getFinoToken() {
         return FinoToken;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
