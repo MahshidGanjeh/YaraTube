@@ -68,8 +68,11 @@ public class MainActivity extends AppCompatActivity implements
                         switch (item.getItemId()) {
                             case R.id.drawer_profile:
                                 if (isLogin) {
-                                    if (db.userDao().getUserPhoneNumberFromDb() != null) {
-                                        Log.d("numbbb", db.userDao().getUserPhoneNumberFromDb());
+                                    if (db.userDao().getUser().getUid() != 0) {
+                                        Log.d("mahshi",
+                                                String.valueOf(db.userDao().getUser().getPhoneNumber()));
+                                    } else {
+                                        Log.d("mahs", "not saved");
                                     }
                                     mProfileFragment = new ProfileFragment();
                                     manager.beginTransaction().addToBackStack("profile").

@@ -71,9 +71,16 @@ public class MainLoginDialogFragment extends DialogFragment implements
 
         mLocalDataSource = new LocalDataSource(getContext());
 
-        manager.beginTransaction().add(R.id.child, mobileLoginFragment)
-                .commit();
-
+        User user = db.userDao().getUser();
+        if (db.userDao().getUserPhoneNumberFromDb() != null) {
+            Log.d("mah", String.valueOf(db.userDao().getUserPhoneNumberFromDb()));
+            manager.beginTransaction().add(R.id.child, mVerificationCodeFragment)
+                    .commit();
+        } else {
+            Log.d("mah", "not saved");
+            manager.beginTransaction().add(R.id.child, mobileLoginFragment)
+                    .commit();
+        }
         return root;
     }
 
