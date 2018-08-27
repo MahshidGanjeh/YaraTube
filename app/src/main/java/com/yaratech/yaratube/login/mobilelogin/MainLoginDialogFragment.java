@@ -73,11 +73,9 @@ public class MainLoginDialogFragment extends DialogFragment implements
 
         User user = db.userDao().getUser();
         if (db.userDao().getUserPhoneNumberFromDb() != null) {
-            Log.d("mah", String.valueOf(db.userDao().getUserPhoneNumberFromDb()));
             manager.beginTransaction().add(R.id.child, mVerificationCodeFragment)
                     .commit();
         } else {
-            Log.d("mah", "not saved");
             manager.beginTransaction().add(R.id.child, mobileLoginFragment)
                     .commit();
         }
@@ -100,7 +98,7 @@ public class MainLoginDialogFragment extends DialogFragment implements
     public void goToVerificationDialog(String phoneNumber) {
         LOGIN_STEP = 2;
         editor.putInt("loginStep", LOGIN_STEP).commit();
-        mVerificationCodeFragment = EnterVerificationCodeFragment.newInstance(phoneNumber);
+        mVerificationCodeFragment = new EnterVerificationCodeFragment();
         manager.beginTransaction().add(R.id.child,
                 mVerificationCodeFragment).commit();
     }

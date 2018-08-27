@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.yaratech.yaratube.R;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.util.Listener;
 
 public class EnterVerificationCodeFragment extends Fragment
@@ -35,7 +36,7 @@ public class EnterVerificationCodeFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPhoneNumber = getArguments().getString("mobile");
+//        mPhoneNumber = getArguments().getString("mobile");
     }
 
     public static EnterVerificationCodeFragment newInstance(String phone) {
@@ -69,6 +70,8 @@ public class EnterVerificationCodeFragment extends Fragment
 
         mConfirmVerificationCodeBtn = view.findViewById(R.id.confirm_verificationcode_btn);
         mEnterVerificationCodeEditText = view.findViewById(R.id.enter_verification_code_et);
+
+        mPhoneNumber = UserDatabase.getUserDatabase(getContext()).userDao().getUserPhoneNumberFromDb();
 
         mConfirmVerificationCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
