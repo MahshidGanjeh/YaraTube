@@ -56,7 +56,10 @@ public class MainActivity extends AppCompatActivity implements
         db = UserDatabase.getUserDatabase(getApplicationContext());
         mLocalDataSource = new LocalDataSource(getApplicationContext());
 
+
         isLogin = mLocalDataSource.isLogin(db);
+        //Log.d("ttt", db.userDao().getUserTokenFromDatabase());
+
 
         mDrawerNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -67,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements
                                 Log.d("flage", String.valueOf(isLogin));
                                 if (isLogin) {
                                     mProfileFragment = new ProfileFragment();
-                                    manager.beginTransaction().
+                                    manager.beginTransaction().addToBackStack("profile").
                                             add(R.id.main_container, mProfileFragment).commit();
                                 } else {
                                     mLoginDialogFragment = new MainLoginDialogFragment();

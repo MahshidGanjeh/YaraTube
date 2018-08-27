@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.yaratech.yaratube.data.model.User;
 
-@Database(entities = {User.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class}, version = 3, exportSchema = false)
 public abstract class UserDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -18,6 +18,7 @@ public abstract class UserDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     UserDatabase.class, "user-database")
+                    .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build();
         }

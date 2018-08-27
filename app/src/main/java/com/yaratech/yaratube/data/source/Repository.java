@@ -1,24 +1,8 @@
 package com.yaratech.yaratube.data.source;
 
-import android.util.Log;
-
-import com.yaratech.yaratube.data.model.Category;
-import com.yaratech.yaratube.data.model.Comment;
-import com.yaratech.yaratube.data.model.DetailedProduct;
-import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
-import com.yaratech.yaratube.data.source.remote.ApiService;
-import com.yaratech.yaratube.data.source.remote.ApiClient;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
-
-import java.util.List;
-import java.util.zip.CheckedOutputStream;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Repository implements DataSource {
 
@@ -68,7 +52,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Boolean isLogin(UserDatabase db) {
+    public boolean isLogin(UserDatabase db) {
         return mLocalDataSource.isLogin(db);
     }
 }

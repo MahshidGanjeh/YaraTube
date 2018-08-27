@@ -207,8 +207,8 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public Boolean isLogin(UserDatabase db) {
-        return null;
+    public boolean isLogin(UserDatabase db) {
+        return false;
     }
 }
 

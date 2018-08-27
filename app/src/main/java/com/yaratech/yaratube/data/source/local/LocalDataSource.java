@@ -2,7 +2,6 @@ package com.yaratech.yaratube.data.source.local;
 
 import android.content.Context;
 
-import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.DataSource;
 import com.yaratech.yaratube.data.source.WebService;
 
@@ -49,7 +48,7 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public Boolean isLogin(UserDatabase db) {
+    public boolean isLogin(UserDatabase db) {
         if (db.userDao().getUserTokenFromDatabase() == null) {
             return false;
         } else return true;

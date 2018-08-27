@@ -1,6 +1,5 @@
 package com.yaratech.yaratube.data.source;
 
-import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 
 public interface DataSource {
@@ -23,5 +22,5 @@ public interface DataSource {
                               String phoneNumber, String device_id, String verificationCode,
                               String nickName);
 
-    Boolean isLogin(UserDatabase db);
+    boolean isLogin(UserDatabase db);
 }
