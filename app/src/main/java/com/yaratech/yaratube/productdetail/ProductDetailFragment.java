@@ -103,7 +103,7 @@ public class ProductDetailFragment extends Fragment implements
         mSendCommentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CommentDialogFragment().show(getFragmentManager(), "cm");
+                CommentDialogFragment.newInstance(mProductId).show(getFragmentManager(),"cm");
             }
         });
 

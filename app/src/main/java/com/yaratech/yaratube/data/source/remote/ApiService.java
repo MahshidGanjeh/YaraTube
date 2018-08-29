@@ -72,7 +72,8 @@ public interface ApiService {
                                   @Field("score") int score,
                                   @Field("comment_text") String commentText,
                                   @Path("product_id") int productId,
-                                  //to check if the user is logged in we send token
+                                  //to check if the user is logged in(so he can post comment)
+                                  // we send token
                                   @Header("Authorization") String token
     );
 

@@ -220,7 +220,7 @@ public class RemoteDataSource implements DataSource {
 
         if (Network.isOnline(mContext)) {
             mApiService.postComment(title, score,
-                    commentText, productId, "Token" + token)
+                    commentText, productId, "Token " + token)
                     .enqueue(new Callback<PostComment>() {
                         @Override
                         public void onResponse(Call<PostComment> call, Response<PostComment> response) {
@@ -234,7 +234,7 @@ public class RemoteDataSource implements DataSource {
 
                         @Override
                         public void onFailure(Call<PostComment> call, Throwable t) {
-
+                            Log.d("errr" , t.getMessage());
                         }
                     });
 
