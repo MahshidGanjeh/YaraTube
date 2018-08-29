@@ -54,5 +54,12 @@ public class LocalDataSource implements DataSource {
         } else return true;
     }
 
+    @Override
+    public void postComment(WebService.ApiResultCallBack callBack,
+                            String title, int score,
+                            String commentText, int productId, String token) {
+
+    }
+
 
 }

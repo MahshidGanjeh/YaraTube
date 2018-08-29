@@ -10,30 +10,30 @@
     tools:context=".login.mobilelogin.MobileLoginFragment">
 
     <TextView
-        android:fontFamily="@font/iran_san"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginBottom="20dp"
+        android:fontFamily="@font/iran_san"
         android:text="@string/title_enter"
         android:textColor="#000" />
 
     <Button
+        android:id="@+id/via_phone_number_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/blue_round"
         android:drawableRight="@drawable/smartphone__1_"
         android:text="@string/title_via_phonenumber"
-        android:id="@+id/via_phone_number_btn"
-        android:textColor="#FFF" />
+        android:textColor="@color/white" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:background="@android:color/holo_red_dark"
+        android:background="@drawable/red_round"
         android:drawableRight="@drawable/smartphone__1_"
         android:text="@string/title_via_google"
-        android:textColor="#FFF" />
+        android:textColor="@color/white" />
 
 </LinearLayout>

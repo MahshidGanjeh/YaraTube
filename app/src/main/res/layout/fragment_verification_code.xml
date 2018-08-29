@@ -23,8 +23,9 @@
         android:id="@+id/enter_verification_code_et"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:background="@drawable/round"
         android:hint="@string/verification_code"
-        android:textColor="#000" />
+        android:textColor="@color/black" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,19 +49,19 @@
             android:layout_weight="1"
             android:background="@drawable/round"
             android:text="@string/edit_phonenumber"
-            android:textColor="@color/black"
-            android:textColorHint="@color/colorPrimary" />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/confirm_verificationcode_btn"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/round"
             android:text="@string/confirm_btn"
-            android:textColor="#FFF" />
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
