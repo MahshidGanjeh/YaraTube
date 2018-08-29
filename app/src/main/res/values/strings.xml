@@ -34,6 +34,7 @@
     <string name="verification_code">کد فعالسازی</string>
     <string name="not_receive_thecode">کد را دریافت نکردید؟</string>
     <string name="edit_phonenumber">تصحیح شماره</string>
+    <string name="comment">نظر</string>
 
 
 </resources>

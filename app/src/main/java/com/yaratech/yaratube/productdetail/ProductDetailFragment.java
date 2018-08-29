@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.yaratech.yaratube.data.model.DetailedProduct;
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.source.Repository;
 import com.yaratech.yaratube.data.source.WebService;
+import com.yaratech.yaratube.productdetail.commentdialog.CommentDialogFragment;
 
 import org.parceler.Parcels;
 
@@ -37,6 +39,7 @@ public class ProductDetailFragment extends Fragment implements
     private ImageView mImageView;
     private TextView title;
     private TextView description;
+    private Button mSendCommentBtn;
     private RecyclerView mCommentRecycler;
     private ProgressBar mProgressBar;
 
@@ -50,6 +53,20 @@ public class ProductDetailFragment extends Fragment implements
 
     public ProductDetailFragment() {
         // Required empty public constructor
+    }
+
+    public static ProductDetailFragment newInstance(int p) {
+        Bundle args = new Bundle();
+        args.putInt("pid", p);
+        ProductDetailFragment fragment = new ProductDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mProductId = getArguments().getInt("pid");
     }
 
     @Override
@@ -69,6 +86,7 @@ public class ProductDetailFragment extends Fragment implements
         mImageView = view.findViewById(R.id.imageView);
         title = view.findViewById(R.id.product_detail_title_tv);
         description = view.findViewById(R.id.product_detail_description_tv);
+        mSendCommentBtn = view.findViewById(R.id.comment_btn);
         mProgressBar = view.findViewById(R.id.product_detail_progress_bar);
 
         mCommentRecycler = view.findViewById(R.id.product_detail_comment_recycler);
@@ -82,23 +100,17 @@ public class ProductDetailFragment extends Fragment implements
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         mCommentRecycler.setNestedScrollingEnabled(false);
 
+        mSendCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CommentDialogFragment().show(getFragmentManager(), "cm");
+            }
+        });
+
         mDetailPresenter.loadDetail(mProductId);
         mPresenter.loadComments(mProductId);
     }
 
-    public static ProductDetailFragment newInstance(int p) {
-        Bundle args = new Bundle();
-        args.putInt("pid", p);
-        ProductDetailFragment fragment = new ProductDetailFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mProductId = getArguments().getInt("pid");
-    }
 
     @Override
     public void showComments(List<Comment> list) {
