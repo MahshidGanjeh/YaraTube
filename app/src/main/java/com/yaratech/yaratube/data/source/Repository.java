@@ -55,4 +55,11 @@ public class Repository implements DataSource {
     public boolean isLogin(UserDatabase db) {
         return mLocalDataSource.isLogin(db);
     }
+
+    @Override
+    public void postComment(WebService.ApiResultCallBack callBack,
+                            String title, int score, String commentText,
+                            int productId, String token) {
+        mRemoteDataSource.postComment(callBack, title, score, commentText, productId, token);
+    }
 }

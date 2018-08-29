@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical"
     android:paddingBottom="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:background="#fff"
     tools:context=".login.mobilelogin.EnterPhoneNumberFragment">
 
     <TextView
@@ -20,12 +20,13 @@
         android:textColor="#000" />
 
     <EditText
-        android:textColorHighlight="#000"
         android:id="@+id/phone_number_et"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:background="@drawable/round"
         android:hint="@string/enter_phone_number"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:textColorHighlight="#000" />
 
     <Button
         android:id="@+id/confirm_phonenumber_btn"

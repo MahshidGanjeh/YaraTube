@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.yaratech.yaratube.data.model.User;
 
-@Database(entities = {User.class}, version = 13, exportSchema = false)
+@Database(entities = {User.class}, version = 14, exportSchema = false)
 public abstract class UserDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();

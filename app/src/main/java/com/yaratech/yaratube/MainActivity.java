@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements
 
                                     mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
 
+                                    mLoginDialogFragment.setCancelable(false);
                                     drawer.closeDrawers();
                                     return true;
                                 }

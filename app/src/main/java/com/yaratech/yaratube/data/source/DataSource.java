@@ -23,4 +23,8 @@ public interface DataSource {
                               String nickName);
 
     boolean isLogin(UserDatabase db);
+
+    void postComment(WebService.ApiResultCallBack callBack,
+                     String title, int score, String commentText, int productId,
+                     String token);
 }

@@ -86,7 +86,7 @@ public class EnterVerificationCodeFragment extends Fragment
             @Override
             public void onClick(View v) {
                 getParentFragment().getChildFragmentManager().beginTransaction()
-                        .add(R.id.child,new EnterPhoneNumberFragment());
+                        .add(R.id.child,new EnterPhoneNumberFragment()).commit();
             }
         });
     }

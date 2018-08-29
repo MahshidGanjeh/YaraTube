@@ -9,6 +9,7 @@ import com.yaratech.yaratube.data.model.Category;
 import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.DetailedProduct;
 import com.yaratech.yaratube.data.model.Login;
+import com.yaratech.yaratube.data.model.PostComment;
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.model.User;
@@ -151,7 +152,8 @@ public class RemoteDataSource implements DataSource {
                                 String device_os) {
         if (Network.isOnline(mContext)) {
             mApiService.postPhoneNumber(phoneNumber, device_id, device_model, device_os).enqueue(new Callback<Login>() {
-                                                                                                     @Override public void onResponse(Call<Login> call, Response<Login> response) {
+                                                                                                     @Override
+                                                                                                     public void onResponse(Call<Login> call, Response<Login> response) {
                                                                                                          if (response.isSuccessful()) {
                                                                                                              callBack.onSuccess(response.body());
                                                                                                              Log.d("you receive sms", "sms sent" + response.body().getNickname());
@@ -186,7 +188,7 @@ public class RemoteDataSource implements DataSource {
                                  public void onResponse(Call<User> call, Response<User> response) {
                                      if (response.isSuccessful()) {
                                          callBack.onSuccess(response.body());
-                                       //  Toast.makeText(mContext, response.code(), Toast.LENGTH_SHORT).show();
+                                         //  Toast.makeText(mContext, response.code(), Toast.LENGTH_SHORT).show();
                                          Log.d("code posted", "code posted");
                                      } else if (response.code() == 401) {
                                          Log.d("401", "mobile number is not valid");
@@ -198,7 +200,7 @@ public class RemoteDataSource implements DataSource {
                                  @Override
                                  public void onFailure(Call<User> call, Throwable t) {
                                      callBack.onFail(t.getMessage());
-                                     Log.d("errrr" , t.getMessage());
+                                     Log.d("errrr", t.getMessage());
                                  }
                              }
                     );
@@ -209,6 +211,35 @@ public class RemoteDataSource implements DataSource {
     @Override
     public boolean isLogin(UserDatabase db) {
         return false;
+    }
+
+    @Override
+    public void postComment(final WebService.ApiResultCallBack callBack,
+                            String title, int score, String commentText,
+                            int productId, String token) {
+
+        if (Network.isOnline(mContext)) {
+            mApiService.postComment(title, score,
+                    commentText, productId, "Token" + token)
+                    .enqueue(new Callback<PostComment>() {
+                        @Override
+                        public void onResponse(Call<PostComment> call, Response<PostComment> response) {
+                            if (response.isSuccessful()) {
+                                callBack.onSuccess(response.body());
+                                Log.d("comment sent", "cm");
+                            } else {
+                                callBack.onFail(response.message());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<PostComment> call, Throwable t) {
+
+                        }
+                    });
+
+        } else toastInternetConnection(mContext);
+
     }
 }
 
