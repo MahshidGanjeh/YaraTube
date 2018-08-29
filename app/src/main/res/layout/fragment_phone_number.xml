@@ -22,11 +22,12 @@
     <EditText
         android:id="@+id/phone_number_et"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
+        android:padding="5dp"
         android:background="@drawable/round"
         android:hint="@string/enter_phone_number"
-        android:textColor="#000"
-        android:textColorHighlight="#000" />
+        android:textColor="@color/black"
+        android:textColorHighlight="@color/black" />
 
     <Button
         android:id="@+id/confirm_phonenumber_btn"
