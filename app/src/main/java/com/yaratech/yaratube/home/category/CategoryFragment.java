@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import com.yaratech.yaratube.data.model.Category;
 import com.yaratech.yaratube.util.Listener;
 
 import java.util.List;
+
+import static android.widget.LinearLayout.VERTICAL;
 
 public class CategoryFragment extends Fragment implements
         CategoryContract.View, Listener.onCategoryClickListener {
@@ -53,6 +56,9 @@ public class CategoryFragment extends Fragment implements
         mProgressBar = view.findViewById(R.id.category_progress_bar);
         mRecyclerView = view.findViewById(R.id.category_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        DividerItemDecoration itemDecor = new
+                DividerItemDecoration(mRecyclerView.getContext(), VERTICAL);
+        mRecyclerView.addItemDecoration(itemDecor);
         adapter = new CategoryAdapter(getContext(), this, getFragmentManager());
         mRecyclerView.setAdapter(adapter);
 

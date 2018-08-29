@@ -83,6 +83,8 @@ public class CommentDialogFragment extends DialogFragment
                         mRelatedCommentProductId,
                         token
                 );
+
+                getDialog().dismiss();
             }
         });
     }

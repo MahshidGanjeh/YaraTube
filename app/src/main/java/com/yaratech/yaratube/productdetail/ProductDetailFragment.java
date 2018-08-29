@@ -94,10 +94,12 @@ public class ProductDetailFragment extends Fragment implements
 
 
         mCommentRecycler.setAdapter(adapter);
+        //to show the line in the bottom of each item
         DividerItemDecoration itemDecor = new
                 DividerItemDecoration(mCommentRecycler.getContext(), VERTICAL);
         mCommentRecycler.addItemDecoration(itemDecor);
         mCommentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        //to cancel the scrolling mode of recycler so it just scroll with nested scroll
         mCommentRecycler.setNestedScrollingEnabled(false);
 
         mSendCommentBtn.setOnClickListener(new View.OnClickListener() {

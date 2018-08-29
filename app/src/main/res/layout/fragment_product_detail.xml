@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/white"
+    android:layoutDirection="rtl"
     tools:context=".productdetail.ProductDetailFragment">
 
 
@@ -61,23 +62,22 @@
                         android:id="@+id/product_detail_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="28dp"
-                        android:layout_marginRight="28dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/iran_san"
                         android:text="عنوان"
                         android:textColor="#000"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="316dp"
+                        android:layout_marginStart="316dp"
                         android:src="@drawable/icon_check_circle_filled"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -105,13 +105,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:fontFamily="@font/iran_san"
                         android:text="@string/description"
                         android:textColor="#000"
                         app:layout_constraintBottom_toTopOf="@+id/product_detail_description_tv"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <TextView
                         android:id="@+id/product_detail_description_tv"
@@ -135,27 +135,26 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/iran_san"
                 android:text="@string/user_comment"
                 android:textColor="#000"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/second_card" />
 
             <Button
                 android:id="@+id/comment_btn"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/blue_round"
                 android:text="@string/leave_comment"
                 android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/second_card" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/second_card"
+                tools:layout_editor_absoluteX="30dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/product_detail_comment_recycler"
@@ -163,7 +162,6 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/comment_btn">
 
             </android.support.v7.widget.RecyclerView>

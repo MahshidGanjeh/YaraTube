@@ -35,6 +35,9 @@
     <string name="not_receive_thecode">کد را دریافت نکردید؟</string>
     <string name="edit_phonenumber">تصحیح شماره</string>
     <string name="comment">نظر</string>
+    <string name="comment_sent">نظر شما ارسال شد</string>
+    <string name="save_changes">ثبت تغییرات</string>
+    <string name="cancel">انصراف</string>
 
 
 </resources>

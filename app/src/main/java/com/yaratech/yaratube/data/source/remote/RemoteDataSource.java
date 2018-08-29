@@ -226,7 +226,8 @@ public class RemoteDataSource implements DataSource {
                         public void onResponse(Call<PostComment> call, Response<PostComment> response) {
                             if (response.isSuccessful()) {
                                 callBack.onSuccess(response.body());
-                                Log.d("comment sent", "cm");
+                              //  Log.d("comment sent", "cm");
+                                Toast.makeText(mContext, R.string.comment_sent ,Toast.LENGTH_SHORT).show();
                             } else {
                                 callBack.onFail(response.message());
                             }

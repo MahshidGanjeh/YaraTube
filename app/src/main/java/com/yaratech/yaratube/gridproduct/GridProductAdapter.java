@@ -29,7 +29,7 @@ public class GridProductAdapter extends RecyclerView.Adapter<GridProductViewHold
     @Override
     public GridProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.product_item, parent, false);
+                .inflate(R.layout.grid_product_item, parent, false);
         GridProductViewHolder viewHolder = new GridProductViewHolder(rootView);
 
         return viewHolder;
