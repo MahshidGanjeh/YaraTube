@@ -67,7 +67,8 @@ public class GridProductAdapter extends RecyclerView.Adapter<GridProductViewHold
 
     public void addAll(List<Product> productsList) {
         for (Product product : productsList) {
-            add(product);
+            mProductList.add(product);
+          //  notifyDataSetChanged();
         }
     }
 

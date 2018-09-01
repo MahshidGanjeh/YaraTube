@@ -86,7 +86,7 @@ public class RemoteDataSource implements DataSource {
     public void fetchProductsByCategoryId(
             final WebService.ApiResultCallBack apiResultCallBack, int cid, int offset) {
         if (Network.isOnline(mContext)) {
-            mApiService.getProductsByCategoryId(cid, 10, offset)
+            mApiService.getProductsByCategoryId(cid, 4, offset)
                     .enqueue(new Callback<List<Product>>() {
                         @Override
                         public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {

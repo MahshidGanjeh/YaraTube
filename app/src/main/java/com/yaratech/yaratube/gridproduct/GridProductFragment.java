@@ -30,6 +30,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
     private GridProductAdapter adapter;
     private ProgressBar mProgressBar;
     private ProgressBar mFooterProgress;
+    int Counter = 0;
     private Listener.onProductClickListener mOnProductClickListener;
     private static int mCategoryId;
 
@@ -40,7 +41,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
     // If current page is the last page (Pagination will stop after this page load)
     private boolean isLastPage = false;
     // total no. of pages to load. Initial load is page 0, after which 2 more pages will load.
-    private int TOTAL_PAGES = 3;
+    private int TOTAL_PAGES = 10;
     // indicates the current page which Pagination is fetching.
     private int currentPage = PAGE_START;
 
@@ -86,7 +87,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
         mPresenter = new GridProductPresenter(this, getActivity().getApplicationContext());
 
         mProgressBar = view.findViewById(R.id.grid_product_progress_bar);
-      //  mFooterProgress = view.findViewById(R.id.grid_product_pagination_progress_bar);
+        //  mFooterProgress = view.findViewById(R.id.grid_product_pagination_progress_bar);
         mRecyclerView = view.findViewById(R.id.product_of_category_recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -94,15 +95,20 @@ public class GridProductFragment extends Fragment implements GridProductContract
 
         mRecyclerView.setAdapter(adapter);
 
-        mPresenter.loadProducts(mCategoryId, 0);
-
+       // mPresenter.loadProducts(mCategoryId, 0);
         mRecyclerView.addOnScrollListener(new PaginationScrollListener(gridLayoutManager) {
             @Override
             protected void loadMoreItems() {
                 isLoading = true;
                 currentPage += 1;//Increment page index to load the next one
-               mPresenter.loadProducts(mCategoryId, 0);
-                //loadNextPage();
+
+                int offset = adapter.getItemCount();
+                mPresenter.loadProducts(mCategoryId, offset);
+
+                if (currentPage != TOTAL_PAGES) {
+                }
+                //adapter.addLoadingFooter();  // 5
+                else isLastPage = true;
             }
 
             @Override
@@ -120,18 +126,20 @@ public class GridProductFragment extends Fragment implements GridProductContract
                 return isLoading;
             }
         });
+        mPresenter.loadProducts(mCategoryId, adapter.getItemCount());
 
+        if (currentPage <= TOTAL_PAGES) {
+        }
+        //adapter.addLoadingFooter();
+        else isLastPage = true;
         // loadFirstPage();
     }
-
-    public void loadFirstPage(List<Product> list) {
-
-    }
-
-
     @Override
     public void showProducts(List<Product> list) {
-        adapter.setProductList(list);
+        //adapter.setProductList(list);
+        adapter.addAll(list);
+        //adapter.notifyItemInserted(adapter.getItemCount() - 1);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
