@@ -24,7 +24,8 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid) {
+    public void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid
+    ,int offset) {
 
     }
 

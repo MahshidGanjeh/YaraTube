@@ -8,7 +8,7 @@ public interface DataSource {
 
     void fetchCategory(WebService.ApiResultCallBack callBack);
 
-    void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid);
+    void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid, int offset);
 
     void fetchCommentByProductId(WebService.ApiResultCallBack callBack, int pid);
 

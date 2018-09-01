@@ -20,7 +20,7 @@ public class GridProductPresenter implements GridProductContract.Presenter {
     }
 
     @Override
-    public void loadProducts(int id) {
+    public void loadProducts(int categoryId , int offset) {
         productsRepo.fetchProductsByCategoryId(new WebService.ApiResultCallBack() {
             @Override
             public void onSuccess(Object response) {
@@ -32,6 +32,6 @@ public class GridProductPresenter implements GridProductContract.Presenter {
             public void onFail(Object message) {
                 Log.d("hey", String.valueOf(message));
             }
-        }, id);
+        }, categoryId,offset);
     }
 }

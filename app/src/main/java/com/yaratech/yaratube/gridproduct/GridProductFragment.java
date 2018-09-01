@@ -29,12 +29,48 @@ public class GridProductFragment extends Fragment implements GridProductContract
     private RecyclerView mRecyclerView;
     private GridProductAdapter adapter;
     private ProgressBar mProgressBar;
+    private ProgressBar mFooterProgress;
     private Listener.onProductClickListener mOnProductClickListener;
     private static int mCategoryId;
+
+    // Index from which pagination should start (0 is 1st page in our case)
+    private static final int PAGE_START = 0;
+    // Indicates if footer ProgressBar is shown (i.e. next page is loading)
+    private boolean isLoading = false;
+    // If current page is the last page (Pagination will stop after this page load)
+    private boolean isLastPage = false;
+    // total no. of pages to load. Initial load is page 0, after which 2 more pages will load.
+    private int TOTAL_PAGES = 3;
+    // indicates the current page which Pagination is fetching.
+    private int currentPage = PAGE_START;
+
 
     public GridProductFragment() {
         // Required empty public constructor
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mOnProductClickListener = (Listener.onProductClickListener) context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCategoryId = getArguments().getInt("categoryId");
+    }
+
+    public static GridProductFragment newInstance(int categoryId) {
+
+        Bundle args = new Bundle();
+        args.putInt("categoryId", categoryId);
+
+        GridProductFragment fragment = new GridProductFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,37 +86,48 @@ public class GridProductFragment extends Fragment implements GridProductContract
         mPresenter = new GridProductPresenter(this, getActivity().getApplicationContext());
 
         mProgressBar = view.findViewById(R.id.grid_product_progress_bar);
+      //  mFooterProgress = view.findViewById(R.id.grid_product_pagination_progress_bar);
         mRecyclerView = view.findViewById(R.id.product_of_category_recycler);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new GridProductAdapter(getContext(), mOnProductClickListener);
 
         mRecyclerView.setAdapter(adapter);
 
-        mPresenter.loadProducts(mCategoryId);
+        mPresenter.loadProducts(mCategoryId, 0);
+
+        mRecyclerView.addOnScrollListener(new PaginationScrollListener(gridLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage += 1;//Increment page index to load the next one
+               mPresenter.loadProducts(mCategoryId, 0);
+                //loadNextPage();
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
+
+        // loadFirstPage();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mOnProductClickListener = (Listener.onProductClickListener) context;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mCategoryId = getArguments().getInt("categoryId");
+    public void loadFirstPage(List<Product> list) {
 
     }
 
-    public static GridProductFragment newInstance(int categoryId) {
-
-        Bundle args = new Bundle();
-        args.putInt("categoryId", categoryId);
-
-        GridProductFragment fragment = new GridProductFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void showProducts(List<Product> list) {
@@ -95,6 +142,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
     @Override
     public void hideProgressBar() {
         mProgressBar.setVisibility(View.GONE);
+        //mFooterProgress.setVisibility(View.GONE);
     }
 
     @Override

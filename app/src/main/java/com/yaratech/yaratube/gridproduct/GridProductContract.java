@@ -17,7 +17,7 @@ public interface GridProductContract {
 
     interface Presenter {
 
-        void loadProducts(int categoryId);
+        void loadProducts(int categoryId,int offset);
 
     }
 }

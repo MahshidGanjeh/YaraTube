@@ -84,9 +84,9 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void fetchProductsByCategoryId(
-            final WebService.ApiResultCallBack apiResultCallBack, int cid) {
+            final WebService.ApiResultCallBack apiResultCallBack, int cid, int offset) {
         if (Network.isOnline(mContext)) {
-            mApiService.getProductsByCategoryId(cid ,10,0)
+            mApiService.getProductsByCategoryId(cid, 10, offset)
                     .enqueue(new Callback<List<Product>>() {
                         @Override
                         public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -226,8 +226,8 @@ public class RemoteDataSource implements DataSource {
                         public void onResponse(Call<PostComment> call, Response<PostComment> response) {
                             if (response.isSuccessful()) {
                                 callBack.onSuccess(response.body());
-                              //  Log.d("comment sent", "cm");
-                                Toast.makeText(mContext, R.string.comment_sent ,Toast.LENGTH_SHORT).show();
+                                //  Log.d("comment sent", "cm");
+                                Toast.makeText(mContext, R.string.comment_sent, Toast.LENGTH_SHORT).show();
                             } else {
                                 callBack.onFail(response.message());
                             }
@@ -235,7 +235,7 @@ public class RemoteDataSource implements DataSource {
 
                         @Override
                         public void onFailure(Call<PostComment> call, Throwable t) {
-                            Log.d("errr" , t.getMessage());
+                            Log.d("errr", t.getMessage());
                         }
                     });
 

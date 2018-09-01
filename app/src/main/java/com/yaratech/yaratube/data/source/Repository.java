@@ -22,8 +22,8 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid) {
-        mRemoteDataSource.fetchProductsByCategoryId(callBack, cid);
+    public void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid ,int offset) {
+        mRemoteDataSource.fetchProductsByCategoryId(callBack, cid , offset);
     }
 
     @Override
