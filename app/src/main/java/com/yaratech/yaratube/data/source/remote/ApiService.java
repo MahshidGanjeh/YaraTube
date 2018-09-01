@@ -34,8 +34,14 @@ public interface ApiService {
     Call<List<Category>> getCategories();
 
     //products of a category by category id (Grid product page)
+    //we get the 10 products to show in recycler and then
+    //we load more 10 products
+    //limit is the number of products which we want to display
+    //offset is the number where the response is started from
     @GET("listproducts/{category_id}")
-    Call<List<Product>> getProductsByCategoryId(@Path("category_id") int categoryId);
+    Call<List<Product>> getProductsByCategoryId(@Path("category_id") int categoryId,
+                                                @Query("limit") int limit,
+                                                @Query("offset") int offset);
 
     //product comments by product id
     @GET("comment/{product_id}")
