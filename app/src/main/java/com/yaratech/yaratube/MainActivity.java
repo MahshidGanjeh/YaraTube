@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements
                                     mLoginDialogFragment = new MainLoginDialogFragment();
 
                                     mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
-
+                                    //when user click in other point of page, dialog shouldn't
+                                    //be closed
                                     mLoginDialogFragment.setCancelable(false);
                                     drawer.closeDrawers();
                                     return true;
