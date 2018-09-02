@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
     // If current page is the last page (Pagination will stop after this page load)
     private boolean isLastPage = false;
     // total no. of pages to load. Initial load is page 0, after which 2 more pages will load.
-    private int TOTAL_PAGES = 10;
+    private int TOTAL_PAGES = 20;
     // indicates the current page which Pagination is fetching.
     private int currentPage = PAGE_START;
 
@@ -95,19 +96,27 @@ public class GridProductFragment extends Fragment implements GridProductContract
 
         mRecyclerView.setAdapter(adapter);
 
-       // mPresenter.loadProducts(mCategoryId, 0);
+        // mPresenter.loadProducts(mCategoryId, 0);
         mRecyclerView.addOnScrollListener(new PaginationScrollListener(gridLayoutManager) {
             @Override
             protected void loadMoreItems() {
                 isLoading = true;
-                currentPage += 1;//Increment page index to load the next one
+                currentPage += 1;
+                //Increment page index to load the next one
 
+
+                //to see how many items have already added
                 int offset = adapter.getItemCount();
-                mPresenter.loadProducts(mCategoryId, offset);
+                Log.d("weee", String.valueOf(offset));
+
+                adapter.removeLoadingFooter();  // 2
+                isLoading = false;   // 3
+
+                mPresenter.loadProducts(mCategoryId, offset);//4
 
                 if (currentPage != TOTAL_PAGES) {
-                }
-                //adapter.addLoadingFooter();  // 5
+                    adapter.addLoadingFooter();
+                }// 5
                 else isLastPage = true;
             }
 
@@ -126,20 +135,22 @@ public class GridProductFragment extends Fragment implements GridProductContract
                 return isLoading;
             }
         });
+
+
         mPresenter.loadProducts(mCategoryId, adapter.getItemCount());
 
         if (currentPage <= TOTAL_PAGES) {
-        }
-        //adapter.addLoadingFooter();
-        else isLastPage = true;
+            adapter.addLoadingFooter();
+        } else isLastPage = true;
         // loadFirstPage();
     }
+
     @Override
     public void showProducts(List<Product> list) {
         //adapter.setProductList(list);
         adapter.addAll(list);
         //adapter.notifyItemInserted(adapter.getItemCount() - 1);
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
     }
 
     @Override

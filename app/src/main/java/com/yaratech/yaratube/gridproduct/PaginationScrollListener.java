@@ -4,7 +4,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
+public abstract class PaginationScrollListener
+        extends RecyclerView.OnScrollListener {
 
     GridLayoutManager layoutManager;
 
