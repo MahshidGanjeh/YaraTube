@@ -1,8 +1,12 @@
 package com.yaratech.yaratube.data.source;
 
+import android.content.Context;
+
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 
 public interface DataSource {
+
+    void toastApiResponseFail(Context context,String message);
 
     void fetchHomeItems(WebService.ApiResultCallBack callBack);
 

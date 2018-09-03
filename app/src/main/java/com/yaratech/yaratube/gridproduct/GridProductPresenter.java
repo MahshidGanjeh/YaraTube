@@ -14,24 +14,27 @@ public class GridProductPresenter implements GridProductContract.Presenter {
     private Repository productsRepo;
     private GridProductContract.View mView;
 
-    public GridProductPresenter(GridProductContract.View mView , Context context) {
+    public GridProductPresenter(GridProductContract.View mView, Context context) {
         this.productsRepo = new Repository(new RemoteDataSource(context));
         this.mView = mView;
     }
 
     @Override
-    public void loadProducts(int categoryId , int offset) {
+    public void loadProducts(int categoryId, int offset) {
+
+        mView.showProgressBar();
+
         productsRepo.fetchProductsByCategoryId(new WebService.ApiResultCallBack() {
             @Override
             public void onSuccess(Object response) {
-                mView.showProgressBar();
                 mView.showProducts((List) response);
                 mView.hideProgressBar();
             }
+
             @Override
             public void onFail(Object message) {
                 Log.d("hey", String.valueOf(message));
             }
-        }, categoryId,offset);
+        }, categoryId, offset);
     }
 }

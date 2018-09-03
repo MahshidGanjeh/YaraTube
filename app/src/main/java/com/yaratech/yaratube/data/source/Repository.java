@@ -1,5 +1,7 @@
 package com.yaratech.yaratube.data.source;
 
+import android.content.Context;
+
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
@@ -13,6 +15,11 @@ public class Repository implements DataSource {
         mRemoteDataSource = (RemoteDataSource) dataSource;
     }
 
+    @Override
+    public void toastApiResponseFail(Context context, String message) {
+        mRemoteDataSource.showApiResponseFail(context, message);
+    }
+
     public void fetchHomeItems(final WebService.ApiResultCallBack callBack) {
         mRemoteDataSource.fetchHomeItems(callBack);
     }
@@ -22,8 +29,8 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid ,int offset) {
-        mRemoteDataSource.fetchProductsByCategoryId(callBack, cid , offset);
+    public void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid, int offset) {
+        mRemoteDataSource.fetchProductsByCategoryId(callBack, cid, offset);
     }
 
     @Override

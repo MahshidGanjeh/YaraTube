@@ -39,6 +39,11 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
+    public void toastApiResponseFail(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void fetchHomeItems(final WebService.ApiResultCallBack listener) {
         if (Network.isOnline(mContext)) {
             mApiService.getStore()
@@ -48,14 +53,13 @@ public class RemoteDataSource implements DataSource {
                             if (response.isSuccessful()) {
                                 listener.onSuccess(response.body());
                             } else {
-                                listener.onFail(response.message());
+                                toastApiResponseFail(mContext, response.message());
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Store> call, Throwable t) {
-                            listener.onFail(t.getMessage());
-                            Log.i("fail", t.getMessage());
+                            toastApiResponseFail(mContext, t.getMessage());
                         }
                     });
         } else toastInternetConnection(mContext);
@@ -68,7 +72,8 @@ public class RemoteDataSource implements DataSource {
             mApiService.getCategories()
                     .enqueue(new Callback<List<Category>>() {
                         @Override
-                        public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                        public void onResponse(Call<List<Category>> call,
+                                               Response<List<Category>> response) {
                             if (response.isSuccessful()) {
                                 callBack.onSuccess(response.body());
                             }
@@ -76,7 +81,7 @@ public class RemoteDataSource implements DataSource {
 
                         @Override
                         public void onFailure(Call<List<Category>> call, Throwable t) {
-                            callBack.onFail(t.getMessage());
+                            toastApiResponseFail(mContext, t.getMessage());
                         }
                     });
         } else toastInternetConnection(mContext);
@@ -86,18 +91,22 @@ public class RemoteDataSource implements DataSource {
     public void fetchProductsByCategoryId(
             final WebService.ApiResultCallBack apiResultCallBack, int cid, int offset) {
         if (Network.isOnline(mContext)) {
-            mApiService.getProductsByCategoryId(cid, 4, offset)
+            mApiService.getProductsByCategoryId(cid, 10, offset)
                     .enqueue(new Callback<List<Product>>() {
                         @Override
                         public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                             if (response.isSuccessful()) {
                                 apiResultCallBack.onSuccess(response.body());
-                            } else apiResultCallBack.onFail(response.message());
+                            } else {
+                                apiResultCallBack.onFail(response.message());
+                                toastApiResponseFail(mContext, response.message());
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<List<Product>> call, Throwable t) {
                             apiResultCallBack.onFail(t.getMessage());
+                            toastApiResponseFail(mContext, t.getMessage());
                         }
                     });
         } else toastInternetConnection(mContext);
@@ -151,33 +160,33 @@ public class RemoteDataSource implements DataSource {
                                 String phoneNumber, String device_id, String device_model,
                                 String device_os) {
         if (Network.isOnline(mContext)) {
-            mApiService.postPhoneNumber(phoneNumber, device_id, device_model, device_os).enqueue(new Callback<Login>() {
-                                                                                                     @Override
-                                                                                                     public void onResponse(Call<Login> call, Response<Login> response) {
-                                                                                                         if (response.isSuccessful()) {
-                                                                                                             callBack.onSuccess(response.body());
-                                                                                                             Log.d("you receive sms", "sms sent" + response.body().getNickname());
-                                                                                                         } else if (response.code() == 400) {
-                                                                                                             Log.d("404", "Store id is not valid");
-                                                                                                         } else if (response.code() == 406) {
-                                                                                                             Log.d("406", "incomplete parameters");
-                                                                                                         } else if (response.code() == 504) {
-                                                                                                             Log.d("504", "sms send failed");
-                                                                                                         }
-                                                                                                     }
+            mApiService.postPhoneNumber(phoneNumber, device_id, device_model, device_os).
+                    enqueue(new Callback<Login>() {
+                                @Override
+                                public void onResponse(Call<Login> call, Response<Login> response) {
+                                    if (response.isSuccessful()) {
+                                        callBack.onSuccess(response.body());
+                                        Log.d("you receive sms", "sms sent" + response.body().getNickname());
+                                    } else if (response.code() == 400) {
+                                        Log.d("404", "Store id is not valid");
+                                    } else if (response.code() == 406) {
+                                        Log.d("406", "incomplete parameters");
+                                    } else if (response.code() == 504) {
+                                        Log.d("504", "sms send failed");
+                                    }
+                                }
 
-                                                                                                     @Override
-                                                                                                     public void onFailure(Call<Login> call, Throwable t) {
-                                                                                                         callBack.onFail(t.getMessage());
-                                                                                                     }
-                                                                                                 }
-            );
+                                @Override
+                                public void onFailure(Call<Login> call, Throwable t) {
+                                    callBack.onFail(t.getMessage());
+                                }
+                            }
+                    );
         } else toastInternetConnection(mContext);
     }
 
     @Override
-    public void
-    postVerificationCode(final WebService.ApiResultCallBack callBack,
+    public void postVerificationCode(final WebService.ApiResultCallBack callBack,
                          String phoneNumber, String device_id,
                          String verificationCode, String nickName) {
 
@@ -188,19 +197,19 @@ public class RemoteDataSource implements DataSource {
                                  public void onResponse(Call<User> call, Response<User> response) {
                                      if (response.isSuccessful()) {
                                          callBack.onSuccess(response.body());
-                                         //  Toast.makeText(mContext, response.code(), Toast.LENGTH_SHORT).show();
-                                         Log.d("code posted", "code posted");
                                      } else if (response.code() == 401) {
-                                         Log.d("401", "mobile number is not valid");
+                                         toastApiResponseFail(mContext,
+                                                 "mobile number is not valid");
                                      } else if (response.code() == 406) {
-                                         Log.d("406", "incomplete parameters");
+                                         toastApiResponseFail(mContext,
+                                                 "incomplete parameters");
                                      }
                                  }
 
                                  @Override
                                  public void onFailure(Call<User> call, Throwable t) {
                                      callBack.onFail(t.getMessage());
-                                     Log.d("errrr", t.getMessage());
+                                     toastApiResponseFail(mContext, t.getMessage());
                                  }
                              }
                     );
@@ -226,7 +235,6 @@ public class RemoteDataSource implements DataSource {
                         public void onResponse(Call<PostComment> call, Response<PostComment> response) {
                             if (response.isSuccessful()) {
                                 callBack.onSuccess(response.body());
-                                //  Log.d("comment sent", "cm");
                                 Toast.makeText(mContext, R.string.comment_sent, Toast.LENGTH_SHORT).show();
                             } else {
                                 callBack.onFail(response.message());

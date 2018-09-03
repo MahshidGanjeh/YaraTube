@@ -4,6 +4,7 @@ package com.yaratech.yaratube.gridproduct;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,11 +92,14 @@ public class GridProductFragment extends Fragment implements GridProductContract
         mRecyclerView = view.findViewById(R.id.product_of_category_recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         mRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new GridProductAdapter(getContext(), mOnProductClickListener);
 
         mRecyclerView.setAdapter(adapter);
 
-        // mPresenter.loadProducts(mCategoryId, 0);
+        //for loading the first page in recycler
+        mPresenter.loadProducts(mCategoryId, adapter.getItemCount());
+        //when user scroll, load more data
         mRecyclerView.addOnScrollListener(new PaginationScrollListener(gridLayoutManager) {
             @Override
             protected void loadMoreItems() {
@@ -103,14 +107,12 @@ public class GridProductFragment extends Fragment implements GridProductContract
                 currentPage += 1;
                 //Increment page index to load the next one
 
-
                 //to see how many items have already added
                 int offset = adapter.getItemCount();
                 Log.d("adapterItems", String.valueOf(offset));
 
                 // adapter.removeLoadingFooter();  // 2
                 // isLoading = false;   // 3
-
                 mPresenter.loadProducts(mCategoryId, offset);//4
 
                 if (currentPage != TOTAL_PAGES) {
@@ -135,14 +137,9 @@ public class GridProductFragment extends Fragment implements GridProductContract
             }
         });
 
-
-        //for loading the first page in recycler
-        mPresenter.loadProducts(mCategoryId, adapter.getItemCount());
-
         if (currentPage <= TOTAL_PAGES) {
             // adapter.addLoadingFooter();
         } else isLastPage = true;
-        // loadFirstPage();
     }
 
     @Override
