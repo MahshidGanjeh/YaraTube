@@ -17,7 +17,7 @@ public class Repository implements DataSource {
 
     @Override
     public void toastApiResponseFail(Context context, String message) {
-        mRemoteDataSource.showApiResponseFail(context, message);
+        mRemoteDataSource.toastApiResponseFail(context, message);
     }
 
     public void fetchHomeItems(final WebService.ApiResultCallBack callBack) {

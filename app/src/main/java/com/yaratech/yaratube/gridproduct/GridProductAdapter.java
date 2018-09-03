@@ -3,6 +3,7 @@ package com.yaratech.yaratube.gridproduct;
 import android.content.Context;
 import android.graphics.Movie;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +71,16 @@ public class GridProductAdapter extends RecyclerView.Adapter<GridProductViewHold
             add(product);
             //notifyDataSetChanged();
         }
+    }
+
+    public void updateProductsWithDiffUtil(List<Product> products) {
+        List<Product> newList = new ArrayList<>(mProductList);
+        newList.addAll(products);
+        final ProductDiffCallback diffCallback =
+                new ProductDiffCallback(mProductList, newList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        diffResult.dispatchUpdatesTo(this);
+        this.mProductList.addAll(products);
     }
 
     public void remove(Product product) {

@@ -14,6 +14,11 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
+    public void toastApiResponseFail(Context context, String message) {
+
+    }
+
+    @Override
     public void fetchHomeItems(WebService.ApiResultCallBack callBack) {
 
     }

@@ -145,7 +145,8 @@ public class GridProductFragment extends Fragment implements GridProductContract
     @Override
     public void showProducts(List<Product> list) {
         //adapter.setProductList(list);
-        adapter.addAll(list);
+        adapter.updateProductsWithDiffUtil(list);
+        //adapter.addAll(list);
         isLoading = false;
     }
 
