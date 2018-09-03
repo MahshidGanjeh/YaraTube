@@ -31,7 +31,6 @@ public class GridProductFragment extends Fragment implements GridProductContract
     private GridProductAdapter adapter;
     private ProgressBar mProgressBar;
     private ProgressBar mFooterProgress;
-    int Counter = 0;
     private Listener.onProductClickListener mOnProductClickListener;
     private static int mCategoryId;
 
@@ -42,7 +41,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
     // If current page is the last page (Pagination will stop after this page load)
     private boolean isLastPage = false;
     // total no. of pages to load. Initial load is page 0, after which 2 more pages will load.
-    private int TOTAL_PAGES = 20;
+    private int TOTAL_PAGES = 100;
     // indicates the current page which Pagination is fetching.
     private int currentPage = PAGE_START;
 
@@ -107,15 +106,15 @@ public class GridProductFragment extends Fragment implements GridProductContract
 
                 //to see how many items have already added
                 int offset = adapter.getItemCount();
-                Log.d("weee", String.valueOf(offset));
+                Log.d("adapterItems", String.valueOf(offset));
 
-                adapter.removeLoadingFooter();  // 2
-                isLoading = false;   // 3
+                // adapter.removeLoadingFooter();  // 2
+                // isLoading = false;   // 3
 
                 mPresenter.loadProducts(mCategoryId, offset);//4
 
                 if (currentPage != TOTAL_PAGES) {
-                    adapter.addLoadingFooter();
+                    // adapter.addLoadingFooter();
                 }// 5
                 else isLastPage = true;
             }
@@ -137,10 +136,11 @@ public class GridProductFragment extends Fragment implements GridProductContract
         });
 
 
+        //for loading the first page in recycler
         mPresenter.loadProducts(mCategoryId, adapter.getItemCount());
 
         if (currentPage <= TOTAL_PAGES) {
-            adapter.addLoadingFooter();
+            // adapter.addLoadingFooter();
         } else isLastPage = true;
         // loadFirstPage();
     }
@@ -149,8 +149,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
     public void showProducts(List<Product> list) {
         //adapter.setProductList(list);
         adapter.addAll(list);
-        //adapter.notifyItemInserted(adapter.getItemCount() - 1);
-        //adapter.notifyDataSetChanged();
+        isLoading = false;
     }
 
     @Override
