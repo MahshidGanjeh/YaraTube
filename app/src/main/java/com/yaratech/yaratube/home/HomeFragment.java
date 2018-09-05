@@ -21,7 +21,6 @@ public class HomeFragment extends Fragment {
 
     private BottomNavigationView mBottomNavigationView;
     private FragmentManager mManager;
-    private int counter = 0;
     private StoreFragment mStoreFragment;
     private CategoryFragment mCategoryFragment;
 
@@ -33,7 +32,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        counter++;
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 

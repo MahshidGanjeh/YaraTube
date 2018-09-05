@@ -6,8 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clickable="true"
+    android:layoutDirection="rtl"
     android:orientation="vertical"
     tools:context=".gridproduct.GridProductFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/grid_product_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:fontFamily="@font/iran_san"
+        android:theme="@style/ToolbarTheme"
+        app:title="@string/app_name" />
 
     <ProgressBar
         android:id="@+id/grid_product_progress_bar"

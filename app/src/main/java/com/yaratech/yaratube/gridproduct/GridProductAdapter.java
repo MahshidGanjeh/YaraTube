@@ -104,7 +104,6 @@ public class GridProductAdapter extends RecyclerView.Adapter<GridProductViewHold
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        //add(new Product());
     }
 
     public void removeLoadingFooter() {

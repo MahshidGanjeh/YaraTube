@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
+import android.widget.Toolbar;
 
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.util.Listener;
@@ -31,6 +32,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
     private RecyclerView mRecyclerView;
     private GridProductAdapter adapter;
     private ProgressBar mProgressBar;
+    private Toolbar mToolbar;
     private ProgressBar mFooterProgress;
     private Listener.onProductClickListener mOnProductClickListener;
     private static int mCategoryId;
@@ -88,6 +90,7 @@ public class GridProductFragment extends Fragment implements GridProductContract
         mPresenter = new GridProductPresenter(this, getActivity().getApplicationContext());
 
         mProgressBar = view.findViewById(R.id.grid_product_progress_bar);
+        //  mToolbar = view.findViewById(R.id.grid_product_tool_bar);
         //  mFooterProgress = view.findViewById(R.id.grid_product_pagination_progress_bar);
         mRecyclerView = view.findViewById(R.id.product_of_category_recycler);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -145,8 +148,8 @@ public class GridProductFragment extends Fragment implements GridProductContract
     @Override
     public void showProducts(List<Product> list) {
         //adapter.setProductList(list);
-        adapter.updateProductsWithDiffUtil(list);
         //adapter.addAll(list);
+        adapter.updateProductsWithDiffUtil(list);
         isLoading = false;
     }
 

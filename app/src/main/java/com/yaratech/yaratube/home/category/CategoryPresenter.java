@@ -22,10 +22,10 @@ public class CategoryPresenter implements CategoryContract.Presenter {
 
     @Override
     public void loadCategories() {
+        mView.showProgress();
         categoryRepo.fetchCategory(new WebService.ApiResultCallBack() {
             @Override
             public void onSuccess(Object response) {
-                mView.showProgress();
                 mView.showCategories((List<Category>) response);
                 mView.hideProgress();
             }

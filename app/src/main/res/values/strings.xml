@@ -22,8 +22,6 @@
     <string name="checking_internet">مشکل اتصال به اینترنت </string>
     <string name="descrption_not_found">توضیحات موجود نیست</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_via_phonenumber">از طریق شماره موبایل</string>
     <string name="title_via_google">از طریق حساب گوگل</string>
     <string name="title_enter">ورود</string>
@@ -38,6 +36,7 @@
     <string name="comment_sent">نظر شما ارسال شد</string>
     <string name="save_changes">ثبت تغییرات</string>
     <string name="cancel">انصراف</string>
+    <string name="product_detail">جزيیات محصول</string>
 
 
 </resources>
