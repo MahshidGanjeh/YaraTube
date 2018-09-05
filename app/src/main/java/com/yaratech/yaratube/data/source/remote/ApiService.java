@@ -48,7 +48,7 @@ public interface ApiService {
     Call<List<Comment>> getProductCommentByProductId(@Path("product_id") int productId);
 
     //product details by product id
-    @GET("product/{product_id}")
+    @GET("product/{product_id}?device_os=ios")
     Call<DetailedProduct> getDetailedProductByProductId(@Path("product_id") int productId);
 
     //mobile login step one

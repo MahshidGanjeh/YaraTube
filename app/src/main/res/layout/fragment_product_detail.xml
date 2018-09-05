@@ -71,12 +71,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                    <Button
+                        android:id="@+id/play_video_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="316dp"
                         android:layout_marginStart="316dp"
-                        android:src="@drawable/icon_check_circle_filled"
+                        android:drawableLeft="@drawable/icon_check_circle_filled"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 

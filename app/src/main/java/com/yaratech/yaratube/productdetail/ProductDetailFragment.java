@@ -1,6 +1,7 @@
 package com.yaratech.yaratube.productdetail;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.yaratech.yaratube.data.model.DetailedProduct;
 import com.yaratech.yaratube.data.model.Product;
 import com.yaratech.yaratube.data.source.Repository;
 import com.yaratech.yaratube.data.source.WebService;
+import com.yaratech.yaratube.play.PlayActivity;
 import com.yaratech.yaratube.productdetail.commentdialog.CommentDialogFragment;
 
 import org.parceler.Parcels;
@@ -41,6 +43,7 @@ public class ProductDetailFragment extends Fragment implements
     private TextView description;
     private Button mSendCommentBtn;
     private RecyclerView mCommentRecycler;
+    private Button mPlayButton;
     private ProgressBar mProgressBar;
 
 
@@ -49,6 +52,8 @@ public class ProductDetailFragment extends Fragment implements
     private DetailContract.Presenter mDetailPresenter;
 
     private int mProductId;
+    private String mPlayVideoUrl;
+    Intent intentToPlayActivity;
     private DetailedProduct mDetailedProduct;
 
     public ProductDetailFragment() {
@@ -87,7 +92,9 @@ public class ProductDetailFragment extends Fragment implements
         title = view.findViewById(R.id.product_detail_title_tv);
         description = view.findViewById(R.id.product_detail_description_tv);
         mSendCommentBtn = view.findViewById(R.id.comment_btn);
+        mPlayButton = view.findViewById(R.id.play_video_btn);
         mProgressBar = view.findViewById(R.id.product_detail_progress_bar);
+        intentToPlayActivity = new Intent(getContext(), PlayActivity.class);
 
         mCommentRecycler = view.findViewById(R.id.product_detail_comment_recycler);
         adapter = new CommentAdapter();
@@ -109,6 +116,13 @@ public class ProductDetailFragment extends Fragment implements
             }
         });
 
+        mPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intentToPlayActivity);
+            }
+        });
+
         mDetailPresenter.loadDetail(mProductId);
         mPresenter.loadComments(mProductId);
     }
@@ -127,6 +141,9 @@ public class ProductDetailFragment extends Fragment implements
     @Override
     public void showDetail(DetailedProduct product) {
         mDetailedProduct = product;
+        //send the url to play video
+        mPlayVideoUrl = mDetailedProduct.getFiles().get(0).getFile();
+        intentToPlayActivity.putExtra("url", mPlayVideoUrl);
 
         Glide.with(getContext()).load(BASE_URL + mDetailedProduct.getFeatureAvatar().getHdpi())
                 .into(mImageView);
