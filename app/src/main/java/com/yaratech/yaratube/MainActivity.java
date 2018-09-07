@@ -25,6 +25,7 @@ import com.yaratech.yaratube.gridproduct.GridProductFragment;
 import com.yaratech.yaratube.home.HomeFragment;
 import com.yaratech.yaratube.login.mobilelogin.MainLoginDialogFragment;
 import com.yaratech.yaratube.login.ProfileFragment;
+import com.yaratech.yaratube.login.mobilelogin.SmsReceiver;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 import com.yaratech.yaratube.util.Listener;
 
@@ -119,5 +120,5 @@ public class MainActivity extends AppCompatActivity implements
         manager.beginTransaction().addToBackStack("detail")
                 .add(R.id.main_container, mProductDetailFragment).commit();
     }
-
+    
 }

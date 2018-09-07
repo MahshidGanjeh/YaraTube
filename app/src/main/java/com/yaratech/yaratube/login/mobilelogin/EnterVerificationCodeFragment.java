@@ -2,6 +2,8 @@ package com.yaratech.yaratube.login.mobilelogin;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -29,6 +31,7 @@ public class EnterVerificationCodeFragment extends Fragment
     private LoginContract.CodePresenter mPresenter;
     private Listener.onConfirmVerificationCodeListener verificationCodeListener;
 
+    private SmsReceiver smsReceiver;
 
     public EnterVerificationCodeFragment() {
         // Required empty public constructor
@@ -72,11 +75,19 @@ public class EnterVerificationCodeFragment extends Fragment
         mCorrectPhoneNumberBtn = view.findViewById(R.id.correct_phonenumber_btn);
 
         mPhoneNumber = UserDatabase.getUserDatabase(getContext()).userDao().getUserPhoneNumberFromDb();
-
+        //retrieve the sms when broadcasted
+        smsReceiver = new SmsReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //get the data using the
+                mVerificationCode = intent.getStringExtra("verificationCode");
+                mEnterVerificationCodeEditText.setText(mVerificationCode);
+                Log.d("smsss", mVerificationCode);
+            }
+        };
         mConfirmVerificationCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mVerificationCode = mEnterVerificationCodeEditText.getText().toString().trim();
                 mPresenter.presentVerificationCode(mPhoneNumber, deviceId, mVerificationCode,
                         "nickname");
             }
@@ -86,7 +97,7 @@ public class EnterVerificationCodeFragment extends Fragment
             @Override
             public void onClick(View v) {
                 getParentFragment().getChildFragmentManager().beginTransaction()
-                        .add(R.id.child,new EnterPhoneNumberFragment()).commit();
+                        .add(R.id.child, new EnterPhoneNumberFragment()).commit();
             }
         });
     }
@@ -94,5 +105,29 @@ public class EnterVerificationCodeFragment extends Fragment
     @Override
     public void show(String token) {
         verificationCodeListener.saveTokenToDatabase(token);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(smsReceiver);
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage().contains("Receiver not registered")) {
+                Log.i("TAG", "Tried to unregister the reciver when it's not registered");
+            } else {
+                throw e;
+            }
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.SmsReceiver");
+        getActivity().registerReceiver(smsReceiver, filter);
+        //the first parameter is the name of the inner class we created.
     }
 }
