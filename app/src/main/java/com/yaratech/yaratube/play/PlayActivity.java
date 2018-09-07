@@ -58,7 +58,6 @@ public class PlayActivity extends AppCompatActivity {
                 .Factory(dataSourceFactory)
                 .createMediaSource(Uri.parse(mPlayVideoUrl));
 
-
         mPlayer.prepare(videoSource);
     }
 
