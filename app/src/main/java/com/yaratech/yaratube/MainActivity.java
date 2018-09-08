@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements
                             case R.id.drawer_profile:
                                 if (isLogin) {
                                     mProfileFragment = new ProfileFragment();
-                                   // actionBar.setTitle(R.string.title_profile);
+                                    // actionBar.setTitle(R.string.title_profile);
                                     manager.beginTransaction().addToBackStack("profile").
                                             add(R.id.main_container, mProfileFragment).commit();
                                     drawer.closeDrawers();
@@ -115,10 +116,10 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void goToProductDetail(int pid) {
-      //  actionBar.setTitle(R.string.product_detail);
+        //  actionBar.setTitle(R.string.product_detail);
         mProductDetailFragment = ProductDetailFragment.newInstance(pid);
         manager.beginTransaction().addToBackStack("detail")
                 .add(R.id.main_container, mProductDetailFragment).commit();
     }
-    
+
 }

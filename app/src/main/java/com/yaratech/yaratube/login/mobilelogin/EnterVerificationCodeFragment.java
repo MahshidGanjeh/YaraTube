@@ -1,13 +1,16 @@
 package com.yaratech.yaratube.login.mobilelogin;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +19,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.yaratech.yaratube.MainActivity;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.util.Listener;
+
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 public class EnterVerificationCodeFragment extends Fragment
         implements LoginContract.View {
@@ -32,6 +38,7 @@ public class EnterVerificationCodeFragment extends Fragment
     private Listener.onConfirmVerificationCodeListener verificationCodeListener;
 
     private SmsReceiver smsReceiver;
+    private String senderNumber;
 
     public EnterVerificationCodeFragment() {
         // Required empty public constructor
@@ -40,17 +47,9 @@ public class EnterVerificationCodeFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mPhoneNumber = getArguments().getString("mobile");
+        //mPhoneNumber = getArguments().getString("mobile");
     }
 
-    /*   public static EnterVerificationCodeFragment newInstance(String phone) {
-
-           Bundle args = new Bundle();
-           args.putString("mobile", phone);
-           EnterVerificationCodeFragment fragment = new EnterVerificationCodeFragment();
-           fragment.setArguments(args);
-           return fragment;
-       }*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,17 +73,39 @@ public class EnterVerificationCodeFragment extends Fragment
         mEnterVerificationCodeEditText = view.findViewById(R.id.enter_verification_code_et);
         mCorrectPhoneNumberBtn = view.findViewById(R.id.correct_phonenumber_btn);
 
+        //retrieve the phoneNumber from database
         mPhoneNumber = UserDatabase.getUserDatabase(getContext()).userDao().getUserPhoneNumberFromDb();
+
+        //get the permission for reading sms if android version is higher than 6
+        int permissionCheck = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            permissionCheck = checkSelfPermission(getContext(),
+                    Manifest.permission.RECEIVE_SMS);
+        }
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            // User may have declined earlier, ask Android if we should show him a reason
+            if (shouldShowRequestPermissionRationale(Manifest.permission.RECEIVE_SMS)) {
+                // try again to request the permission.
+            } else {
+                // request the permission.
+                requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS},
+                        1);
+            }
+        } else {
+            // got permission use it
+            mEnterVerificationCodeEditText.setText(mVerificationCode);
+        }
+
         //retrieve the sms when broadcasted
         smsReceiver = new SmsReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                //get the data using the
+                //get the data using the intent
                 mVerificationCode = intent.getStringExtra("verificationCode");
                 mEnterVerificationCodeEditText.setText(mVerificationCode);
-                Log.d("smsss", mVerificationCode);
             }
         };
+
         mConfirmVerificationCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +128,7 @@ public class EnterVerificationCodeFragment extends Fragment
         verificationCodeListener.saveTokenToDatabase(token);
     }
 
+    //override it for using smsReceiver
     @Override
     public void onPause() {
         super.onPause();

@@ -28,17 +28,21 @@ public class SmsReceiver extends BroadcastReceiver {
                     SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
 
                     String message = currentMessage.getDisplayMessageBody();
+                    String senderNumber = currentMessage.getDisplayOriginatingAddress();
+
                     //replace all the digits in the sms  with ""
-                    //so the what is left is just the verification code
+                    //so what is left is just the verification code
                     String verificationCode = message.replaceAll("\\D+", "");
 
                     //to send the code to other fragment or activities
                     Intent intent1 = new Intent
-                            ("android.intent.action.SmsReceiver").putExtra("verificationCode", verificationCode);
+                            ("android.intent.action.SmsReceiver");
+
+                    if (senderNumber.equals("+98200049103")) {
+                        intent1.putExtra("verificationCode", verificationCode);
+                    }
 
                     context.sendBroadcast(intent1);
-
-
                 }
             }
 
