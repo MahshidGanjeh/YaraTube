@@ -44,7 +44,7 @@ public class DetailedProduct {
     private FeatureAvatar featureAvatar;
     @SerializedName("rank")
     @Expose
-    private Integer rank;
+    private float rank;
     @SerializedName("totalInstalled")
     @Expose
     private Integer totalInstalled;
@@ -235,7 +235,7 @@ public class DetailedProduct {
         this.featureAvatar = featureAvatar;
     }
 
-    public Integer getRank() {
+    public float getRank() {
         return rank;
     }
 

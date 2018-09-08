@@ -1,6 +1,7 @@
 package com.yaratech.yaratube.productdetail;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yaratech.yaratube.data.model.DetailedProduct;
 import com.yaratech.yaratube.data.source.Repository;
@@ -19,10 +20,12 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadDetail(int pid) {
+        mView.showProgressbar();
         repository.fetchDetailedProduct(new WebService.ApiResultCallBack() {
+
             @Override
             public void onSuccess(Object response) {
-                mView.showProgressbar();
+                Log.i("aaa", "onSuccess: "+((DetailedProduct)response).getName());
                 mView.showDetail((DetailedProduct) response);
                 mView.hideProgressbar();
             }

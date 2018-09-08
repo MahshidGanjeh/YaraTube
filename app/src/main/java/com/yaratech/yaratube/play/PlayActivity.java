@@ -24,7 +24,7 @@ import com.yaratech.yaratube.R;
 
 public class PlayActivity extends AppCompatActivity {
 
-    private String mPlayVideoUrl;
+    private String mPlayVideoUrl = "";
     private Context mContext;
     private PlayerView mPlayerView;
     private SimpleExoPlayer mPlayer;

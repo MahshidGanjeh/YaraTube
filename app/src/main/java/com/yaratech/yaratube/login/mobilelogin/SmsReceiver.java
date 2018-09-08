@@ -10,10 +10,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class SmsReceiver extends BroadcastReceiver {
-
-    final SmsManager sms = SmsManager.getDefault();
-
-    // TODO: This method is called when the BroadcastReceiver is receiving
     @Override
     public void onReceive(Context context, Intent intent) {
         // Retrieves a map of extended data from the intent.
@@ -22,9 +18,7 @@ public class SmsReceiver extends BroadcastReceiver {
         try {
             if (bundle != null) {
                 final Object[] pdusObj = (Object[]) bundle.get("pdus");
-
                 for (int i = 0; i < pdusObj.length; i++) {
-
                     SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
 
                     String message = currentMessage.getDisplayMessageBody();

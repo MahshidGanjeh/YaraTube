@@ -50,7 +50,6 @@ public class HeaderItemFragment extends Fragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "tttt", Toast.LENGTH_SHORT).show();
                 mListener.goToProductDetail(mHeaderitem.getId());
             }
         });

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //set the app to rtl
+        //set the app alignment to rtl
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         manager.beginTransaction().replace(R.id.main_container, new HomeFragment()).commit();

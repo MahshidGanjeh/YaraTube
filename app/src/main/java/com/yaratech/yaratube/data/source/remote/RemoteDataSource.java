@@ -142,6 +142,7 @@ public class RemoteDataSource implements DataSource {
                         @Override
                         public void onResponse(Call<DetailedProduct> call, Response<DetailedProduct> response) {
                             if (response.isSuccessful()) {
+                                Log.i("aaa", "onSuccess: "+((DetailedProduct)response.body()).getName());
                                 apiResultCallBack.onSuccess(response.body());
                             }
                             apiResultCallBack.onFail(response.message());
@@ -150,6 +151,7 @@ public class RemoteDataSource implements DataSource {
                         @Override
                         public void onFailure(Call<DetailedProduct> call, Throwable t) {
                             apiResultCallBack.onFail(t.getMessage());
+                            Log.i("ttttt", "onFailure: "+t.getMessage());
                         }
                     });
         } else toastInternetConnection(mContext);

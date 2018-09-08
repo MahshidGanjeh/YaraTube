@@ -38,7 +38,7 @@ import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
 public class ProductDetailFragment extends Fragment implements
         CommentContract.View, DetailContract.View {
 
-    private ImageView mImageView;
+    private ImageView mHeaderImageView;
     private TextView title;
     private TextView description;
     private Button mSendCommentBtn;
@@ -46,10 +46,9 @@ public class ProductDetailFragment extends Fragment implements
     private Button mPlayButton;
     private ProgressBar mProgressBar;
 
-
-    private CommentAdapter adapter;
-    private CommentContract.Presenter mPresenter;
-    private DetailContract.Presenter mDetailPresenter;
+    private CommentAdapter commentAdapter;
+    private CommentPresenter mCommentPresenter;
+    private DetailPresenter mDetailPresenter;
 
     private int mProductId;
     private String mPlayVideoUrl;
@@ -60,18 +59,18 @@ public class ProductDetailFragment extends Fragment implements
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mProductId = getArguments().getInt("pid");
+    }
+
     public static ProductDetailFragment newInstance(int p) {
         Bundle args = new Bundle();
         args.putInt("pid", p);
         ProductDetailFragment fragment = new ProductDetailFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mProductId = getArguments().getInt("pid");
     }
 
     @Override
@@ -85,22 +84,20 @@ public class ProductDetailFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter = new CommentPresenter(this, getActivity().getApplicationContext());
+        mCommentPresenter = new CommentPresenter(this, getActivity().getApplicationContext());
         mDetailPresenter = new DetailPresenter(this, getActivity().getApplicationContext());
 
-        mImageView = view.findViewById(R.id.imageView);
+        mHeaderImageView = view.findViewById(R.id.header_imageView);
         title = view.findViewById(R.id.product_detail_title_tv);
         description = view.findViewById(R.id.product_detail_description_tv);
         mSendCommentBtn = view.findViewById(R.id.comment_btn);
         mPlayButton = view.findViewById(R.id.play_video_btn);
         mProgressBar = view.findViewById(R.id.product_detail_progress_bar);
         intentToPlayActivity = new Intent(getContext(), PlayActivity.class);
-
         mCommentRecycler = view.findViewById(R.id.product_detail_comment_recycler);
-        adapter = new CommentAdapter();
 
-
-        mCommentRecycler.setAdapter(adapter);
+        commentAdapter = new CommentAdapter();
+        mCommentRecycler.setAdapter(commentAdapter);
         //to show the line in the bottom of each item
         DividerItemDecoration itemDecor = new
                 DividerItemDecoration(mCommentRecycler.getContext(), VERTICAL);
@@ -116,21 +113,18 @@ public class ProductDetailFragment extends Fragment implements
             }
         });
 
-        mPlayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(intentToPlayActivity);
-            }
-        });
+        mPlayButton.setOnClickListener(new MyOnClickListener());
+
+        mHeaderImageView.setOnClickListener(new MyOnClickListener());
 
         mDetailPresenter.loadDetail(mProductId);
-        mPresenter.loadComments(mProductId);
+        mCommentPresenter.loadComments(mProductId);
     }
 
 
     @Override
     public void showComments(List<Comment> list) {
-        adapter.setCommentList(list);
+        commentAdapter.setCommentList(list);
     }
 
     @Override
@@ -141,12 +135,15 @@ public class ProductDetailFragment extends Fragment implements
     @Override
     public void showDetail(DetailedProduct product) {
         mDetailedProduct = product;
+
         //send the url to play video
         mPlayVideoUrl = mDetailedProduct.getFiles().get(0).getFile();
-        intentToPlayActivity.putExtra("url", mPlayVideoUrl);
+        if (mPlayVideoUrl != "") {
+            intentToPlayActivity.putExtra("url", mPlayVideoUrl);
+        }
 
-        Glide.with(getContext()).load(BASE_URL + mDetailedProduct.getFeatureAvatar().getHdpi())
-                .into(mImageView);
+        Glide.with(getContext()).load(BASE_URL + mDetailedProduct.getFeatureAvatar().getXhdpi())
+                .into(mHeaderImageView);
         title.setText(mDetailedProduct.getName());
         description.setText(mDetailedProduct.getDescription());
     }
@@ -154,5 +151,12 @@ public class ProductDetailFragment extends Fragment implements
     @Override
     public void hideProgressbar() {
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    private class MyOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            startActivity(intentToPlayActivity);
+        }
     }
 }
