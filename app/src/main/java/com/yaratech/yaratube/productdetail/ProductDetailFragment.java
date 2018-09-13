@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +21,8 @@ import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.DetailedProduct;
-import com.yaratech.yaratube.data.model.Product;
-import com.yaratech.yaratube.data.source.Repository;
-import com.yaratech.yaratube.data.source.WebService;
-import com.yaratech.yaratube.play.PlayActivity;
+import com.yaratech.yaratube.playvideo.PlayActivity;
 import com.yaratech.yaratube.productdetail.commentdialog.CommentDialogFragment;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 

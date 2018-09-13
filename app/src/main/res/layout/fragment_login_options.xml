@@ -7,7 +7,7 @@
     android:paddingBottom="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".login.mobilelogin.MobileLoginFragment">
+    tools:context=".login.LoginOptionsFragment">
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,6 +28,7 @@
         android:textColor="@color/white" />
 
     <Button
+        android:id="@+id/via_google_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"

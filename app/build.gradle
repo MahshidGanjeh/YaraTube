@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 27
@@ -52,4 +53,7 @@ dependencies {
 
     //exoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
+
+    //google login
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
 }

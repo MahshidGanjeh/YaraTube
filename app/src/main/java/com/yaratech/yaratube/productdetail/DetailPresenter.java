@@ -25,7 +25,6 @@ public class DetailPresenter implements DetailContract.Presenter {
 
             @Override
             public void onSuccess(Object response) {
-                Log.i("aaa", "onSuccess: "+((DetailedProduct)response).getName());
                 mView.showDetail((DetailedProduct) response);
                 mView.hideProgressbar();
             }

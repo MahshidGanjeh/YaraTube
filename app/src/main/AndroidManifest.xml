@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".play.PlayActivity" />
+        <activity android:name=".playvideo.PlayActivity" />
 
         <receiver
             android:name=".login.mobilelogin.SmsReceiver"

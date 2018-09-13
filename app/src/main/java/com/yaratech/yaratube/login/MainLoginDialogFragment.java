@@ -1,25 +1,23 @@
-package com.yaratech.yaratube.login.mobilelogin;
+package com.yaratech.yaratube.login;
 
 
-import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
+import com.yaratech.yaratube.login.mobilelogin.EnterPhoneNumberFragment;
+import com.yaratech.yaratube.login.mobilelogin.EnterVerificationCodeFragment;
 import com.yaratech.yaratube.util.Listener;
 
 public class MainLoginDialogFragment extends DialogFragment implements
@@ -27,7 +25,7 @@ public class MainLoginDialogFragment extends DialogFragment implements
         Listener.onConfirmPhoneNumberListener,
         Listener.onConfirmVerificationCodeListener {
 
-    private MobileLoginFragment mobileLoginFragment;
+    private LoginOptionsFragment mLoginOptionsFragment;
     private EnterPhoneNumberFragment mPhoneNumberFragment;
     private EnterVerificationCodeFragment mVerificationCodeFragment;
     private FragmentManager manager;
@@ -53,12 +51,12 @@ public class MainLoginDialogFragment extends DialogFragment implements
         manager = getChildFragmentManager();
         db = UserDatabase.getUserDatabase(getContext());
 
-        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+      /*  pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = pref.edit();
 
 
         //SharedPreferences pref =PreferenceManager.getSharedPreferences(this);
-        String username = pref.getString("username", "");
+        String username = pref.getString("username", "");*/
 
     }
 
@@ -66,9 +64,9 @@ public class MainLoginDialogFragment extends DialogFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_mobile_login_dialog, container, false);
+        View root = inflater.inflate(R.layout.fragment_main_login_dialog, container, false);
 
-        mobileLoginFragment = new MobileLoginFragment();
+        mLoginOptionsFragment = new LoginOptionsFragment();
         mPhoneNumberFragment = new EnterPhoneNumberFragment();
         mVerificationCodeFragment = new EnterVerificationCodeFragment();
 
@@ -79,7 +77,7 @@ public class MainLoginDialogFragment extends DialogFragment implements
             manager.beginTransaction().add(R.id.child, mVerificationCodeFragment)
                     .commit();
         } else {
-            manager.beginTransaction().add(R.id.child, mobileLoginFragment)
+            manager.beginTransaction().add(R.id.child, mLoginOptionsFragment)
                     .commit();
         }
         return root;

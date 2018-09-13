@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".login.mobilelogin.MainLoginDialogFragment">
+    tools:context=".login.MainLoginDialogFragment">
 
     <Button
         android:id="@+id/dialog_dismiss_btn"
