@@ -2,7 +2,9 @@ package com.yaratech.yaratube.login;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,15 +23,19 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.yaratech.yaratube.R;
+import com.yaratech.yaratube.data.source.WebService;
+import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 import com.yaratech.yaratube.util.Listener;
 
 public class LoginOptionsFragment extends Fragment
         implements GoogleApiClient.OnConnectionFailedListener {
+
     private Button mPhoneNumberBtn;
     private Button mGoogleBtn;
     private Listener.onMobileBtnClickListener mNumberBtnListener;
 
     private GoogleApiClient mGoogleApiClient;
+    private final int REQUEST_CODE = 9001;
 
 
     public LoginOptionsFragment() {
@@ -100,7 +106,7 @@ public class LoginOptionsFragment extends Fragment
             @Override
             public void onClick(View v) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, 9001);
+                startActivityForResult(signInIntent, REQUEST_CODE);
             }
         });
     }
@@ -110,7 +116,7 @@ public class LoginOptionsFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == 9001) {
+        if (requestCode == REQUEST_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
@@ -121,6 +127,22 @@ public class LoginOptionsFragment extends Fragment
         if (result.isSuccess()) {
             // Signed in successfolly, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            final String Device_id = Settings.Secure.getString(getContext().getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            new RemoteDataSource(getContext()).postGoogleLoginResult(
+                    acct.getIdToken(), Device_id, Build.MODEL, Build.VERSION.RELEASE,
+                    new WebService.ApiResultCallBack() {
+                        @Override
+                        public void onSuccess(Object response) {
+                            Log.d("succcess", "onSuccess: we are there");
+                        }
+
+                        @Override
+                        public void onFail(Object message) {
+
+                        }
+                    }
+            );
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             //Similarly you can get the email and photourl using acct.getEmail() and  acct.getPhotoUrl()
 

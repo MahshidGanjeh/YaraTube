@@ -69,4 +69,11 @@ public class Repository implements DataSource {
                             int productId, String token) {
         mRemoteDataSource.postComment(callBack, title, score, commentText, productId, token);
     }
+
+    @Override
+    public void postGoogleLoginResult(String token, String deviceId, String deviceOs, String deviceModel
+            , WebService.ApiResultCallBack callBack) {
+        mRemoteDataSource.postGoogleLoginResult(token, deviceId, deviceOs, deviceModel, callBack);
+
+    }
 }

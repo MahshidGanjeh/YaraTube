@@ -30,7 +30,7 @@ public class LocalDataSource implements DataSource {
 
     @Override
     public void fetchProductsByCategoryId(WebService.ApiResultCallBack callBack, int cid
-    ,int offset) {
+            , int offset) {
 
     }
 
@@ -64,6 +64,12 @@ public class LocalDataSource implements DataSource {
     public void postComment(WebService.ApiResultCallBack callBack,
                             String title, int score,
                             String commentText, int productId, String token) {
+
+    }
+
+    @Override
+    public void postGoogleLoginResult(String token, String deviceId, String deviceOs, String deviceModel,
+                                      WebService.ApiResultCallBack callBack) {
 
     }
 

@@ -8,6 +8,7 @@ import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Category;
 import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.DetailedProduct;
+import com.yaratech.yaratube.data.model.GoogleLogin;
 import com.yaratech.yaratube.data.model.Login;
 import com.yaratech.yaratube.data.model.PostComment;
 import com.yaratech.yaratube.data.model.Product;
@@ -142,7 +143,7 @@ public class RemoteDataSource implements DataSource {
                         @Override
                         public void onResponse(Call<DetailedProduct> call, Response<DetailedProduct> response) {
                             if (response.isSuccessful()) {
-                                Log.i("aaa", "onSuccess: "+((DetailedProduct)response.body()).getName());
+                                Log.i("aaa", "onSuccess: " + ((DetailedProduct) response.body()).getName());
                                 apiResultCallBack.onSuccess(response.body());
                             }
                             apiResultCallBack.onFail(response.message());
@@ -151,7 +152,6 @@ public class RemoteDataSource implements DataSource {
                         @Override
                         public void onFailure(Call<DetailedProduct> call, Throwable t) {
                             apiResultCallBack.onFail(t.getMessage());
-                            Log.i("ttttt", "onFailure: "+t.getMessage());
                         }
                     });
         } else toastInternetConnection(mContext);
@@ -189,8 +189,8 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public void postVerificationCode(final WebService.ApiResultCallBack callBack,
-                         String phoneNumber, String device_id,
-                         String verificationCode, String nickName) {
+                                     String phoneNumber, String device_id,
+                                     String verificationCode, String nickName) {
 
         if (Network.isOnline(mContext)) {
             mApiService.postVerificationCode(phoneNumber, device_id, verificationCode, nickName)
@@ -250,6 +250,32 @@ public class RemoteDataSource implements DataSource {
                     });
 
         } else toastInternetConnection(mContext);
+
+    }
+
+    @Override
+    public void postGoogleLoginResult(String token, String deviceId, String deviceOs, String deviceModel,
+                                      final WebService.ApiResultCallBack callBack) {
+
+        if (Network.isOnline(mContext)) {
+
+            mApiService.postGoogleLoginResult(token, deviceId, deviceOs, deviceModel)
+                    .enqueue(new Callback<GoogleLogin>() {
+                        @Override
+                        public void onResponse(Call<GoogleLogin> call, Response<GoogleLogin> response) {
+                            if (response.isSuccessful()) {
+                                callBack.onSuccess(response.body());
+                            } else callBack.onFail(response.message());
+                        }
+
+                        @Override
+                        public void onFailure(Call<GoogleLogin> call, Throwable t) {
+                            Log.d("googleLogin", "onFailure: google login error");
+                        }
+                    });
+        } else {
+            toastInternetConnection(mContext);
+        }
 
     }
 }

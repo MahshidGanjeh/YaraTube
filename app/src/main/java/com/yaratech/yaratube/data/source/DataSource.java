@@ -6,7 +6,7 @@ import com.yaratech.yaratube.data.source.local.UserDatabase;
 
 public interface DataSource {
 
-    void toastApiResponseFail(Context context,String message);
+    void toastApiResponseFail(Context context, String message);
 
     void fetchHomeItems(WebService.ApiResultCallBack callBack);
 
@@ -31,4 +31,7 @@ public interface DataSource {
     void postComment(WebService.ApiResultCallBack callBack,
                      String title, int score, String commentText, int productId,
                      String token);
+
+    void postGoogleLoginResult(String token, String deviceId, String deviceOs,
+                               String deviceModel, WebService.ApiResultCallBack callBack);
 }

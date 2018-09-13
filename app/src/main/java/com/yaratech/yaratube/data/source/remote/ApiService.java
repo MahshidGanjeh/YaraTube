@@ -3,6 +3,7 @@ package com.yaratech.yaratube.data.source.remote;
 import com.yaratech.yaratube.data.model.Category;
 import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.DetailedProduct;
+import com.yaratech.yaratube.data.model.GoogleLogin;
 import com.yaratech.yaratube.data.model.Login;
 import com.yaratech.yaratube.data.model.PostComment;
 import com.yaratech.yaratube.data.model.Product;
@@ -52,7 +53,7 @@ public interface ApiService {
     Call<DetailedProduct> getDetailedProductByProductId(@Path("product_id") int productId);
 
     //mobile login step one
-    //sen phoneNumber and get verification code
+    //send phoneNumber and get verification code
     @POST("mobile_login_step1/" + STORE_ID)
     @FormUrlEncoded
     Call<Login> postPhoneNumber(@Field("mobile") String mobileNumber,
@@ -81,6 +82,17 @@ public interface ApiService {
                                   //to check if the user is logged in(so he can post comment)
                                   // we send token
                                   @Header("Authorization") String token
+    );
+
+    //google login
+    //send info that we get from google login result to the server
+    //and get some other info including token
+    @POST("login_google/" + STORE_ID)
+    @FormUrlEncoded
+    Call<GoogleLogin> postGoogleLoginResult(@Field("token_id") String tokenId,
+                                            @Field("device_id") String deviceId,
+                                            @Field("device_os") String deviceOs,
+                                            @Path("device_model") String deviceModel
     );
 
 }

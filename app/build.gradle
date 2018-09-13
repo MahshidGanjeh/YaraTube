@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'yaratech'
+            keyPassword '&p2=Z9XZRGt3f<qU'
+            storeFile file('D:/Downlaod/Projects/YaraTube/yaratech_sign.jks')
+            storePassword '&p2=Z9XZRGt3f<qU'
+        }
+    }
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
     defaultConfig {
@@ -16,7 +24,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+        }/*release {
+            signingConfig signingConfigs.config
+        }*/
+        /*debug {
+            signingConfig signingConfigs.config
+        }*/
     }
 }
 
