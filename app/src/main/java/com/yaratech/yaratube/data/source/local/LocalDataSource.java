@@ -73,4 +73,10 @@ public class LocalDataSource implements DataSource {
 
     }
 
+    @Override
+    public void postProfileFields(String name, String gender, String birthday, String token,
+                                  WebService.ApiResultCallBack callBack) {
+
+    }
+
 }

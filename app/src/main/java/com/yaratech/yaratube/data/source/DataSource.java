@@ -34,4 +34,8 @@ public interface DataSource {
 
     void postGoogleLoginResult(String token, String deviceId, String deviceOs,
                                String deviceModel, WebService.ApiResultCallBack callBack);
+
+    void postProfileFields(String name, String gender, String birthday, String token
+            , WebService.ApiResultCallBack callBack);
 }
+

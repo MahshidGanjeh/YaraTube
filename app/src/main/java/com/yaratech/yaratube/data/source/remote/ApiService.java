@@ -7,6 +7,7 @@ import com.yaratech.yaratube.data.model.GoogleLogin;
 import com.yaratech.yaratube.data.model.Login;
 import com.yaratech.yaratube.data.model.PostComment;
 import com.yaratech.yaratube.data.model.Product;
+import com.yaratech.yaratube.data.model.Profile;
 import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.model.User;
 
@@ -93,6 +94,15 @@ public interface ApiService {
                                             @Field("device_id") String deviceId,
                                             @Field("device_os") String deviceOs,
                                             @Path("device_model") String deviceModel
+    );
+
+    //send profile fields to the server
+    @POST("login_google/" + STORE_ID)
+    @FormUrlEncoded
+    Call<Profile> postProfileFields(@Field("nickname") String name,
+                                    @Field("gender") String gender,
+                                    @Field("date_of_birth") String dateOfBirth,
+                                    @Header("Authorization") String token
     );
 
 }

@@ -12,6 +12,7 @@ import com.yaratech.yaratube.data.model.GoogleLogin;
 import com.yaratech.yaratube.data.model.Login;
 import com.yaratech.yaratube.data.model.PostComment;
 import com.yaratech.yaratube.data.model.Product;
+import com.yaratech.yaratube.data.model.Profile;
 import com.yaratech.yaratube.data.model.Store;
 import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.DataSource;
@@ -271,6 +272,32 @@ public class RemoteDataSource implements DataSource {
                         @Override
                         public void onFailure(Call<GoogleLogin> call, Throwable t) {
                             Log.d("googleLogin", "onFailure: google login error");
+                        }
+                    });
+        } else {
+            toastInternetConnection(mContext);
+        }
+
+    }
+
+    @Override
+    public void postProfileFields(String name, String gender, String birthday, String token,
+                                  final WebService.ApiResultCallBack callBack) {
+
+        if (Network.isOnline(mContext)) {
+
+            mApiService.postProfileFields(name, gender, birthday, token)
+                    .enqueue(new Callback<Profile>() {
+                        @Override
+                        public void onResponse(Call<Profile> call, Response<Profile> response) {
+                            if (response.isSuccessful()) {
+                                callBack.onSuccess(response.body());
+                            } else callBack.onFail(response.message());
+                        }
+
+                        @Override
+                        public void onFailure(Call<Profile> call, Throwable t) {
+                            Log.d("profile", "onFailure: " + t.getMessage());
                         }
                     });
         } else {

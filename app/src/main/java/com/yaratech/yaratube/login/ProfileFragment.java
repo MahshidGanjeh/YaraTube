@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yaratech.yaratube.R;
+import com.yaratech.yaratube.data.model.Profile;
 import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment
+        implements ProfileContract.View {
 
     private EditText mNameEditText;
     private EditText mGenderEditText;
@@ -25,6 +28,8 @@ public class ProfileFragment extends Fragment {
     private Button mSaveChangeBtn;
 
     private UserDatabase db;
+
+    private ProfilePresenter mPresenter;
 
     String name;
     String gender;
@@ -53,6 +58,8 @@ public class ProfileFragment extends Fragment {
 
         db = UserDatabase.getUserDatabase(getContext());
 
+        mPresenter = new ProfilePresenter(this, getContext());
+
         LocalDataSource localDataSource = new LocalDataSource(getContext());
 
         if (localDataSource.isLogin(db)) {
@@ -79,10 +86,29 @@ public class ProfileFragment extends Fragment {
                 user.setFirstName(name);
                 user.setGender(gender);
                 user.setBirthday(birthday);
+
+                //here we post the entered data to the server
+                //in order to have them in the server in case the user wants to log out
+                mPresenter.sendProfileFields(
+                        name,
+                        gender,
+                        birthday,
+                        user.getToken()
+                );
+
                 db.userDao().updateUser(user);
             }
         });
 
+    }
+
+    public void postProfileFieldsToServer(User user) {
+
+    }
+
+    //when we post fields to the server,its response will be profile object too
+    @Override
+    public void showProfileFields(Profile profile) {
 
     }
 }

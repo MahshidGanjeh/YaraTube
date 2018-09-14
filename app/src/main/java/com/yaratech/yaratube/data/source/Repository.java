@@ -76,4 +76,10 @@ public class Repository implements DataSource {
         mRemoteDataSource.postGoogleLoginResult(token, deviceId, deviceOs, deviceModel, callBack);
 
     }
+
+    @Override
+    public void postProfileFields(String name, String gender, String birthday, String token,
+                                  WebService.ApiResultCallBack callBack) {
+        mRemoteDataSource.postProfileFields(name, gender, birthday, token, callBack);
+    }
 }
