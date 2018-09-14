@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "user")
@@ -16,13 +17,13 @@ public class User {
     //     this.token = token;
     // }
 
-
     public User() {
     }
 
     public User(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
 
     @PrimaryKey(autoGenerate = true)
     private int uid;
@@ -32,6 +33,19 @@ public class User {
 
     @ColumnInfo(name = "phoneNumber")
     private String phoneNumber;
+
+    @ColumnInfo(name = "gender")
+    private String gender;
+
+    @ColumnInfo(name = "birthday")
+    private String birthday;
+
+
+    public User(String firstName, String gender, String birthday) {
+        this.firstName = firstName;
+        this.gender = gender;
+        this.birthday = birthday;
+    }
 
     @SerializedName("error")
     @Expose
@@ -135,5 +149,21 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 }

@@ -38,7 +38,6 @@ public class EnterVerificationCodeFragment extends Fragment
     private Listener.onConfirmVerificationCodeListener verificationCodeListener;
 
     private SmsReceiver smsReceiver;
-    private String senderNumber;
 
     public EnterVerificationCodeFragment() {
         // Required empty public constructor
@@ -47,7 +46,6 @@ public class EnterVerificationCodeFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //mPhoneNumber = getArguments().getString("mobile");
     }
 
     @Override

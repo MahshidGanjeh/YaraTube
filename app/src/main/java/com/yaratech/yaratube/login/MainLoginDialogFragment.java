@@ -3,6 +3,7 @@ package com.yaratech.yaratube.login;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.User;
@@ -51,12 +53,12 @@ public class MainLoginDialogFragment extends DialogFragment implements
         manager = getChildFragmentManager();
         db = UserDatabase.getUserDatabase(getContext());
 
-      /*  pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = pref.edit();
 
 
-        //SharedPreferences pref =PreferenceManager.getSharedPreferences(this);
-        String username = pref.getString("username", "");*/
+       // SharedPreferences pref = PreferenceManager.getSharedPreferences(this);
+        //String username = pref.getString("username", "");
 
     }
 
@@ -129,6 +131,7 @@ public class MainLoginDialogFragment extends DialogFragment implements
         User user = db.userDao().getUser();
         user.setToken(token);
         db.userDao().updateUser(user);
+        Toast.makeText(getContext(), "خوش آمدید", Toast.LENGTH_SHORT).show();
         this.dismiss();
     }
 }

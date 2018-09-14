@@ -41,7 +41,6 @@ public class PhoneNumberPresenter implements PhoneNumberContract.Presenter {
     @Override
     public void savePhoneNumberToDb(String phoneNumber) {
         //save the phone number to db
-        Log.d("numberrr", phoneNumber);
         User user = new User(phoneNumber);
         UserDatabase.getUserDatabase(mContext).userDao().
                 insertUserToDb(user);
