@@ -29,19 +29,6 @@ public class MainActivity extends AppCompatActivity implements
     private GridProductFragment mGridProductFragment;
     private ProductDetailFragment mProductDetailFragment;
 
-    private MainLoginDialogFragment mLoginDialogFragment;
-    private ProfileFragment mProfileFragment;
-
-
-    private LocalDataSource mLocalDataSource;
-    private UserDatabase db;
-    boolean isLogin = false;
-
-    private NavigationView mDrawerNavigationView;
-    private DrawerLayout drawer;
-    private Toolbar mToolbar;
-    private ActionBar actionBar;
-
     FragmentManager manager = getSupportFragmentManager();
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -54,44 +41,6 @@ public class MainActivity extends AppCompatActivity implements
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         manager.beginTransaction().replace(R.id.main_container, new HomeFragment()).commit();
-
-        mDrawerNavigationView = findViewById(R.id.drawer_navigation_view);
-        drawer = findViewById(R.id.drawer);
-        //actionBar = getSupportActionBar();
-
-
-        db = UserDatabase.getUserDatabase(getApplicationContext());
-        mLocalDataSource = new LocalDataSource(getApplicationContext());
-
-        isLogin = mLocalDataSource.isLogin(db);
-
-        mDrawerNavigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.drawer_profile:
-                                if (isLogin) {
-                                    mProfileFragment = new ProfileFragment();
-                                    // actionBar.setTitle(R.string.title_profile);
-                                    manager.beginTransaction().addToBackStack("profile").
-                                            add(R.id.main_container, mProfileFragment).commit();
-                                    drawer.closeDrawers();
-                                } else {
-                                    mLoginDialogFragment = new MainLoginDialogFragment();
-
-                                    mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
-                                    //when user click in other point of page, dialog shouldn't
-                                    //be closed
-                                    mLoginDialogFragment.setCancelable(false);
-                                    drawer.closeDrawers();
-                                    return true;
-                                }
-                            case R.id.drawer_aboutous:
-                        }
-                        return false;
-                    }
-                });
     }
 
     @Override

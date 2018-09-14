@@ -1,6 +1,7 @@
 package com.yaratech.yaratube.home;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,8 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yaratech.yaratube.R;
+import com.yaratech.yaratube.data.source.local.LocalDataSource;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.home.category.CategoryFragment;
 import com.yaratech.yaratube.home.store.StoreFragment;
+import com.yaratech.yaratube.login.MainLoginDialogFragment;
+import com.yaratech.yaratube.login.ProfileFragment;
 import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 
 public class HomeFragment extends Fragment {
@@ -23,6 +28,7 @@ public class HomeFragment extends Fragment {
     private FragmentManager mManager;
     private StoreFragment mStoreFragment;
     private CategoryFragment mCategoryFragment;
+    private ProfileFragment mProfileFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -41,6 +47,7 @@ public class HomeFragment extends Fragment {
         mBottomNavigationView = view.findViewById(R.id.bottom_navigation);
         mManager = getFragmentManager();
 
+        //for the first time that app is launched
         mStoreFragment = new StoreFragment();
         mManager.beginTransaction().
                 add(R.id.home_fragment_container, mStoreFragment).commit();
@@ -58,6 +65,7 @@ public class HomeFragment extends Fragment {
                                             add(R.id.home_fragment_container, mStoreFragment).commit();
                                 } else if (!mStoreFragment.isVisible()) {
                                     mManager.beginTransaction().hide(mCategoryFragment).commit();
+                                    mManager.beginTransaction().hide(mProfileFragment).commit();
                                     mManager.beginTransaction().show(mStoreFragment).commit();
                                 }
                                 return true;
@@ -75,10 +83,50 @@ public class HomeFragment extends Fragment {
                                     mManager.beginTransaction().show(mCategoryFragment).commit();
                                 }
                                 return true;
+                            case (R.id.bottom_nav_more_item):
+                                if (mProfileFragment == null) {
+                                    if (mStoreFragment != null && mStoreFragment.isVisible()) {
+                                        mManager.beginTransaction().hide(mStoreFragment).commit();
+                                    }
+                                    mProfileFragment = new ProfileFragment();
+                                    mManager.beginTransaction().
+                                            add(R.id.home_fragment_container, mProfileFragment).commit();
+                                } else if (!mProfileFragment.isVisible()) {
+                                    mManager.beginTransaction().hide(mStoreFragment).commit();
+                                    mManager.beginTransaction().hide(mCategoryFragment).commit();
+                                    mManager.beginTransaction().show(mProfileFragment).commit();
+                                }
+
                         }
                         return true;
                     }
                 });
     }
 
+    public void isLogin(Context context , FragmentManager manager) {
+
+        LocalDataSource mLocalDataSource;
+        UserDatabase db;
+        boolean isLogin = false;
+        MainLoginDialogFragment  mLoginDialogFragment;
+
+        db = UserDatabase.getUserDatabase(context);
+        mLocalDataSource = new LocalDataSource(context);
+
+        isLogin = mLocalDataSource.isLogin(db);
+
+        if (isLogin) {
+            mProfileFragment = new ProfileFragment();
+            // actionBar.setTitle(R.string.title_profile);
+            //manager.beginTransaction().addToBackStack("profile").
+                //    add(R.id.main_container, mProfileFragment).commit();
+        } else {
+            mLoginDialogFragment = new MainLoginDialogFragment();
+
+            mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
+            //when user click in other point of page, dialog shouldn't
+            //be closed
+            mLoginDialogFragment.setCancelable(false);
+        }
+    }
 }

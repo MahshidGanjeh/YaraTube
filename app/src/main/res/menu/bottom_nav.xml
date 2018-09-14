@@ -11,6 +11,10 @@
         android:icon="@drawable/ic_category"
         android:title="@string/title_bottom_nav_category" />
 
+    <item
+        android:id="@+id/bottom_nav_more_item"
+        android:icon="@drawable/mask"
+        android:title="@string/title_bottom_nav_more" />
 
 
 </menu>
