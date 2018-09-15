@@ -280,7 +280,6 @@ public class RemoteDataSource implements DataSource {
         } else {
             toastInternetConnection(mContext);
         }
-
     }
 
     @Override
@@ -307,24 +306,26 @@ public class RemoteDataSource implements DataSource {
         } else {
             toastInternetConnection(mContext);
         }
-
     }
 
     @Override
-    public void uploadProfileImage(MultipartBody.Part multipart, String token, final WebService.ApiResultCallBack callBack) {
+    public void uploadProfileImage(MultipartBody.Part multipart, String token,
+                                   final WebService.ApiResultCallBack callBack) {
 
         if (Network.isOnline(mContext)) {
-            mApiService.uplaodAvatar(multipart, token).enqueue(new Callback<Profile>() {
+            mApiService.uploadAvatar(multipart, "Token " + token).enqueue(new Callback<Profile>() {
                 @Override
                 public void onResponse(Call<Profile> call, Response<Profile> response) {
-                    if(response.isSuccessful()) {
+                    Log.i("avav", "onResponse: " + response.code());
+                    if (response.isSuccessful()) {
                         callBack.onSuccess(response.body().getData().getAvatar());
-                    }else callBack.onFail(response.message());
+
+                    } else callBack.onFail(response.message());
                 }
 
                 @Override
                 public void onFailure(Call<Profile> call, Throwable t) {
-                    Log.i("avatar", "onFailure: " +t.getMessage());
+                    Log.i("avatar", "onFailure: " + t.getMessage());
                 }
             });
         } else toastInternetConnection(mContext);

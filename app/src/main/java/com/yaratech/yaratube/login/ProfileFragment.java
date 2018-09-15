@@ -1,6 +1,8 @@
 package com.yaratech.yaratube.login;
 
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -32,6 +34,9 @@ import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import ir.hamsaa.persiandatepicker.Listener;
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
@@ -48,7 +53,7 @@ public class ProfileFragment extends Fragment
 
     private EditText mNameEditText;
     private EditText mGenderEditText;
-    private TextView mBirthdaytTextView;
+    private TextView mDateOfBirthTextView;
     private ImageView mEditDateImageView;
     private ImageView mAvatarImageView;
     private Button mSaveChangeBtn;
@@ -79,7 +84,7 @@ public class ProfileFragment extends Fragment
 
         mNameEditText = view.findViewById(R.id.profile_name_et);
         mGenderEditText = view.findViewById(R.id.profile_gender_et);
-        mBirthdaytTextView = view.findViewById(R.id.profile_birthday_tv);
+        mDateOfBirthTextView = view.findViewById(R.id.profile_birthday_tv);
         mEditDateImageView = view.findViewById(R.id.profile_birthday_imgView);
         mAvatarImageView = view.findViewById(R.id.profile_avatar_imgView);
         mSaveChangeBtn = view.findViewById(R.id.save_change_btn);
@@ -88,39 +93,20 @@ public class ProfileFragment extends Fragment
 
         mPresenter = new ProfilePresenter(this, getContext());
 
-        LocalDataSource localDataSource = new LocalDataSource(getContext());
-
-        if (localDataSource.isLogin(db)) {
-            User user = db.userDao().getUser();
-            if (user.getFirstName() != null) {
-                mNameEditText.setText(user.getFirstName());
-            }
-            if (user.getGender() != null) {
-                mGenderEditText.setText(user.getGender());
-            }
-            if (user.getBirthday() != null) {
-                mBirthdaytTextView.setText(user.getBirthday());
-            }
-        }
+        setProfileFieldsFromDatabase(db);
 
         mAvatarImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                // Show only images, no videos or anything else
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                // Always show the chooser (if there are multiple options available)
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-                        1);
+                setGalleryIntent();
             }
         });
+
         mSaveChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 name = mNameEditText.getText().toString();
                 gender = mGenderEditText.getText().toString();
-                //birthday = mBirthdaytTextView.getText().toString();
 
                 User user = db.userDao().getUser();
                 user.setFirstName(name);
@@ -147,38 +133,25 @@ public class ProfileFragment extends Fragment
         mEditDateImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersianDatePickerDialog picker = new PersianDatePickerDialog(getContext())
-                        .setPositiveButtonString("باشه")
-                        .setNegativeButton("بیخیال")
-                        .setTodayButton("امروز")
-                        .setTodayButtonVisible(true)
-                        .setMaxYear(PersianDatePickerDialog.THIS_YEAR)
-                        .setMinYear(1300)
-                        .setActionTextColor(Color.GRAY)
-                        .setListener(new Listener() {
-                            @Override
-                            public void onDateSelected(PersianCalendar persianCalendar) {
-                                birthday = setBirthDay(persianCalendar.getPersianYear(),
-                                        persianCalendar.getPersianMonth(),
-                                        persianCalendar.getPersianDay());
+                PersianDatePickerDialog picker = createPersianCalenderDialog();
+                picker.setListener(new Listener() {
+                    @Override
+                    public void onDateSelected(PersianCalendar persianCalendar) {
+                        birthday = checkDateOfBirthFormat(persianCalendar.getPersianYear(),
+                                persianCalendar.getPersianMonth(),
+                                persianCalendar.getPersianDay());
 
-                                mBirthdaytTextView.setText(birthday);
-                                Toast.makeText(getContext(), birthday, Toast.LENGTH_SHORT).show();
-                            }
+                        mDateOfBirthTextView.setText(birthday);
+                        Toast.makeText(getContext(), birthday, Toast.LENGTH_SHORT).show();
+                    }
 
-                            @Override
-                            public void onDismissed() {
-
-                            }
-                        });
-
+                    @Override
+                    public void onDismissed() {
+                    }
+                });
                 picker.show();
             }
         });
-
-    }
-
-    public void postProfileFieldsToServer(User user) {
 
     }
 
@@ -193,7 +166,57 @@ public class ProfileFragment extends Fragment
         Log.i("profile error", "showError: " + error);
     }
 
-    String setBirthDay(int year, int month, int day) {
+    @Override
+    public void showProfilePhoto(String avatar) {
+        Log.i("avatar", "showProfilePhoto: " + avatar);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 101 && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            uri = createImageUri();
+            Log.i("urii", "onActivityResult: " + uri);
+            String filePath = createSelectedImageFilePath(uri);
+            Log.i("filepath", "onActivityResult: " + filePath);
+            File file = new File(filePath);
+            //  Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+            // Log.d(TAG, String.valueOf(bitmap));
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("avatar",
+                    file.getName(), reqFile);
+
+            mPresenter.uploadProfilePhoto(body, db.userDao().getUserTokenFromDatabase());
+
+            // Glide.with(getContext()).load(bitmap)
+            //  .into(mAvatarImageView);
+            //mAvatarImageView.setImageBitmap(bitmap);
+        }
+    }
+
+    public void setProfileFieldsFromDatabase(UserDatabase db) {
+
+        LocalDataSource localDataSource = new LocalDataSource(getContext());
+        if (localDataSource.isLogin(db)) {
+            User user = db.userDao().getUser();
+            if (user.getFirstName() != null) {
+                mNameEditText.setText(user.getFirstName());
+            }
+            if (user.getGender() != null) {
+                mGenderEditText.setText(user.getGender());
+            }
+            if (user.getBirthday() != null) {
+                mDateOfBirthTextView.setText(user.getBirthday());
+            }
+        }
+
+    }
+
+    //1397/01/01
+    public String checkDateOfBirthFormat(int year, int month, int day) {
         String mm = "", dd = "";
         if (month < 10) {
             mm = "0" + String.valueOf(month);
@@ -206,45 +229,7 @@ public class ProfileFragment extends Fragment
         return date;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            String filePath = getSelectedImageFilePath(uri);
-            Log.i("filepath", "onActivityResult: " + filePath);
-            File file = new File(filePath);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
-                RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-                MultipartBody.Part body = MultipartBody.Part.createFormData("avatar",
-                        file.getName(), reqFile);
-
-                new RemoteDataSource(getContext()).uploadProfileImage(body, db.userDao().getUserTokenFromDatabase(),
-                        new WebService.ApiResultCallBack() {
-                            @Override
-                            public void onSuccess(Object response) {
-                                Log.i("rrr", "onSuccess: " + response);
-                            }
-
-                            @Override
-                            public void onFail(Object message) {
-
-                            }
-                        });
-                Glide.with(getContext()).load(bitmap)
-                        .into(mAvatarImageView);
-                // mAvatarImageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    private String getSelectedImageFilePath(Uri selectedImage) {
+    private String createSelectedImageFilePath(Uri selectedImage) {
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
         android.database.Cursor cursor = getContext().getContentResolver().query(
                 selectedImage, filePathColumn, null, null, null);
@@ -253,6 +238,35 @@ public class ProfileFragment extends Fragment
         String filePath = cursor.getString(columnIndex);
         cursor.close();
         return filePath;
+    }
+
+    public void setGalleryIntent() {
+        final Intent galleryIntent =
+                new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("image/*");
+        Uri cameraUri = createImageUri();
+        galleryIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
+        galleryIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        startActivityForResult(galleryIntent, 101);
+    }
+
+    public Uri createImageUri() {
+        ContentResolver contentResolver = getContext().getContentResolver();
+        ContentValues cv = new ContentValues();
+        return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
+    }
+
+    public PersianDatePickerDialog createPersianCalenderDialog() {
+        PersianDatePickerDialog picker = new PersianDatePickerDialog(getContext())
+                .setPositiveButtonString("باشه")
+                .setNegativeButton("بیخیال")
+                .setTodayButton("امروز")
+                .setTodayButtonVisible(true)
+                .setMaxYear(PersianDatePickerDialog.THIS_YEAR)
+                .setMinYear(1300)
+                .setActionTextColor(Color.GRAY);
+
+        return picker;
     }
 
 }

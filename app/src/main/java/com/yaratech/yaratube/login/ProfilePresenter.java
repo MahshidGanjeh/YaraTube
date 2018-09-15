@@ -1,11 +1,14 @@
 package com.yaratech.yaratube.login;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yaratech.yaratube.data.model.Profile;
 import com.yaratech.yaratube.data.source.Repository;
 import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
+
+import okhttp3.MultipartBody;
 
 public class ProfilePresenter implements ProfileContract.Presenter {
 
@@ -29,6 +32,22 @@ public class ProfilePresenter implements ProfileContract.Presenter {
                     @Override
                     public void onFail(Object message) {
                         mView.showError((String) message);
+                    }
+                });
+    }
+
+    @Override
+    public void uploadProfilePhoto(MultipartBody.Part multipartBody, String token) {
+        mProfileRepository.uploadProfileImage(multipartBody, token,
+                new WebService.ApiResultCallBack() {
+                    @Override
+                    public void onSuccess(Object response) {
+                        Log.i("rrr", "onSuccess: " + response);
+                    }
+
+                    @Override
+                    public void onFail(Object message) {
+
                     }
                 });
     }
