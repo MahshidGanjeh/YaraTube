@@ -1,8 +1,13 @@
 package com.yaratech.yaratube.login;
 
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,15 +21,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Profile;
 import com.yaratech.yaratube.data.model.User;
+import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
+import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
+
+import java.io.File;
+import java.io.IOException;
 
 import ir.hamsaa.persiandatepicker.Listener;
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import ir.hamsaa.persiandatepicker.util.PersianCalendar;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
+import static android.app.Activity.RESULT_OK;
+import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
 
 public class ProfileFragment extends Fragment
         implements ProfileContract.View {
@@ -33,6 +50,7 @@ public class ProfileFragment extends Fragment
     private EditText mGenderEditText;
     private TextView mBirthdaytTextView;
     private ImageView mEditDateImageView;
+    private ImageView mAvatarImageView;
     private Button mSaveChangeBtn;
 
     private UserDatabase db;
@@ -63,6 +81,7 @@ public class ProfileFragment extends Fragment
         mGenderEditText = view.findViewById(R.id.profile_gender_et);
         mBirthdaytTextView = view.findViewById(R.id.profile_birthday_tv);
         mEditDateImageView = view.findViewById(R.id.profile_birthday_imgView);
+        mAvatarImageView = view.findViewById(R.id.profile_avatar_imgView);
         mSaveChangeBtn = view.findViewById(R.id.save_change_btn);
 
         db = UserDatabase.getUserDatabase(getContext());
@@ -84,6 +103,18 @@ public class ProfileFragment extends Fragment
             }
         }
 
+        mAvatarImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                // Show only images, no videos or anything else
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                // Always show the chooser (if there are multiple options available)
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                        1);
+            }
+        });
         mSaveChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +137,8 @@ public class ProfileFragment extends Fragment
                 );
 
                 Toast.makeText(getContext(), R.string.changes_saved, Toast.LENGTH_SHORT).show();
+                mNameEditText.setClickable(false);
+                mGenderEditText.setClickable(false);
 
                 db.userDao().updateUser(user);
             }
@@ -129,6 +162,7 @@ public class ProfileFragment extends Fragment
                                         persianCalendar.getPersianMonth(),
                                         persianCalendar.getPersianDay());
 
+                                mBirthdaytTextView.setText(birthday);
                                 Toast.makeText(getContext(), birthday, Toast.LENGTH_SHORT).show();
                             }
 
@@ -139,7 +173,6 @@ public class ProfileFragment extends Fragment
                         });
 
                 picker.show();
-
             }
         });
 
@@ -172,4 +205,54 @@ public class ProfileFragment extends Fragment
         String date = String.valueOf(year) + "/" + mm + "/" + dd;
         return date;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            String filePath = getSelectedImageFilePath(uri);
+            Log.i("filepath", "onActivityResult: " + filePath);
+            File file = new File(filePath);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+                RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("avatar",
+                        file.getName(), reqFile);
+
+                new RemoteDataSource(getContext()).uploadProfileImage(body, db.userDao().getUserTokenFromDatabase(),
+                        new WebService.ApiResultCallBack() {
+                            @Override
+                            public void onSuccess(Object response) {
+                                Log.i("rrr", "onSuccess: " + response);
+                            }
+
+                            @Override
+                            public void onFail(Object message) {
+
+                            }
+                        });
+                Glide.with(getContext()).load(bitmap)
+                        .into(mAvatarImageView);
+                // mAvatarImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private String getSelectedImageFilePath(Uri selectedImage) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        android.database.Cursor cursor = getContext().getContentResolver().query(
+                selectedImage, filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String filePath = cursor.getString(columnIndex);
+        cursor.close();
+        return filePath;
+    }
+
 }

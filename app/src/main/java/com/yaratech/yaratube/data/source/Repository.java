@@ -6,6 +6,8 @@ import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 
+import okhttp3.MultipartBody;
+
 public class Repository implements DataSource {
 
     private RemoteDataSource mRemoteDataSource;
@@ -81,5 +83,12 @@ public class Repository implements DataSource {
     public void postProfileFields(String name, String gender, String birthday, String token,
                                   WebService.ApiResultCallBack callBack) {
         mRemoteDataSource.postProfileFields(name, gender, birthday, token, callBack);
+    }
+
+    @Override
+    public void uploadProfileImage(MultipartBody.Part multipart, String token,
+                                   WebService.ApiResultCallBack callBack) {
+        mRemoteDataSource.uploadProfileImage(multipart, token, callBack);
+
     }
 }

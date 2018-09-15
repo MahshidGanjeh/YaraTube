@@ -109,10 +109,11 @@ public interface ApiService {
     );
 
     //upload profile image
+    //send image file and get string avatar
     @Multipart
     @POST("profile")
-    Call<Profile> postImage(@Part MultipartBody.Part avatar,
-                            @Header("Authorization") String token);
+    Call<Profile> uplaodAvatar(@Part MultipartBody.Part avatar,
+                               @Header("Authorization") String token);
 
 
 }

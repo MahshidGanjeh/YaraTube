@@ -5,6 +5,8 @@ import android.content.Context;
 import com.yaratech.yaratube.data.source.DataSource;
 import com.yaratech.yaratube.data.source.WebService;
 
+import okhttp3.MultipartBody;
+
 public class LocalDataSource implements DataSource {
 
     private Context mContext;
@@ -76,6 +78,12 @@ public class LocalDataSource implements DataSource {
     @Override
     public void postProfileFields(String name, String gender, String birthday, String token,
                                   WebService.ApiResultCallBack callBack) {
+
+    }
+
+    @Override
+    public void uploadProfileImage(MultipartBody.Part multipart, String token,
+                                   WebService.ApiResultCallBack callBack) {
 
     }
 

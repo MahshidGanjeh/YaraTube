@@ -71,4 +71,7 @@ dependencies {
 
     //Persian date picker
     implementation 'com.github.aliab:Persian-Date-Picker-Dialog:1.4'
+
+    //CircleImageView
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }

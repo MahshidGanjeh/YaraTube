@@ -22,9 +22,12 @@ import com.yaratech.yaratube.util.Network;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
+import retrofit2.http.Part;
 
 public class RemoteDataSource implements DataSource {
 
@@ -305,6 +308,26 @@ public class RemoteDataSource implements DataSource {
             toastInternetConnection(mContext);
         }
 
+    }
+
+    @Override
+    public void uploadProfileImage(MultipartBody.Part multipart, String token, final WebService.ApiResultCallBack callBack) {
+
+        if (Network.isOnline(mContext)) {
+            mApiService.uplaodAvatar(multipart, token).enqueue(new Callback<Profile>() {
+                @Override
+                public void onResponse(Call<Profile> call, Response<Profile> response) {
+                    if(response.isSuccessful()) {
+                        callBack.onSuccess(response.body().getData().getAvatar());
+                    }else callBack.onFail(response.message());
+                }
+
+                @Override
+                public void onFailure(Call<Profile> call, Throwable t) {
+                    Log.i("avatar", "onFailure: " +t.getMessage());
+                }
+            });
+        } else toastInternetConnection(mContext);
     }
 }
 

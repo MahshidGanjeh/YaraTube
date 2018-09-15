@@ -4,6 +4,10 @@ import android.content.Context;
 
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 
+import okhttp3.MultipartBody;
+import retrofit2.http.Multipart;
+import retrofit2.http.Part;
+
 public interface DataSource {
 
     void toastApiResponseFail(Context context, String message);
@@ -37,5 +41,7 @@ public interface DataSource {
 
     void postProfileFields(String name, String gender, String birthday, String token
             , WebService.ApiResultCallBack callBack);
+
+    void uploadProfileImage(MultipartBody.Part multipart, String token, WebService.ApiResultCallBack callBack);
 }
 
