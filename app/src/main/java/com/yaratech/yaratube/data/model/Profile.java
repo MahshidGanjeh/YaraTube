@@ -5,27 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Profile {
 
-    @SerializedName("nickname")
+    @SerializedName("data")
     @Expose
-    private String nickname;
-    @SerializedName("email")
-    @Expose
-    private String email;
-    @SerializedName("mobile")
-    @Expose
-    private Object mobile;
-    @SerializedName("avatar")
-    @Expose
-    private Object avatar;
-    @SerializedName("gender")
-    @Expose
-    private Object gender;
-    @SerializedName("date_of_birth")
-    @Expose
-    private Object dateOfBirth;
-    @SerializedName("is_official")
-    @Expose
-    private Boolean isOfficial;
+    private Data data;
     @SerializedName("error")
     @Expose
     private Boolean error;
@@ -33,62 +15,13 @@ public class Profile {
     @Expose
     private String message;
 
-    public String getNickname() {
-        return nickname;
+    public Data getData() {
+        return data;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setData(Data data) {
+        this.data = data;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Object getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(Object mobile) {
-        this.mobile = mobile;
-    }
-
-    public Object getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Object avatar) {
-        this.avatar = avatar;
-    }
-
-    public Object getGender() {
-        return gender;
-    }
-
-    public void setGender(Object gender) {
-        this.gender = gender;
-    }
-
-    public Object getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Object dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public Boolean getIsOfficial() {
-        return isOfficial;
-    }
-
-    public void setIsOfficial(Boolean isOfficial) {
-        this.isOfficial = isOfficial;
-    }
-
 
     public Boolean getError() {
         return error;

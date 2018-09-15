@@ -20,7 +20,7 @@
 
     <Button
         android:id="@+id/via_phone_number_btn"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="50dp"
         android:background="@drawable/blue_round"
         android:drawableRight="@drawable/smartphone__1_"
@@ -29,7 +29,7 @@
 
     <Button
         android:id="@+id/via_google_btn"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/red_round"

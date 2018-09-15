@@ -8,6 +8,8 @@ public interface ProfileContract {
 
         void showProfileFields(Profile profile);
 
+        void showError(String error);
+
     }
 
     interface Presenter {

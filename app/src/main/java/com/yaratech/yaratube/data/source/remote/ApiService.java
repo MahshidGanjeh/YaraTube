@@ -97,12 +97,14 @@ public interface ApiService {
     );
 
     //send profile fields to the server
-    @POST("login_google/" + STORE_ID)
+    @POST("profile")
     @FormUrlEncoded
     Call<Profile> postProfileFields(@Field("nickname") String name,
                                     @Field("gender") String gender,
                                     @Field("date_of_birth") String dateOfBirth,
                                     @Header("Authorization") String token
     );
+
+
 
 }

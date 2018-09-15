@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
@@ -44,6 +45,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mBottomNavigationView = view.findViewById(R.id.bottom_navigation);
         mManager = getFragmentManager();
 
@@ -56,7 +58,6 @@ public class HomeFragment extends Fragment {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                         switch (item.getItemId()) {
                             case (R.id.bottom_nav_home_item):
                                 if (mStoreFragment == null) {
@@ -65,7 +66,9 @@ public class HomeFragment extends Fragment {
                                             add(R.id.home_fragment_container, mStoreFragment).commit();
                                 } else if (!mStoreFragment.isVisible()) {
                                     mManager.beginTransaction().hide(mCategoryFragment).commit();
-                                    mManager.beginTransaction().hide(mProfileFragment).commit();
+                                    if (mProfileFragment != null) {
+                                        mManager.beginTransaction().hide(mProfileFragment).commit();
+                                    }
                                     mManager.beginTransaction().show(mStoreFragment).commit();
                                 }
                                 return true;
@@ -80,6 +83,9 @@ public class HomeFragment extends Fragment {
                                             add(R.id.home_fragment_container, mCategoryFragment).commit();
                                 } else if (!mCategoryFragment.isVisible()) {
                                     mManager.beginTransaction().hide(mStoreFragment).commit();
+                                    if (mProfileFragment != null) {
+                                        mManager.beginTransaction().hide(mProfileFragment).commit();
+                                    }
                                     mManager.beginTransaction().show(mCategoryFragment).commit();
                                 }
                                 return true;
@@ -88,9 +94,10 @@ public class HomeFragment extends Fragment {
                                     if (mStoreFragment != null && mStoreFragment.isVisible()) {
                                         mManager.beginTransaction().hide(mStoreFragment).commit();
                                     }
-                                    mProfileFragment = new ProfileFragment();
-                                    mManager.beginTransaction().
-                                            add(R.id.home_fragment_container, mProfileFragment).commit();
+                                    isLogin(getContext(), mManager);
+                                    // mProfileFragment = new ProfileFragment();
+                                    //mManager.beginTransaction().
+                                    //  add(R.id.home_fragment_container, mProfileFragment).commit();
                                 } else if (!mProfileFragment.isVisible()) {
                                     mManager.beginTransaction().hide(mStoreFragment).commit();
                                     mManager.beginTransaction().hide(mCategoryFragment).commit();
@@ -103,12 +110,12 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    public void isLogin(Context context , FragmentManager manager) {
+    public void isLogin(Context context, FragmentManager manager) {
 
         LocalDataSource mLocalDataSource;
         UserDatabase db;
         boolean isLogin = false;
-        MainLoginDialogFragment  mLoginDialogFragment;
+        MainLoginDialogFragment mLoginDialogFragment;
 
         db = UserDatabase.getUserDatabase(context);
         mLocalDataSource = new LocalDataSource(context);
@@ -118,8 +125,8 @@ public class HomeFragment extends Fragment {
         if (isLogin) {
             mProfileFragment = new ProfileFragment();
             // actionBar.setTitle(R.string.title_profile);
-            //manager.beginTransaction().addToBackStack("profile").
-                //    add(R.id.main_container, mProfileFragment).commit();
+            manager.beginTransaction().addToBackStack("profile").
+                    add(R.id.home_fragment_container, mProfileFragment).commit();
         } else {
             mLoginDialogFragment = new MainLoginDialogFragment();
 

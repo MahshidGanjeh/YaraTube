@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Profile;
@@ -89,12 +90,14 @@ public class ProfileFragment extends Fragment
 
                 //here we post the entered data to the server
                 //in order to have them in the server in case the user wants to log out
+                //gender string should be "male" or "female" not in farsi :))
                 mPresenter.sendProfileFields(
-                        name,
-                        gender,
+                        name, "male",
                         birthday,
                         user.getToken()
                 );
+
+                Toast.makeText(getContext(), R.string.changes_saved, Toast.LENGTH_SHORT).show();
 
                 db.userDao().updateUser(user);
             }
@@ -109,6 +112,11 @@ public class ProfileFragment extends Fragment
     //when we post fields to the server,its response will be profile object too
     @Override
     public void showProfileFields(Profile profile) {
+        //Log.i("shoo", "showProfileFields: " + profile.getNickname());
+    }
 
+    @Override
+    public void showError(String error) {
+        Log.i("profile error", "showError: " + error);
     }
 }

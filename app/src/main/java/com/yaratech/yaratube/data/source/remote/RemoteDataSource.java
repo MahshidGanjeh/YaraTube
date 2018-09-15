@@ -286,12 +286,13 @@ public class RemoteDataSource implements DataSource {
 
         if (Network.isOnline(mContext)) {
 
-            mApiService.postProfileFields(name, gender, birthday, token)
+            mApiService.postProfileFields(name, gender, birthday, "Token " + token)
                     .enqueue(new Callback<Profile>() {
                         @Override
                         public void onResponse(Call<Profile> call, Response<Profile> response) {
                             if (response.isSuccessful()) {
                                 callBack.onSuccess(response.body());
+                                Log.i("ppp", "onResponse: " + response.body().getData().getGender());
                             } else callBack.onFail(response.message());
                         }
 
