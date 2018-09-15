@@ -1,6 +1,7 @@
 package com.yaratech.yaratube.login;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +22,17 @@ import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 
+import ir.hamsaa.persiandatepicker.Listener;
+import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
+import ir.hamsaa.persiandatepicker.util.PersianCalendar;
+
 public class ProfileFragment extends Fragment
         implements ProfileContract.View {
 
     private EditText mNameEditText;
     private EditText mGenderEditText;
-    private EditText mBirthdaytEditText;
+    private TextView mBirthdaytTextView;
+    private ImageView mEditDateImageView;
     private Button mSaveChangeBtn;
 
     private UserDatabase db;
@@ -54,7 +61,8 @@ public class ProfileFragment extends Fragment
 
         mNameEditText = view.findViewById(R.id.profile_name_et);
         mGenderEditText = view.findViewById(R.id.profile_gender_et);
-        mBirthdaytEditText = view.findViewById(R.id.profile_birthday_et);
+        mBirthdaytTextView = view.findViewById(R.id.profile_birthday_tv);
+        mEditDateImageView = view.findViewById(R.id.profile_birthday_imgView);
         mSaveChangeBtn = view.findViewById(R.id.save_change_btn);
 
         db = UserDatabase.getUserDatabase(getContext());
@@ -72,7 +80,7 @@ public class ProfileFragment extends Fragment
                 mGenderEditText.setText(user.getGender());
             }
             if (user.getBirthday() != null) {
-                mBirthdaytEditText.setText(user.getBirthday());
+                mBirthdaytTextView.setText(user.getBirthday());
             }
         }
 
@@ -81,7 +89,7 @@ public class ProfileFragment extends Fragment
             public void onClick(View v) {
                 name = mNameEditText.getText().toString();
                 gender = mGenderEditText.getText().toString();
-                birthday = mBirthdaytEditText.getText().toString();
+                //birthday = mBirthdaytTextView.getText().toString();
 
                 User user = db.userDao().getUser();
                 user.setFirstName(name);
@@ -103,6 +111,38 @@ public class ProfileFragment extends Fragment
             }
         });
 
+        mEditDateImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersianDatePickerDialog picker = new PersianDatePickerDialog(getContext())
+                        .setPositiveButtonString("باشه")
+                        .setNegativeButton("بیخیال")
+                        .setTodayButton("امروز")
+                        .setTodayButtonVisible(true)
+                        .setMaxYear(PersianDatePickerDialog.THIS_YEAR)
+                        .setMinYear(1300)
+                        .setActionTextColor(Color.GRAY)
+                        .setListener(new Listener() {
+                            @Override
+                            public void onDateSelected(PersianCalendar persianCalendar) {
+                                birthday = setBirthDay(persianCalendar.getPersianYear(),
+                                        persianCalendar.getPersianMonth(),
+                                        persianCalendar.getPersianDay());
+
+                                Toast.makeText(getContext(), birthday, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onDismissed() {
+
+                            }
+                        });
+
+                picker.show();
+
+            }
+        });
+
     }
 
     public void postProfileFieldsToServer(User user) {
@@ -112,11 +152,24 @@ public class ProfileFragment extends Fragment
     //when we post fields to the server,its response will be profile object too
     @Override
     public void showProfileFields(Profile profile) {
-        //Log.i("shoo", "showProfileFields: " + profile.getNickname());
+        Log.i("shoo", "showProfileFields: " + profile.getData().getGender());
     }
 
     @Override
     public void showError(String error) {
         Log.i("profile error", "showError: " + error);
+    }
+
+    String setBirthDay(int year, int month, int day) {
+        String mm = "", dd = "";
+        if (month < 10) {
+            mm = "0" + String.valueOf(month);
+        } else mm = String.valueOf(month);
+        if (day < 10) {
+            dd = "0" + String.valueOf(day);
+        } else dd = String.valueOf(day);
+
+        String date = String.valueOf(year) + "/" + mm + "/" + dd;
+        return date;
     }
 }

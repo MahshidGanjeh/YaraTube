@@ -292,7 +292,7 @@ public class RemoteDataSource implements DataSource {
                         public void onResponse(Call<Profile> call, Response<Profile> response) {
                             if (response.isSuccessful()) {
                                 callBack.onSuccess(response.body());
-                                Log.i("ppp", "onResponse: " + response.body().getData().getGender());
+                                Log.i("ppp", "onResponse: " + response.body().getData().getDateOfBirth());
                             } else callBack.onFail(response.message());
                         }
 
