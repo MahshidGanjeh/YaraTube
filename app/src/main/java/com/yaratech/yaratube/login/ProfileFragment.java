@@ -72,15 +72,12 @@ public class ProfileFragment extends Fragment
     public ProfileFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -192,6 +189,22 @@ public class ProfileFragment extends Fragment
         Log.d(TAG, "onPause() called");
     }
 
+    @Override
+    public void getFilePath(String filePath, Uri uri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),
+                    uri);
+            Glide.with(getContext()).load(bitmap)
+                    .into(mAvatarImageView);
+            mSelectImageDialog.dismiss();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mPresenter.uploadProfilePhoto(filePath, db.userDao().getUserTokenFromDatabase());
+    }
+
     public void setProfileFieldsFromDatabase(UserDatabase db) {
 
         LocalDataSource localDataSource = new LocalDataSource(getContext());
@@ -235,22 +248,5 @@ public class ProfileFragment extends Fragment
                 .setActionTextColor(Color.GRAY);
 
         return picker;
-    }
-
-    @Override
-    public void getFilePath(String filePath, Uri uri) {
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),
-                    uri);
-            Glide.with(getContext()).load(bitmap)
-                    .into(mAvatarImageView);
-            mSelectImageDialog.dismiss();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        mPresenter.uploadProfilePhoto(filePath, db.userDao().getUserTokenFromDatabase());
-        
     }
 }

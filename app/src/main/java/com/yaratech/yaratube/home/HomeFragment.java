@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment {
     private FragmentManager mManager;
     private StoreFragment mStoreFragment;
     private CategoryFragment mCategoryFragment;
-    private ProfileFragment mProfileFragment;
+    private MoreFragment mMoreFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -66,9 +66,7 @@ public class HomeFragment extends Fragment {
                                             add(R.id.home_fragment_container, mStoreFragment).commit();
                                 } else if (!mStoreFragment.isVisible()) {
                                     mManager.beginTransaction().hide(mCategoryFragment).commit();
-                                    if (mProfileFragment != null) {
-                                        mManager.beginTransaction().hide(mProfileFragment).commit();
-                                    }
+                                    mManager.beginTransaction().hide(mMoreFragment).commit();
                                     mManager.beginTransaction().show(mStoreFragment).commit();
                                 }
                                 return true;
@@ -83,25 +81,25 @@ public class HomeFragment extends Fragment {
                                             add(R.id.home_fragment_container, mCategoryFragment).commit();
                                 } else if (!mCategoryFragment.isVisible()) {
                                     mManager.beginTransaction().hide(mStoreFragment).commit();
-                                    if (mProfileFragment != null) {
-                                        mManager.beginTransaction().hide(mProfileFragment).commit();
-                                    }
+                                    mManager.beginTransaction().hide(mMoreFragment).commit();
                                     mManager.beginTransaction().show(mCategoryFragment).commit();
                                 }
                                 return true;
                             case (R.id.bottom_nav_more_item):
-                                if (mProfileFragment == null) {
+                                if (mMoreFragment == null) {
                                     if (mStoreFragment != null && mStoreFragment.isVisible()) {
                                         mManager.beginTransaction().hide(mStoreFragment).commit();
                                     }
-                                    isLogin(getContext(), mManager);
-                                    // mProfileFragment = new ProfileFragment();
-                                    //mManager.beginTransaction().
-                                    //  add(R.id.home_fragment_container, mProfileFragment).commit();
-                                } else if (!mProfileFragment.isVisible()) {
+                                    if (mCategoryFragment != null && mCategoryFragment.isVisible()) {
+                                        mManager.beginTransaction().hide(mCategoryFragment).commit();
+                                    }
+                                    mMoreFragment = new MoreFragment();
+                                    mManager.beginTransaction().
+                                            add(R.id.home_fragment_container, mMoreFragment).commit();
+                                } else if (!mMoreFragment.isVisible()) {
                                     mManager.beginTransaction().hide(mStoreFragment).commit();
                                     mManager.beginTransaction().hide(mCategoryFragment).commit();
-                                    mManager.beginTransaction().show(mProfileFragment).commit();
+                                    mManager.beginTransaction().show(mMoreFragment).commit();
                                 }
 
                         }
@@ -110,30 +108,6 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    public void isLogin(Context context, FragmentManager manager) {
 
-        LocalDataSource mLocalDataSource;
-        UserDatabase db;
-        boolean isLogin = false;
-        MainLoginDialogFragment mLoginDialogFragment;
-
-        db = UserDatabase.getUserDatabase(context);
-        mLocalDataSource = new LocalDataSource(context);
-
-        isLogin = mLocalDataSource.isLogin(db);
-
-        if (isLogin) {
-            mProfileFragment = new ProfileFragment();
-            // actionBar.setTitle(R.string.title_profile);
-            manager.beginTransaction().addToBackStack("profile").
-                    add(R.id.home_fragment_container, mProfileFragment).commit();
-        } else {
-            mLoginDialogFragment = new MainLoginDialogFragment();
-
-            mLoginDialogFragment.show(manager.beginTransaction(), "dialog");
-            //when user click in other point of page, dialog shouldn't
-            //be closed
-            mLoginDialogFragment.setCancelable(false);
-        }
-    }
 }
+
