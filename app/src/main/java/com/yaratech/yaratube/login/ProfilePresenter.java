@@ -8,7 +8,11 @@ import com.yaratech.yaratube.data.source.Repository;
 import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 
+import java.io.File;
+
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class ProfilePresenter implements ProfileContract.Presenter {
 
@@ -37,12 +41,19 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     }
 
     @Override
-    public void uploadProfilePhoto(MultipartBody.Part multipartBody, String token) {
-        mProfileRepository.uploadProfileImage(multipartBody, token,
+    public void uploadProfilePhoto(String filePath, String token) {
+
+        File file = new File(filePath);
+
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("avatar",
+                file.getName(), reqFile);
+
+        mProfileRepository.uploadProfileImage(body, token,
                 new WebService.ApiResultCallBack() {
                     @Override
                     public void onSuccess(Object response) {
-                        Log.i("rrr", "onSuccess: " + response);
+
                     }
 
                     @Override

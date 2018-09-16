@@ -49,7 +49,9 @@ import static android.app.Activity.RESULT_OK;
 import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
 
 public class ProfileFragment extends Fragment
-        implements ProfileContract.View {
+        implements ProfileContract.View, onFragmentInteractionListener {
+
+    private static String TAG = "profile";
 
     private EditText mNameEditText;
     private EditText mGenderEditText;
@@ -61,6 +63,7 @@ public class ProfileFragment extends Fragment
     private UserDatabase db;
 
     private ProfilePresenter mPresenter;
+    private SelectImageDialog mSelectImageDialog;
 
     String name;
     String gender;
@@ -94,11 +97,12 @@ public class ProfileFragment extends Fragment
         mPresenter = new ProfilePresenter(this, getContext());
 
         setProfileFieldsFromDatabase(db);
+        mSelectImageDialog = SelectImageDialog.newInstance(this);
 
         mAvatarImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setGalleryIntent();
+                mSelectImageDialog.show(getFragmentManager(), "tag");
             }
         });
 
@@ -152,7 +156,6 @@ public class ProfileFragment extends Fragment
                 picker.show();
             }
         });
-
     }
 
     //when we post fields to the server,its response will be profile object too
@@ -172,29 +175,21 @@ public class ProfileFragment extends Fragment
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart() called");
+    }
 
-        if (requestCode == 101 && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            uri = createImageUri();
-            Log.i("urii", "onActivityResult: " + uri);
-            String filePath = createSelectedImageFilePath(uri);
-            Log.i("filepath", "onActivityResult: " + filePath);
-            File file = new File(filePath);
-            //  Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-            // Log.d(TAG, String.valueOf(bitmap));
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("avatar",
-                    file.getName(), reqFile);
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
 
-            mPresenter.uploadProfilePhoto(body, db.userDao().getUserTokenFromDatabase());
-
-            // Glide.with(getContext()).load(bitmap)
-            //  .into(mAvatarImageView);
-            //mAvatarImageView.setImageBitmap(bitmap);
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
     }
 
     public void setProfileFieldsFromDatabase(UserDatabase db) {
@@ -229,33 +224,6 @@ public class ProfileFragment extends Fragment
         return date;
     }
 
-    private String createSelectedImageFilePath(Uri selectedImage) {
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        android.database.Cursor cursor = getContext().getContentResolver().query(
-                selectedImage, filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String filePath = cursor.getString(columnIndex);
-        cursor.close();
-        return filePath;
-    }
-
-    public void setGalleryIntent() {
-        final Intent galleryIntent =
-                new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryIntent.setType("image/*");
-        Uri cameraUri = createImageUri();
-        galleryIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
-        galleryIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(galleryIntent, 101);
-    }
-
-    public Uri createImageUri() {
-        ContentResolver contentResolver = getContext().getContentResolver();
-        ContentValues cv = new ContentValues();
-        return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv);
-    }
-
     public PersianDatePickerDialog createPersianCalenderDialog() {
         PersianDatePickerDialog picker = new PersianDatePickerDialog(getContext())
                 .setPositiveButtonString("باشه")
@@ -269,4 +237,20 @@ public class ProfileFragment extends Fragment
         return picker;
     }
 
+    @Override
+    public void getFilePath(String filePath, Uri uri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),
+                    uri);
+            Glide.with(getContext()).load(bitmap)
+                    .into(mAvatarImageView);
+            mSelectImageDialog.dismiss();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mPresenter.uploadProfilePhoto(filePath, db.userDao().getUserTokenFromDatabase());
+        
+    }
 }

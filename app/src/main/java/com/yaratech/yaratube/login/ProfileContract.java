@@ -21,7 +21,7 @@ public interface ProfileContract {
 
         void sendProfileFields(String name, String gender, String birthday, String token);
 
-        void uploadProfilePhoto(MultipartBody.Part multipartBody, String token);
+        void uploadProfilePhoto(String filePath, String token);
 
     }
 }
