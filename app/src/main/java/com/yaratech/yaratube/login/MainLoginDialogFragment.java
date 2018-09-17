@@ -32,7 +32,8 @@ import java.util.List;
 public class MainLoginDialogFragment extends DialogFragment implements
         Listener.onMobileBtnClickListener,
         Listener.onConfirmPhoneNumberListener,
-        Listener.onConfirmVerificationCodeListener {
+        Listener.onConfirmVerificationCodeListener,
+        Listener.onConfirmGoogleLoginListener {
 
     private LoginOptionsFragment mLoginOptionsFragment;
     private EnterPhoneNumberFragment mPhoneNumberFragment;
@@ -92,15 +93,15 @@ public class MainLoginDialogFragment extends DialogFragment implements
         return root;
     }
 
-   /* @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
+    /* @Override
+     public Dialog onCreateDialog(Bundle savedInstanceState) {
+         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
-        // request a window without the title
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
-    }
-*/
+         // request a window without the title
+         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+         return dialog;
+     }
+ */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -138,6 +139,15 @@ public class MainLoginDialogFragment extends DialogFragment implements
         User user = db.userDao().getUser();
         user.setToken(token);
         db.userDao().updateUser(user);
+        Toast.makeText(getContext(), "خوش آمدید", Toast.LENGTH_SHORT).show();
+        this.dismiss();
+    }
+
+    @Override
+    public void saveGoogleTokenToDatabase(String token) {
+        User user = new User();
+        user.setToken(token);
+        db.userDao().insertUserToDb(user);
         Toast.makeText(getContext(), "خوش آمدید", Toast.LENGTH_SHORT).show();
         this.dismiss();
     }

@@ -2,6 +2,9 @@ package com.yaratech.yaratube.util;
 
 public interface Listener {
 
+    interface onConfirmGoogleLoginListener {
+        void saveGoogleTokenToDatabase(String token);
+    }
     interface onConfirmVerificationCodeListener {
         void saveTokenToDatabase(String token);
     }

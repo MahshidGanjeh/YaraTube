@@ -96,7 +96,7 @@ public interface ApiService {
     Call<GoogleLogin> postGoogleLoginResult(@Field("token_id") String tokenId,
                                             @Field("device_id") String deviceId,
                                             @Field("device_os") String deviceOs,
-                                            @Path("device_model") String deviceModel
+                                            @Field("device_model") String deviceModel
     );
 
     //send profile fields to the server

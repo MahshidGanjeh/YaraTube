@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,6 +24,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.yaratech.yaratube.R;
+import com.yaratech.yaratube.data.model.GoogleLogin;
+import com.yaratech.yaratube.data.model.User;
 import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 import com.yaratech.yaratube.util.Listener;
@@ -33,10 +36,12 @@ public class LoginOptionsFragment extends Fragment
     private Button mPhoneNumberBtn;
     private Button mGoogleBtn;
     private Listener.onMobileBtnClickListener mNumberBtnListener;
+    private Listener.onConfirmGoogleLoginListener mListener;
 
     private GoogleApiClient mGoogleApiClient;
     private final int REQUEST_CODE = 9001;
 
+    String Device_id;
 
     public LoginOptionsFragment() {
         // Required empty public constructor
@@ -45,6 +50,9 @@ public class LoginOptionsFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Device_id = Settings.Secure.getString(getContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -67,12 +75,9 @@ public class LoginOptionsFragment extends Fragment
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
         } else {
-
-            //showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
-                    //hideProgressDialog();
                     handleSignInResult(googleSignInResult);
                 }
             });
@@ -94,6 +99,7 @@ public class LoginOptionsFragment extends Fragment
 
         mGoogleBtn = view.findViewById(R.id.via_google_btn);
         mPhoneNumberBtn = view.findViewById(R.id.via_phone_number_btn);
+        mListener = (Listener.onConfirmGoogleLoginListener) getParentFragment();
 
         mPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +111,7 @@ public class LoginOptionsFragment extends Fragment
         mGoogleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getContext(), "لطفا چند لحظه صبر کنید", Toast.LENGTH_SHORT).show();
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, REQUEST_CODE);
             }
@@ -127,14 +134,13 @@ public class LoginOptionsFragment extends Fragment
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            final String Device_id = Settings.Secure.getString(getContext().getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
             new RemoteDataSource(getContext()).postGoogleLoginResult(
                     acct.getIdToken(), Device_id, Build.MODEL, Build.VERSION.RELEASE,
                     new WebService.ApiResultCallBack() {
                         @Override
                         public void onSuccess(Object response) {
                             Log.d("succcess", "onSuccess: we are there");
+                            mListener.saveGoogleTokenToDatabase(((GoogleLogin) response).getToken());
                         }
 
                         @Override
@@ -143,17 +149,10 @@ public class LoginOptionsFragment extends Fragment
                         }
                     }
             );
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //Similarly you can get the email and photourl using acct.getEmail() and  acct.getPhotoUrl()
 
             if (acct.getPhotoUrl() != null) {
             }
-            // new LoadProfileImage(imgProfilePic).execute(acct.getPhotoUrl().toString());
-
-            //updateUI(true);
         } else {
-            // Signed out, show unauthenticated UI.
-            //updateUI(false);
         }
     }
 
