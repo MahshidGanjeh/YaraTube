@@ -47,6 +47,7 @@ public class LoginOptionsFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -62,7 +63,6 @@ public class LoginOptionsFragment extends Fragment
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
-
             Log.d("already signed in", "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
@@ -125,7 +125,7 @@ public class LoginOptionsFragment extends Fragment
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d("signnn", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfolly, show authenticated UI.
+            // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             final String Device_id = Settings.Secure.getString(getContext().getContentResolver(),
                     Settings.Secure.ANDROID_ID);

@@ -1,5 +1,6 @@
 package com.yaratech.yaratube;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
@@ -24,10 +26,13 @@ import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 import com.yaratech.yaratube.util.Listener;
 
 public class MainActivity extends AppCompatActivity implements
-        Listener.onCategoryClickListener, Listener.onProductClickListener {
+        Listener.onCategoryClickListener, Listener.onProductClickListener, Listener.onProfileClickListener {
 
     private GridProductFragment mGridProductFragment;
     private ProductDetailFragment mProductDetailFragment;
+    private ProfileFragment mProfileFragment;
+    private MainLoginDialogFragment mMainLoginDialogFragment;
+    private boolean isLogin;
 
     FragmentManager manager = getSupportFragmentManager();
 
@@ -62,6 +67,35 @@ public class MainActivity extends AppCompatActivity implements
         mProductDetailFragment = ProductDetailFragment.newInstance(pid);
         manager.beginTransaction().addToBackStack("detail")
                 .add(R.id.main_container, mProductDetailFragment).commit();
+    }
+
+    @Override
+    public void goToProfile() {
+        isLogin = isLogin(getApplicationContext());
+
+        //if user has logged in before the profile fragment is shown,
+        //if not he should first log in
+        if (!isLogin) {
+            mMainLoginDialogFragment = new MainLoginDialogFragment();
+            mMainLoginDialogFragment.show(manager.beginTransaction(), "login");
+            mMainLoginDialogFragment.setCancelable(false);
+        } else {
+            mProfileFragment = new ProfileFragment();
+            manager.beginTransaction().addToBackStack("profile")
+                    .add(R.id.main_container, mProfileFragment).commit();
+        }
+    }
+
+    public boolean isLogin(Context context) {
+        LocalDataSource mLocalDataSource;
+        UserDatabase db;
+        boolean isLogin = false;
+
+        db = UserDatabase.getUserDatabase(context);
+        mLocalDataSource = new LocalDataSource(context);
+
+        isLogin = mLocalDataSource.isLogin(db);
+        return isLogin;
     }
 
 }

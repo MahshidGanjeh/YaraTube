@@ -20,6 +20,9 @@ public interface Listener {
 
     interface onProductClickListener {
         void goToProductDetail(int pid);
+    }
 
+    interface onProfileClickListener{
+        void goToProfile();
     }
 }
