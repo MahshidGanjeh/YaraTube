@@ -1,10 +1,6 @@
-package com.yaratech.yaratube.login;
+package com.yaratech.yaratube.profile;
 
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -20,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,26 +25,14 @@ import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Profile;
 import com.yaratech.yaratube.data.model.User;
-import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
-import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import ir.hamsaa.persiandatepicker.Listener;
 import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import ir.hamsaa.persiandatepicker.util.PersianCalendar;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-
-import static android.app.Activity.RESULT_OK;
-import static com.yaratech.yaratube.util.AppConstants.BASE_URL;
 
 public class ProfileFragment extends Fragment
         implements ProfileContract.View, onFragmentInteractionListener {
@@ -54,7 +40,7 @@ public class ProfileFragment extends Fragment
     private static String TAG = "profile";
 
     private EditText mNameEditText;
-    private EditText mGenderEditText;
+    private RadioGroup mGenderRadioGroup;
     private TextView mDateOfBirthTextView;
     private ImageView mEditDateImageView;
     private ImageView mAvatarImageView;
@@ -72,18 +58,20 @@ public class ProfileFragment extends Fragment
     public ProfileFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mNameEditText = view.findViewById(R.id.profile_name_et);
-        mGenderEditText = view.findViewById(R.id.profile_gender_et);
+        mGenderRadioGroup = view.findViewById(R.id.radio_group);
         mDateOfBirthTextView = view.findViewById(R.id.profile_birthday_tv);
         mEditDateImageView = view.findViewById(R.id.profile_birthday_imgView);
         mAvatarImageView = view.findViewById(R.id.profile_avatar_imgView);
@@ -103,12 +91,28 @@ public class ProfileFragment extends Fragment
             }
         });
 
+        mGenderRadioGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean checked = ((RadioButton) v).isChecked();
+                switch (v.getId()) {
+                    case R.id.radio_male:
+                        if (checked)
+                            gender = "male";
+                        break;
+                    case R.id.radio_female:
+                        if (checked)
+                            gender = "female";
+                        break;
+                }
+            }
+        });
+
+
         mSaveChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 name = mNameEditText.getText().toString();
-                gender = mGenderEditText.getText().toString();
-
                 User user = db.userDao().getUser();
                 user.setFirstName(name);
                 user.setGender(gender);
@@ -125,7 +129,6 @@ public class ProfileFragment extends Fragment
 
                 Toast.makeText(getContext(), R.string.changes_saved, Toast.LENGTH_SHORT).show();
                 mNameEditText.setClickable(false);
-                mGenderEditText.setClickable(false);
 
                 db.userDao().updateUser(user);
             }
@@ -170,13 +173,6 @@ public class ProfileFragment extends Fragment
     public void showProfilePhoto(String avatar) {
         Log.i("avatar", "showProfilePhoto: " + avatar);
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart() called");
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -190,7 +186,7 @@ public class ProfileFragment extends Fragment
     }
 
     @Override
-    public void getFilePath(String filePath, Uri uri) {
+    public void getFilePath(Uri uri) {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),
                     uri);
@@ -202,7 +198,7 @@ public class ProfileFragment extends Fragment
             e.printStackTrace();
         }
 
-        mPresenter.uploadProfilePhoto(filePath, db.userDao().getUserTokenFromDatabase());
+        //mPresenter.uploadProfilePhoto(filePath, db.userDao().getUserTokenFromDatabase());
     }
 
     public void setProfileFieldsFromDatabase(UserDatabase db) {
@@ -213,14 +209,10 @@ public class ProfileFragment extends Fragment
             if (user.getFirstName() != null) {
                 mNameEditText.setText(user.getFirstName());
             }
-            if (user.getGender() != null) {
-                mGenderEditText.setText(user.getGender());
-            }
             if (user.getBirthday() != null) {
                 mDateOfBirthTextView.setText(user.getBirthday());
             }
         }
-
     }
 
     //1397/01/01

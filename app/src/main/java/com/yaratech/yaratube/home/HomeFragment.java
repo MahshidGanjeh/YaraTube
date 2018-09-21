@@ -1,7 +1,6 @@
 package com.yaratech.yaratube.home;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,16 +11,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import com.yaratech.yaratube.R;
-import com.yaratech.yaratube.data.source.local.LocalDataSource;
-import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.home.category.CategoryFragment;
 import com.yaratech.yaratube.home.store.StoreFragment;
-import com.yaratech.yaratube.login.MainLoginDialogFragment;
-import com.yaratech.yaratube.login.ProfileFragment;
-import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 
 public class HomeFragment extends Fragment {
 

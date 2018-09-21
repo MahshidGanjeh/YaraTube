@@ -42,7 +42,6 @@ public class MainLoginDialogFragment extends DialogFragment implements
 
     private LocalDataSource mLocalDataSource;
     private UserDatabase db;
-    boolean isLogin = false;
 
     private static int LOGIN_STEP;
     private SharedPreferences pref;

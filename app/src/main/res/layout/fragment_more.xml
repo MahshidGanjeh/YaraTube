@@ -17,10 +17,10 @@
         app:title="@string/title_bottom_nav_more" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/profile_tv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:id="@+id/profile_tv"
         android:text="@string/title_profile" />
 
     <View
@@ -32,7 +32,7 @@
         android:background="#555"></View>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/title_aboutus" />
@@ -47,7 +47,7 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/title_calltous" />

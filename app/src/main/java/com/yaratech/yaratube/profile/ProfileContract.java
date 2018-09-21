@@ -1,4 +1,4 @@
-package com.yaratech.yaratube.login;
+package com.yaratech.yaratube.profile;
 
 import com.yaratech.yaratube.data.model.Profile;
 

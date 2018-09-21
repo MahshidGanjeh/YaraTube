@@ -33,8 +33,8 @@ import com.yaratech.yaratube.util.Listener;
 public class LoginOptionsFragment extends Fragment
         implements GoogleApiClient.OnConnectionFailedListener {
 
-    private Button mPhoneNumberBtn;
-    private Button mGoogleBtn;
+    private Button mViaPhoneNumberBtn;
+    private Button mViaGoogleBtn;
     private Listener.onMobileBtnClickListener mNumberBtnListener;
     private Listener.onConfirmGoogleLoginListener mListener;
 
@@ -97,18 +97,18 @@ public class LoginOptionsFragment extends Fragment
 
         mNumberBtnListener = (Listener.onMobileBtnClickListener) getParentFragment();
 
-        mGoogleBtn = view.findViewById(R.id.via_google_btn);
-        mPhoneNumberBtn = view.findViewById(R.id.via_phone_number_btn);
+        mViaGoogleBtn = view.findViewById(R.id.via_google_btn);
+        mViaPhoneNumberBtn = view.findViewById(R.id.via_phone_number_btn);
         mListener = (Listener.onConfirmGoogleLoginListener) getParentFragment();
 
-        mPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
+        mViaPhoneNumberBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mNumberBtnListener.goToPhoneNumberDialog();
             }
         });
 
-        mGoogleBtn.setOnClickListener(new View.OnClickListener() {
+        mViaGoogleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "لطفا چند لحظه صبر کنید", Toast.LENGTH_SHORT).show();

@@ -1,12 +1,12 @@
-package com.yaratech.yaratube.login;
+package com.yaratech.yaratube.profile;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.yaratech.yaratube.data.model.Profile;
 import com.yaratech.yaratube.data.source.Repository;
 import com.yaratech.yaratube.data.source.WebService;
 import com.yaratech.yaratube.data.source.remote.RemoteDataSource;
+import com.yaratech.yaratube.profile.ProfileContract;
 
 import java.io.File;
 
