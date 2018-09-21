@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -57,7 +56,7 @@ public class SelectImageDialog extends DialogFragment {
     private TextView mFromGalleryButton;
     private TextView mFromCameraButton;
 
-    private static onFragmentInteractionListener mListener;
+    private static onProfileImageListener mImageListener;
 
 
     public SelectImageDialog() {
@@ -70,9 +69,9 @@ public class SelectImageDialog extends DialogFragment {
         setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
 
-    public static SelectImageDialog newInstance(onFragmentInteractionListener listener) {
+    public static SelectImageDialog newInstance(onProfileImageListener listener) {
 
-        mListener = listener;
+        mImageListener = listener;
         Bundle args = new Bundle();
 
         SelectImageDialog fragment = new SelectImageDialog();
@@ -126,10 +125,8 @@ public class SelectImageDialog extends DialogFragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.e("PERMISSION CHECK", "onClick: on request permission result");
 
         switch (requestCode) {
-
             case PERMISSION_GALLERY:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     setGalleryIntent();
@@ -155,24 +152,25 @@ public class SelectImageDialog extends DialogFragment {
             case GALLERY_CODE:
                 if (resultCode == RESULT_OK)
                     cropImage(data.getData());
+                mImageListener.onProfileImageSelected(createSelectedImageFilePath(data.getData()));
                 break;
 
             case CAMERA_CODE:
                 if (resultCode == RESULT_OK)
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        Log.e("image file path", "onActivityResult: " + imageFilePath);
-                        Log.e("crop shooo", "onActivityResult: " + Uri.parse(Uri.parse(imageFilePath).getPath()));
                         cropImage(Uri.fromFile(new File(imageFilePath)));
-                    } else
+                        mImageListener.onProfileImageSelected(createSelectedImageFilePath(data.getData()));
+                    } else {
                         cropImage(data.getData());
+                        mImageListener.onProfileImageSelected(createSelectedImageFilePath(data.getData()));
+                    }
                 break;
 
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                Log.e("result uri", "onActivityResult: " + result.getUri());
                 if (resultCode == RESULT_OK) {
                     Uri resultUri = result.getUri();
-                    mListener.getFilePath(resultUri);
+                    mImageListener.onProfileImageSelected(createSelectedImageFilePath(resultUri));
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                 }
@@ -189,7 +187,7 @@ public class SelectImageDialog extends DialogFragment {
         Uri cameraUri = createImageUri();
         galleryIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
         galleryIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(galleryIntent, 101);
+        startActivityForResult(galleryIntent, GALLERY_CODE);
     }
 
     public Uri createImageUri() {
@@ -252,7 +250,6 @@ public class SelectImageDialog extends DialogFragment {
     }
 
     private void cropImage(Uri uri) {
-        Log.e("cropping", "cropImage: in cropImage" + uri);
         CropImage.activity(uri)
                 .setOutputCompressQuality(50)
                 .setFixAspectRatio(true)
@@ -272,6 +269,6 @@ public class SelectImageDialog extends DialogFragment {
     }
 }
 
-interface onFragmentInteractionListener {
-    void getFilePath(Uri uri);
+interface onProfileImageListener {
+    void onProfileImageSelected(String uri);
 }

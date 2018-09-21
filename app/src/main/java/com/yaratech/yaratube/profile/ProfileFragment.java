@@ -3,7 +3,6 @@ package com.yaratech.yaratube.profile;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -17,11 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Profile;
 import com.yaratech.yaratube.data.model.User;
@@ -35,12 +35,13 @@ import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import ir.hamsaa.persiandatepicker.util.PersianCalendar;
 
 public class ProfileFragment extends Fragment
-        implements ProfileContract.View, onFragmentInteractionListener {
+        implements ProfileContract.View, onProfileImageListener {
 
     private static String TAG = "profile";
 
     private EditText mNameEditText;
-    private RadioGroup mGenderRadioGroup;
+    private RadioButton mFemaleRadioButton;
+    private RadioButton mMaleRadioButton;
     private TextView mDateOfBirthTextView;
     private ImageView mEditDateImageView;
     private ImageView mAvatarImageView;
@@ -54,6 +55,8 @@ public class ProfileFragment extends Fragment
     String name;
     String gender;
     String birthday;
+    Object avatar;
+    String filepath;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -71,7 +74,8 @@ public class ProfileFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         mNameEditText = view.findViewById(R.id.profile_name_et);
-        mGenderRadioGroup = view.findViewById(R.id.radio_group);
+        mFemaleRadioButton = view.findViewById(R.id.radio_female);
+        mMaleRadioButton = view.findViewById(R.id.radio_male);
         mDateOfBirthTextView = view.findViewById(R.id.profile_birthday_tv);
         mEditDateImageView = view.findViewById(R.id.profile_birthday_imgView);
         mAvatarImageView = view.findViewById(R.id.profile_avatar_imgView);
@@ -82,6 +86,7 @@ public class ProfileFragment extends Fragment
         mPresenter = new ProfilePresenter(this, getContext());
 
         setProfileFieldsFromDatabase(db);
+
         mSelectImageDialog = SelectImageDialog.newInstance(this);
 
         mAvatarImageView.setOnClickListener(new View.OnClickListener() {
@@ -91,20 +96,18 @@ public class ProfileFragment extends Fragment
             }
         });
 
-        mGenderRadioGroup.setOnClickListener(new View.OnClickListener() {
+        mFemaleRadioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean checked = ((RadioButton) v).isChecked();
-                switch (v.getId()) {
-                    case R.id.radio_male:
-                        if (checked)
-                            gender = "male";
-                        break;
-                    case R.id.radio_female:
-                        if (checked)
-                            gender = "female";
-                        break;
-                }
+                if (checked) gender = "female";
+            }
+        });
+        mMaleRadioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean checked = ((RadioButton) v).isChecked();
+                if (checked) gender = "male";
             }
         });
 
@@ -122,11 +125,10 @@ public class ProfileFragment extends Fragment
                 //in order to have them in the server in case the user wants to log out
                 //gender string should be "male" or "female" not in farsi :))
                 mPresenter.sendProfileFields(
-                        name, "male",
+                        name, gender,
                         birthday,
                         user.getToken()
                 );
-
                 Toast.makeText(getContext(), R.string.changes_saved, Toast.LENGTH_SHORT).show();
                 mNameEditText.setClickable(false);
 
@@ -161,6 +163,10 @@ public class ProfileFragment extends Fragment
     //when we post fields to the server,its response will be profile object too
     @Override
     public void showProfileFields(Profile profile) {
+        if (profile.getData().getAvatar() != null) {
+            avatar = profile.getData().getAvatar();
+
+        }
         Log.i("shoo", "showProfileFields: " + profile.getData().getGender());
     }
 
@@ -173,6 +179,7 @@ public class ProfileFragment extends Fragment
     public void showProfilePhoto(String avatar) {
         Log.i("avatar", "showProfilePhoto: " + avatar);
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -186,19 +193,13 @@ public class ProfileFragment extends Fragment
     }
 
     @Override
-    public void getFilePath(Uri uri) {
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),
-                    uri);
-            Glide.with(getContext()).load(bitmap)
-                    .into(mAvatarImageView);
-            mSelectImageDialog.dismiss();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //mPresenter.uploadProfilePhoto(filePath, db.userDao().getUserTokenFromDatabase());
+    public void onProfileImageSelected(String path) {
+        filepath = path;
+        Glide.with(getContext())
+                .load(path)
+                .into(mAvatarImageView);
+        mPresenter.uploadProfilePhoto(path, db.userDao().getUserTokenFromDatabase());
+        mSelectImageDialog.dismiss();
     }
 
     public void setProfileFieldsFromDatabase(UserDatabase db) {
@@ -211,6 +212,11 @@ public class ProfileFragment extends Fragment
             }
             if (user.getBirthday() != null) {
                 mDateOfBirthTextView.setText(user.getBirthday());
+            }
+            if (filepath != null) {
+                Glide.with(getContext())
+                        .load(filepath)
+                        .into(mAvatarImageView);
             }
         }
     }

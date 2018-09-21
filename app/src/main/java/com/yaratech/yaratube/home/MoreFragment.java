@@ -17,7 +17,9 @@ import com.yaratech.yaratube.util.Listener;
 public class MoreFragment extends Fragment {
 
     private TextView mProfileTextView;
+    private TextView mAboutUsTextView;
     private Listener.onProfileClickListener mOnProfileClickListener;
+    private Listener.onAboutUsClickListener mOnAboutUsClickListener;
 
     public MoreFragment() {
         // Required empty public constructor
@@ -27,6 +29,7 @@ public class MoreFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mOnProfileClickListener = (Listener.onProfileClickListener) context;
+        mOnAboutUsClickListener = (Listener.onAboutUsClickListener) context;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class MoreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mProfileTextView = view.findViewById(R.id.profile_tv);
+        mAboutUsTextView = view.findViewById(R.id.aboutus_tv);
 
         mProfileTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,8 +52,14 @@ public class MoreFragment extends Fragment {
                 mOnProfileClickListener.goToProfile();
             }
         });
-    }
 
+        mAboutUsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnAboutUsClickListener.goToAboutUs();
+            }
+        });
+    }
 
 
 }

@@ -71,7 +71,7 @@ public class MainLoginDialogFragment extends DialogFragment implements
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_main_login_dialog, container, false);
-
+        getDialog().setCanceledOnTouchOutside(false);
 
         //getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
@@ -105,13 +105,13 @@ public class MainLoginDialogFragment extends DialogFragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button dismiss = view.findViewById(R.id.dialog_dismiss_btn);
+       /* Button dismiss = view.findViewById(R.id.dialog_dismiss_btn);
         dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDialog().dismiss();
             }
-        });
+        });*/
     }
 
     @Override

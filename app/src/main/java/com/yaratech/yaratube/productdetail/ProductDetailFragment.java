@@ -1,6 +1,7 @@
 package com.yaratech.yaratube.productdetail;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,8 +22,11 @@ import com.bumptech.glide.Glide;
 import com.yaratech.yaratube.R;
 import com.yaratech.yaratube.data.model.Comment;
 import com.yaratech.yaratube.data.model.DetailedProduct;
+import com.yaratech.yaratube.data.source.local.LocalDataSource;
+import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.playvideo.PlayActivity;
 import com.yaratech.yaratube.productdetail.commentdialog.CommentDialogFragment;
+import com.yaratech.yaratube.util.Listener;
 
 import java.util.List;
 
@@ -49,6 +53,8 @@ public class ProductDetailFragment extends Fragment implements
     Intent intentToPlayActivity;
     private DetailedProduct mDetailedProduct;
 
+    private Listener.onProfileClickListener mProfileClickListener;
+
     public ProductDetailFragment() {
         // Required empty public constructor
     }
@@ -65,6 +71,12 @@ public class ProductDetailFragment extends Fragment implements
         ProductDetailFragment fragment = new ProductDetailFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mProfileClickListener = (Listener.onProfileClickListener) context;
     }
 
     @Override
@@ -150,7 +162,23 @@ public class ProductDetailFragment extends Fragment implements
     private class MyOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            startActivity(intentToPlayActivity);
+            if (isLogin(getContext())) {
+                startActivity(intentToPlayActivity);
+            } else {
+                mProfileClickListener.goToProfile();
+            }
         }
+    }
+
+    public boolean isLogin(Context context) {
+        LocalDataSource mLocalDataSource;
+        UserDatabase db;
+        boolean isLogin = false;
+
+        db = UserDatabase.getUserDatabase(context);
+        mLocalDataSource = new LocalDataSource(context);
+
+        isLogin = mLocalDataSource.isLogin(db);
+        return isLogin;
     }
 }

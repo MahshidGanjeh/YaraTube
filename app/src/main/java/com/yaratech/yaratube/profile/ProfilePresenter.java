@@ -20,7 +20,8 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     private ProfileContract.View mView;
 
     public ProfilePresenter(ProfileContract.View mView, Context context) {
-        mProfileRepository = new Repository(new RemoteDataSource(context));
+        RemoteDataSource rm = new RemoteDataSource(context);
+        mProfileRepository = new Repository(rm);
         this.mView = mView;
     }
 
@@ -44,7 +45,6 @@ public class ProfilePresenter implements ProfileContract.Presenter {
     public void uploadProfilePhoto(String filePath, String token) {
 
         File file = new File(filePath);
-
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("avatar",
                 file.getName(), reqFile);

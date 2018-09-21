@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.yaratech.yaratube.data.source.local.LocalDataSource;
 import com.yaratech.yaratube.data.source.local.UserDatabase;
 import com.yaratech.yaratube.gridproduct.GridProductFragment;
+import com.yaratech.yaratube.home.AboutFragment;
 import com.yaratech.yaratube.home.HomeFragment;
 import com.yaratech.yaratube.login.MainLoginDialogFragment;
 import com.yaratech.yaratube.profile.ProfileFragment;
@@ -19,7 +21,10 @@ import com.yaratech.yaratube.productdetail.ProductDetailFragment;
 import com.yaratech.yaratube.util.Listener;
 
 public class MainActivity extends AppCompatActivity implements
-        Listener.onCategoryClickListener, Listener.onProductClickListener, Listener.onProfileClickListener {
+        Listener.onCategoryClickListener,
+        Listener.onProductClickListener,
+        Listener.onProfileClickListener,
+        Listener.onAboutUsClickListener {
 
     private GridProductFragment mGridProductFragment;
     private ProductDetailFragment mProductDetailFragment;
@@ -69,14 +74,21 @@ public class MainActivity extends AppCompatActivity implements
         //if user has logged in before, the profile fragment is shown,
         //if not he should first log in
         if (!isLogin) {
+            Toast.makeText(getApplicationContext(),"ابتدا وارد شوید",Toast.LENGTH_SHORT).show();
             mMainLoginDialogFragment = new MainLoginDialogFragment();
             mMainLoginDialogFragment.show(manager.beginTransaction(), "login");
-            mMainLoginDialogFragment.setCancelable(false);
+            // mMainLoginDialogFragment.setCancelable(false);
         } else {
             mProfileFragment = new ProfileFragment();
             manager.beginTransaction().addToBackStack("profile")
                     .add(R.id.main_container, mProfileFragment).commit();
         }
+    }
+
+    @Override
+    public void goToAboutUs() {
+        manager.beginTransaction().addToBackStack("about")
+                .add(R.id.main_container, new AboutFragment()).commit();
     }
 
     public boolean isLogin(Context context) {
@@ -90,5 +102,6 @@ public class MainActivity extends AppCompatActivity implements
         isLogin = mLocalDataSource.isLogin(db);
         return isLogin;
     }
+
 
 }

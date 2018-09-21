@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="10dp"
+                    android:layout_marginRight="10dp"
                     android:fontFamily="@font/iran_san"
                     android:text="@string/title_profile_username"
                     android:textColor="@color/black" />
@@ -65,8 +65,6 @@
                 android:layout_gravity="left"
                 android:layout_weight="1"
                 android:src="@drawable/pencil_edit_button" />
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -80,6 +78,15 @@
                 android:layout_gravity="left"
                 android:layout_weight="3"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/iran_san"
+                    android:text="@string/title_profile_sex"
+                    android:textColor="@color/black" />
 
                 <RadioGroup
                     android:id="@+id/radio_group"
@@ -103,14 +110,6 @@
                 </RadioGroup>
 
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/profile_gender_imgView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="right"
-                android:layout_weight="1"
-                android:src="@drawable/pencil_edit_button" />
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_margin="10dp"
+                    android:layout_marginRight="10dp"
                     android:fontFamily="@font/iran_san"
                     android:text="@string/title_profile_birthday"
                     android:textColor="@color/black" />
@@ -137,7 +136,8 @@
                     android:id="@+id/profile_birthday_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right" />
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp" />
 
             </LinearLayout>
 
@@ -146,7 +146,6 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="right"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:src="@drawable/pencil_edit_button" />
         </LinearLayout>

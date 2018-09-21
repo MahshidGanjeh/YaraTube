@@ -313,14 +313,12 @@ public class RemoteDataSource implements DataSource {
                                    final WebService.ApiResultCallBack callBack) {
 
         if (Network.isOnline(mContext)) {
-            Log.i("avav1", "onResponse: ");
             mApiService.uploadAvatar(multipart, "Token " + token).enqueue(new Callback<Profile>() {
                 @Override
                 public void onResponse(Call<Profile> call, Response<Profile> response) {
-                    Log.i("avav", "onResponse: " + response.code());
                     if (response.isSuccessful()) {
                         callBack.onSuccess(response.body().getData().getAvatar());
-
+                        Log.d("ppp", "onResponse: "+response.body().getData().getAvatar());
                     } else {
                         callBack.onFail(response.message());
                         Log.i("avav", "onResponse: " + response.code());

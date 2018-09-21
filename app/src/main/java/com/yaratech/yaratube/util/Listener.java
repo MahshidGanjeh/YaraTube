@@ -28,4 +28,8 @@ public interface Listener {
     interface onProfileClickListener{
         void goToProfile();
     }
+
+    interface onAboutUsClickListener{
+        void goToAboutUs();
+    }
 }

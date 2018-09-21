@@ -7,13 +7,13 @@
     android:orientation="vertical"
     tools:context=".login.MainLoginDialogFragment">
 
-    <Button
+    <!--<Button
         android:id="@+id/dialog_dismiss_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|top"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_close" />
+        android:drawableLeft="@drawable/ic_close" />-->
 
     <FrameLayout
         android:id="@+id/child"
